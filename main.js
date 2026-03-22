@@ -5246,22 +5246,27 @@ let _sidebarAddWin = null;
 
 ipcMain.on('sidebar:modal:open', async (_, data) => {
   const tab = tabMap.get(activeId);
-  if (!tab?.bv || tab.url === 'newtab' || tab.bv.webContents.isDestroyed()) return;
-  const wc = tab.bv.webContents;
-  // Capture screenshot at current full bounds
-  try {
-    const img = await wc.capturePage();
-    if (img) tab.snapshot = 'data:image/jpeg;base64,' + img.toJPEG(60).toString('base64');
-  } catch {}
-  // Send snapshot to renderer, wait for it to confirm canvas is drawn, then park.
-  if (tab.snapshot) {
-    send('panel:snapshot', tab.snapshot);
-    await new Promise(resolve => {
-      const t = setTimeout(resolve, 200);
-      ipcMain.once('panel:snapshot:drawn', () => { clearTimeout(t); resolve(); });
-    });
+  const hasBV = tab?.bv && tab.url !== 'newtab' && !tab.bv.webContents.isDestroyed();
+  if (hasBV) {
+    const wc = tab.bv.webContents;
+    // Capture screenshot at current full bounds
+    try {
+      const img = await Promise.race([
+        wc.capturePage(),
+        new Promise(r => setTimeout(() => r(null), 1000))
+      ]);
+      if (img) tab.snapshot = 'data:image/jpeg;base64,' + img.toJPEG(60).toString('base64');
+    } catch {}
+    // Send snapshot to renderer, wait for it to confirm canvas is drawn, then park.
+    if (tab.snapshot) {
+      send('panel:snapshot', tab.snapshot);
+      await new Promise(resolve => {
+        const t = setTimeout(resolve, 200);
+        ipcMain.once('panel:snapshot:drawn', () => { clearTimeout(t); resolve(); });
+      });
+    }
+    _parkBV(tab.bv);
   }
-  _parkBV(tab.bv);
 
   // Open sidebar-add popup window
   if (_sidebarAddWin && !_sidebarAddWin.isDestroyed()) { _sidebarAddWin.focus(); return; }
@@ -5273,7 +5278,7 @@ ipcMain.on('sidebar:modal:open', async (_, data) => {
 
   _sidebarAddWin = new BrowserWindow({
     x: px, y: py, width: pw, height: ph,
-    frame: false, resizable: false, show: false,
+    parent: win, frame: false, resizable: false, show: false,
     skipTaskbar: true, alwaysOnTop: true,
     transparent: true, backgroundColor: '#00000000', hasShadow: false,
     webPreferences: { nodeIntegration: true, contextIsolation: false },
