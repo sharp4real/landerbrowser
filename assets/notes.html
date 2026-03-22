@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notes — Lander</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg0: #080808; --bg1: #0c0c0c; --bg2: #111111; --bg3: #181818; --bg4: #202020;
+  --ln:  rgba(255,255,255,.06); --ln2: rgba(255,255,255,.10);
+  --t0:  rgba(255,255,255,.92); --t1: rgba(255,255,255,.65);
+  --t2:  rgba(255,255,255,.35); --t3: rgba(255,255,255,.15); --t4: rgba(255,255,255,.07);
+  --acc: rgba(255,255,255,.85); --acc2: rgba(255,255,255,.6);
+  --acc-g: rgba(255,255,255,.08); --acc-f: rgba(255,255,255,.04);
+  --acc-raw: 255,255,255;
+  --ylw: #ffbd2e; --red: #ff5f57;
+  --f: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --radius: 8px;
+  color-scheme: dark;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: transparent;
+  color: var(--t0);
+  font-family: var(--f);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ln2); border-radius: 4px; }
+
+/* ── Panel head ── */
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px 9px;
+  border-bottom: 1px solid var(--ln);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+.panel-head > * { -webkit-app-region: no-drag; }
+.panel-title { font-size: 12.5px; font-weight: 600; color: var(--t0); }
+
+/* ── Notes list ── */
+#notes-list-view, #notes-edit-view { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+#notes-list { overflow-y: auto; flex: 1; }
+#notes-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 32px 16px; gap: 10px; color: var(--t4); font-size: 12px; flex: 1;
+}
+.note-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,.04);
+  transition: background .12s; user-select: none;
+}
+.note-card:hover { background: var(--bg3); }
+.note-card-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(var(--acc-raw),.1); border: 1px solid rgba(var(--acc-raw),.18);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--acc);
+}
+.note-card-info { flex: 1; min-width: 0; }
+.note-card-title { font-size: 12.5px; font-weight: 600; color: var(--t0); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-card-preview { font-size: 11px; color: var(--t4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.note-card-date { font-size: 10px; color: var(--t4); flex-shrink: 0; }
+
+/* ── Edit view ── */
+.notes-title-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font: 600 13px var(--f); color: var(--t0); padding: 0 6px;
+  caret-color: var(--acc);
+}
+.notes-title-input::placeholder { color: var(--t4); }
+#notes-ta {
+  flex: 1; width: 100%; background: transparent; border: none; outline: none; resize: none;
+  padding: 12px 14px; font: 13px/1.65 var(--f); color: var(--t1);
+  caret-color: var(--acc); min-height: 240px;
+}
+#notes-ta::placeholder { color: var(--t4); }
+#notes-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 12px; border-top: 1px solid var(--ln); background: var(--bg2);
+  gap: 8px; flex-shrink: 0;
+}
+#notes-chars { font-size: 10.5px; color: var(--t4); }
+.notes-icon-btn {
+  width: 26px; height: 26px; border-radius: 6px; border: none;
+  background: transparent; color: var(--t3); cursor: pointer; display: flex;
+  align-items: center; justify-content: center; transition: background .12s, color .12s;
+  flex-shrink: 0;
+}
+.notes-icon-btn:hover { background: var(--bg4); color: var(--t1); }
+.notes-btn {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid var(--ln);
+  background: var(--bg3); color: var(--t2); font: 12px var(--f);
+  cursor: pointer; transition: background .1s;
+}
+.notes-btn:hover { background: var(--bg4); color: var(--t0); }
+.notes-btn.acc { background: rgba(var(--acc-raw),.12); border-color: rgba(var(--acc-raw),.3); color: var(--acc); }
+.notes-btn.acc:hover { background: rgba(var(--acc-raw),.2); }
+</style>
+</head>
+<body style="padding:8px;">
+<div style="display:flex;flex-direction:column;height:calc(100vh - 16px);background:var(--bg2);border-radius:10px;overflow:hidden;border:1px solid var(--ln2);box-shadow:none">
+
+  <!-- LIST VIEW -->
+  <div id="notes-list-view">
+    <div class="panel-head">
+      <span class="panel-title">Notes</span>
+      <div style="display:flex;align-items:center;gap:2px">
+        <button class="notes-icon-btn" id="notes-new-btn" title="New note">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="notes-icon-btn" id="notes-close-btn" title="Close" style="font-size:14px;line-height:1;color:var(--t3)">&#x2715;</button>
+      </div>
+    </div>
+    <div id="notes-list"></div>
+    <div id="notes-empty" style="display:none">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="opacity:.2;margin-bottom:8px">
+        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>No notes yet</span>
+      <button class="notes-btn acc" id="notes-empty-new">Create one</button>
+    </div>
+  </div>
+
+  <!-- EDIT VIEW -->
+  <div id="notes-edit-view" style="display:none">
+    <div class="panel-head">
+      <button class="notes-icon-btn" id="notes-back-btn" title="Back to notes">
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
+          <path d="M6 1L1.5 6L6 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <input id="notes-title-input" class="notes-title-input" placeholder="Untitled" spellcheck="false">
+      <div style="display:flex;align-items:center;gap:2px">
+        <button class="notes-icon-btn" id="notes-delete-btn" title="Delete note" style="color:rgba(248,113,113,.7);margin-right:14px">
+          <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
+            <path d="M1 3h9M4 3V2a1 1 0 0 1 2 0v1M2 3l.6 8a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9L9 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="notes-icon-btn" id="notes-close-edit-btn" title="Close" style="font-size:14px;line-height:1;color:var(--t3)">&#x2715;</button>
+      </div>
+    </div>
+    <textarea id="notes-ta" placeholder="Start writing…" spellcheck="false"></textarea>
+    <div id="notes-footer">
+      <span id="notes-chars">0 chars</span>
+      <span id="notes-saved-ind" style="font-size:10.5px;color:var(--acc);opacity:0;transition:opacity .4s">Saved</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const STORE_KEY = 'rb-notes-v2';
+let notes = [], activeId = null, autoSaveTimer = null;
+
+function $ (id) { return document.getElementById(id); }
+
+function loadNotes() {
+  try { notes = JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
+  catch { notes = []; }
+  if (!Array.isArray(notes)) notes = [];
+}
+function saveNotes() { localStorage.setItem(STORE_KEY, JSON.stringify(notes)); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+function fmtDate(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  const diff = now - d;
+  if (diff < 60000)     return 'just now';
+  if (diff < 3600000)   return Math.floor(diff / 60000) + 'm ago';
+  if (diff < 86400000)  return Math.floor(diff / 3600000) + 'h ago';
+  if (diff < 604800000) return Math.floor(diff / 86400000) + 'd ago';
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+const listView  = $('notes-list-view');
+const editView  = $('notes-edit-view');
+const notesList = $('notes-list');
+const emptyMsg  = $('notes-empty');
+const titleInp  = $('notes-title-input');
+const ta        = $('notes-ta');
+const charsEl   = $('notes-chars');
+const savedInd  = $('notes-saved-ind');
+
+function renderList() {
+  loadNotes();
+  notesList.innerHTML = '';
+  const sorted = [...notes].sort((a, b) => b.updated - a.updated);
+  if (sorted.length === 0) {
+    emptyMsg.style.display = 'flex';
+    notesList.style.display = 'none';
+  } else {
+    emptyMsg.style.display = 'none';
+    notesList.style.display = '';
+    sorted.forEach(n => {
+      const card = document.createElement('div');
+      card.className = 'note-card';
+      card.innerHTML = `
+        <div class="note-card-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="note-card-info">
+          <div class="note-card-title">${esc(n.title || 'Untitled')}</div>
+          <div class="note-card-preview">${esc((n.content || '').substring(0, 80))}</div>
+        </div>
+        <div class="note-card-date">${fmtDate(n.updated)}</div>`;
+      card.addEventListener('click', () => openNote(n.id));
+      notesList.appendChild(card);
+    });
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showList() {
+  editView.style.display = 'none';
+  listView.style.display = 'flex';
+  activeId = null;
+  renderList();
+}
+
+function openNote(id) {
+  loadNotes();
+  const note = notes.find(n => n.id === id);
+  if (!note) return;
+  activeId = id;
+  titleInp.value = note.title || '';
+  ta.value = note.content || '';
+  updateChars();
+  listView.style.display = 'none';
+  editView.style.display = 'flex';
+  requestAnimationFrame(() => ta.focus());
+}
+
+function newNote() {
+  loadNotes();
+  const note = { id: uid(), title: '', content: '', updated: Date.now() };
+  notes.unshift(note);
+  saveNotes();
+  openNote(note.id);
+  requestAnimationFrame(() => titleInp.focus());
+}
+
+function saveCurrentNote() {
+  if (!activeId) return;
+  const note = notes.find(n => n.id === activeId);
+  if (!note) return;
+  note.title   = titleInp.value.trim() || 'Untitled';
+  note.content = ta.value;
+  note.updated = Date.now();
+  saveNotes();
+  if (savedInd) { savedInd.style.opacity = '1'; clearTimeout(autoSaveTimer); autoSaveTimer = setTimeout(() => { savedInd.style.opacity = '0'; }, 1200); }
+}
+
+function deleteCurrentNote() {
+  if (!activeId) return;
+  notes = notes.filter(n => n.id !== activeId);
+  saveNotes();
+  showList();
+}
+
+function updateChars() {
+  if (charsEl) charsEl.textContent = ta.value.length + ' chars';
+}
+
+ta.addEventListener('input', () => {
+  updateChars();
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(saveCurrentNote, 800);
+});
+titleInp.addEventListener('input', () => {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(saveCurrentNote, 800);
+});
+
+$('notes-new-btn').addEventListener('click', newNote);
+$('notes-empty-new').addEventListener('click', newNote);
+$('notes-back-btn').addEventListener('click', () => { saveCurrentNote(); showList(); });
+$('notes-close-btn').addEventListener('click', () => window.close());
+$('notes-close-edit-btn').addEventListener('click', () => { saveCurrentNote(); window.close(); });
+$('notes-delete-btn').addEventListener('click', () => {
+  if (confirm('Delete this note?')) deleteCurrentNote();
+});
+
+showList();
+
+// Theme sync from main process
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+</script>
+</body>
+</html>

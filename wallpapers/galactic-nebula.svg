@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="50%" stop-color="#2d1050"/>
+      <stop offset="100%" stop-color="#0a0818"/>
+    </linearGradient>
+    <radialGradient id="nebula1" cx="35%" cy="45%" r="30%">
+      <stop offset="0%" stop-color="rgba(180,50,255,.12)"/>
+      <stop offset="60%" stop-color="rgba(100,20,180,.06)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="nebula2" cx="65%" cy="55%" r="25%">
+      <stop offset="0%" stop-color="rgba(255,50,100,.10)"/>
+      <stop offset="60%" stop-color="rgba(200,30,80,.05)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#nebula1)"/>
+  <rect width="1920" height="1080" fill="url(#nebula2)"/>
+  <!-- stars -->
+  <circle cx="50" cy="30" r="1" fill="rgba(255,255,255,.6)"/>
+  <circle cx="150" cy="80" r="1.5" fill="rgba(255,255,255,.7)"/>
+  <circle cx="400" cy="120" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="650" cy="150" r="1.5" fill="rgba(255,255,255,.7)"/>
+  <circle cx="900" cy="100" r="1.3" fill="rgba(255,255,255,.65)"/>
+  <circle cx="1150" cy="130" r="1.5" fill="rgba(255,255,255,.7)"/>
+  <circle cx="1400" cy="110" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="1650" cy="140" r="1.5" fill="rgba(255,255,255,.7)"/>
+  <circle cx="1880" cy="90" r="1.3" fill="rgba(255,255,255,.65)"/>
+  <circle cx="300" cy="300" r="1.5" fill="rgba(255,255,255,.6)"/>
+  <circle cx="700" cy="350" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="960" cy="320" r="2" fill="rgba(255,255,255,.75)"/>
+  <circle cx="1300" cy="340" r="1.5" fill="rgba(255,255,255,.65)"/>
+  <circle cx="1700" cy="350" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="200" cy="500" r="1.5" fill="rgba(255,255,255,.6)"/>
+  <circle cx="700" cy="520" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="1200" cy="500" r="1.5" fill="rgba(255,255,255,.65)"/>
+  <circle cx="1700" cy="530" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="350" cy="750" r="1.5" fill="rgba(255,255,255,.65)"/>
+  <circle cx="850" cy="780" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="1350" cy="760" r="1.5" fill="rgba(255,255,255,.65)"/>
+  <circle cx="1850" cy="780" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="500" cy="950" r="1.5" fill="rgba(255,255,255,.6)"/>
+  <circle cx="1000" cy="960" r="1.2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="1500" cy="940" r="1.5" fill="rgba(255,255,255,.65)"/>
+</svg>

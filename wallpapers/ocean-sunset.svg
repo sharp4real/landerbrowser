@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c0218"/>
+      <stop offset="18%" stop-color="#2e0840"/>
+      <stop offset="35%" stop-color="#6a1838"/>
+      <stop offset="50%" stop-color="#c44428"/>
+      <stop offset="65%" stop-color="#e88028"/>
+      <stop offset="78%" stop-color="#f4b040"/>
+      <stop offset="100%" stop-color="#e87830"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d07020"/>
+      <stop offset="40%" stop-color="#6a2018"/>
+      <stop offset="100%" stop-color="#0c0818"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- sun disc at horizon -->
+  <circle cx="960" cy="480" r="110" fill="#f8c858" opacity=".6"/>
+  <circle cx="960" cy="480" r="70" fill="#ffdd70" opacity=".8"/>
+  <!-- water -->
+  <rect y="520" width="1920" height="560" fill="url(#water)"/>
+  <!-- sun reflection shimmer -->
+  <ellipse cx="960" cy="600" rx="30" ry="80" fill="rgba(255,200,80,.2)"/>
+  <ellipse cx="960" cy="720" rx="50" ry="120" fill="rgba(255,160,40,.12)"/>
+  <ellipse cx="960" cy="850" rx="80" ry="150" fill="rgba(255,120,20,.06)"/>
+  <!-- wave shimmer lines -->
+  <path d="M0 540 Q240 530 480 540 T960 535 T1440 540 T1920 538" stroke="rgba(255,200,100,.15)" fill="none" stroke-width="1.5"/>
+  <path d="M0 580 Q300 572 600 580 T1200 578 T1920 580" stroke="rgba(255,180,80,.1)" fill="none" stroke-width="1"/>
+  <path d="M0 640 Q280 634 560 640 T1120 638 T1920 640" stroke="rgba(255,140,60,.07)" fill="none" stroke-width="1"/>
+  <!-- clouds near horizon -->
+  <ellipse cx="400" cy="440" rx="200" ry="18" fill="rgba(200,80,30,.25)"/>
+  <ellipse cx="1500" cy="460" rx="180" ry="14" fill="rgba(180,60,20,.2)"/>
+  <ellipse cx="700" cy="410" rx="120" ry="10" fill="rgba(220,100,40,.15)"/>
+</svg>

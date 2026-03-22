@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Close Lander Browser</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);
+  --t2:rgba(255,255,255,.35);--t3:rgba(255,255,255,.15);
+  --acc:#00d4c8;--acc-raw:0,212,200;
+  --f:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+html,body{
+  width:100%;height:100%;
+  background:transparent;
+  font-family:var(--f);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  user-select:none;
+}
+body{
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.card{
+  background:var(--bg2);
+  border:1px solid var(--ln2);
+  border-radius:16px;
+  padding:24px 26px 20px;
+  width:300px;max-width:90vw;
+  display:flex;flex-direction:column;gap:14px;
+  box-shadow:0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+  animation:_ccSlideIn .2s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes _ccSlideIn{from{opacity:0;transform:scale(.94) translateY(-6px)}to{opacity:1;transform:none}}
+.cc-icon{
+  width:40px;height:40px;border-radius:12px;
+  background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--acc);margin:0 auto;
+}
+.cc-title{font-size:15px;font-weight:700;color:var(--t0);text-align:center;letter-spacing:-.02em}
+.cc-desc{font-size:12px;color:var(--t2);text-align:center;line-height:1.55;margin-top:-6px}
+.cc-actions{display:flex;gap:8px}
+.cc-btn{
+  flex:1;padding:9px;border-radius:10px;border:1px solid var(--ln2);
+  font:600 13px var(--f);cursor:pointer;transition:all .12s;
+  background:var(--bg3);color:var(--t1);
+}
+.cc-btn:hover{background:var(--bg4);color:var(--t0)}
+.cc-btn.cc-yes{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.25);color:#f87171}
+.cc-btn.cc-yes:hover{background:rgba(248,113,113,.16)}
+.cc-remember{display:flex;align-items:center;gap:8px;cursor:pointer;justify-content:center}
+.cc-remember input{accent-color:var(--acc);width:13px;height:13px;cursor:pointer}
+.cc-remember span{font-size:11px;color:var(--t3)}
+
+/* ── light mode ── */
+body.light{background:rgba(255,255,255,.35)}
+body.light .card{
+  background:rgba(255,255,255,.92);
+  border-color:rgba(0,0,0,.10);
+  box-shadow:0 24px 80px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.06);
+}
+body.light .cc-title{color:rgba(0,0,0,.88)}
+body.light .cc-desc{color:rgba(0,0,0,.45)}
+body.light .cc-btn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.10);color:rgba(0,0,0,.55)}
+body.light .cc-btn:hover{background:rgba(0,0,0,.10);color:rgba(0,0,0,.8)}
+body.light .cc-btn.cc-yes{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.3);color:#dc2626}
+body.light .cc-btn.cc-yes:hover{background:rgba(248,113,113,.16)}
+body.light .cc-remember span{color:rgba(0,0,0,.35)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="cc-icon">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="cc-title">Close Lander Browser?</div>
+  <div class="cc-desc" id="cc-desc">Your open tabs will be saved and restored next time you open Lander.</div>
+  <div class="cc-actions">
+    <button class="cc-btn" id="cc-no">No, keep open</button>
+    <button class="cc-btn cc-yes" id="cc-yes">Yes, close</button>
+  </div>
+  <label class="cc-remember">
+    <input type="checkbox" id="cc-remember">
+    <span>Don't ask again</span>
+  </label>
+</div>
+<script>
+const{ipcRenderer}=require('electron');
+const ccYes=document.getElementById('cc-yes');
+const ccNo=document.getElementById('cc-no');
+const ccRemember=document.getElementById('cc-remember');
+const ccDesc=document.getElementById('cc-desc');
+
+ipcRenderer.on('cc:init',(_,data)=>{
+  if(data&&data.restoreSession){
+    ccDesc.textContent='Your open tabs will be saved and restored next time you open Lander.';
+  }else{
+    ccDesc.textContent='All open tabs will close. Make sure you\'ve saved anything important.';
+  }
+});
+
+ipcRenderer.on('popup:theme',(_,t)=>{
+  if(!t)return;
+  const s=document.documentElement.style;
+  if(t.bg0)s.setProperty('--bg0',t.bg0);
+  if(t.bg1)s.setProperty('--bg1',t.bg1);
+  if(t.bg2)s.setProperty('--bg2',t.bg2);
+  if(t.bg3)s.setProperty('--bg3',t.bg3);
+  if(t.bg4)s.setProperty('--bg4',t.bg4);
+  if(t.ln)s.setProperty('--ln',t.ln);
+  if(t.ln2)s.setProperty('--ln2',t.ln2);
+  if(t.t0)s.setProperty('--t0',t.t0);
+  if(t.t1)s.setProperty('--t1',t.t1);
+  if(t.t2)s.setProperty('--t2',t.t2);
+  if(t.t3)s.setProperty('--t3',t.t3);
+  if(t.acc)s.setProperty('--acc',t.acc);
+  if(t.accRaw||t['acc-raw'])s.setProperty('--acc-raw',t.accRaw||t['acc-raw']);
+  if(t.f)s.setProperty('--f',t.f);
+  // detect light mode from bg0 luminance
+  if(t.bg0){
+    const m=t.bg0.match(/\d+/g);
+    if(m&&m.length>=3){
+      const lum=parseInt(m[0])*.299+parseInt(m[1])*.587+parseInt(m[2])*.114;
+      document.body.classList.toggle('light',lum>140);
+    }
+  }
+});
+
+ccYes.addEventListener('click',()=>{
+  ipcRenderer.send('cc:yes',{remember:ccRemember.checked});
+});
+ccNo.addEventListener('click',()=>{
+  ipcRenderer.send('cc:no');
+});
+</script>
+</body>
+</html>

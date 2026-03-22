@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calculator — Lander</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg0: #080808; --bg1: #0c0c0c; --bg2: #111111; --bg3: #181818; --bg4: #202020;
+  --ln:  rgba(255,255,255,.06); --ln2: rgba(255,255,255,.10);
+  --t0:  rgba(255,255,255,.92); --t1: rgba(255,255,255,.65);
+  --t2:  rgba(255,255,255,.35); --t3: rgba(255,255,255,.15); --t4: rgba(255,255,255,.07);
+  --acc: rgba(255,255,255,.85); --acc2: rgba(255,255,255,.6);
+  --acc-g: rgba(255,255,255,.08); --acc-raw: 255,255,255;
+  --ylw: #ffbd2e;
+  --f: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+html, body {
+  width: 100%;
+  background: transparent;
+  color: var(--t0);
+  font-family: var(--f);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── Panel head ── */
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px 9px;
+  border-bottom: 1px solid var(--ln);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+.panel-head > * { -webkit-app-region: no-drag; }
+.panel-title { font-size: 12.5px; font-weight: 600; color: var(--t0); }
+
+/* ── Display ── */
+#calc-display {
+  padding: 10px 14px 8px; text-align: right;
+  border-bottom: 1px solid var(--ln); background: var(--bg1);
+}
+#calc-expr { font-size: 11px; color: var(--t4); min-height: 14px; letter-spacing: .02em; }
+#calc-val  { font-size: 28px; font-weight: 600; color: var(--t0); letter-spacing: -.01em; line-height: 1.15; word-break: break-all; }
+
+/* ── Buttons ── */
+#calc-btns {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--ln);
+}
+#calc-sci-btns {
+  display: none; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--ln); border-bottom: 1px solid var(--ln);
+}
+.sci-mode #calc-sci-btns { display: grid; }
+
+#calc-mode-toggle {
+  font-size: 10px; font-weight: 700; letter-spacing: .06em;
+  padding: 2px 7px; border-radius: 4px; border: 1px solid var(--ln);
+  background: transparent; color: var(--t3); cursor: pointer;
+  transition: all .15s; line-height: 1.6; flex-shrink: 0;
+}
+#calc-mode-toggle:hover { background: var(--bg3); color: var(--t1); }
+.sci-mode #calc-mode-toggle { background: rgba(var(--acc-raw),.15); color: var(--acc); border-color: rgba(var(--acc-raw),.35); }
+
+#calc-shift-btn {
+  display: none; font-size: 10px; font-weight: 700; letter-spacing: .06em;
+  padding: 2px 7px; border-radius: 4px; border: 1px solid var(--ln);
+  background: transparent; color: var(--t3); cursor: pointer;
+  transition: all .15s; line-height: 1.6; flex-shrink: 0;
+}
+#calc-shift-btn:hover { background: var(--bg3); color: var(--t1); }
+.sci-mode #calc-shift-btn { display: inline-flex; align-items: center; justify-content: center; }
+.shifted #calc-shift-btn { background: rgba(255,189,46,.15); color: var(--ylw); border-color: rgba(255,189,46,.4); }
+
+.sci-label { pointer-events: none; }
+.sci-alt-label { display: none; pointer-events: none; }
+.shifted .sci-label { display: none; }
+.shifted .sci-alt-label { display: inline; }
+
+.cb {
+  background: var(--bg2); border: none; color: var(--t1);
+  font: 14px var(--f); padding: 11px 0; cursor: pointer;
+  transition: background .1s; user-select: none;
+}
+.cb:hover  { background: var(--bg3); }
+.cb:active { background: var(--bg4); }
+.cb.op  { color: var(--acc); font-weight: 600; }
+.cb.fn  { color: var(--t2); font-size: 13px; }
+.cb.sci-fn { color: var(--t3); font-size: 12px; padding: 7px 0; }
+.cb.sci-fn:hover { background: var(--bg3); color: var(--t1); }
+.cb.eq  { background: var(--acc); color: #000; font-weight: 700; }
+.cb.eq:hover { background: rgba(var(--acc-raw),.85); }
+.cb.wide { grid-column: span 2; }
+</style>
+</head>
+<body style="padding:8px;">
+<div id="calc-wrap" style="display:flex;flex-direction:column;background:var(--bg2);border-radius:10px;overflow:hidden;border:1px solid var(--ln2);">
+
+  <div class="panel-head">
+    <span class="panel-title">Calculator</span>
+    <div style="display:flex;gap:4px;align-items:center">
+      <button id="calc-shift-btn" title="Inverse / alternate functions">SHF</button>
+      <button id="calc-mode-toggle">SCI</button>
+    </div>
+  </div>
+
+  <div id="calc-display">
+    <div id="calc-expr"></div>
+    <div id="calc-val">0</div>
+  </div>
+
+  <div id="calc-sci-btns">
+    <button class="cb sci-fn" data-calc="sin" data-calc-shift="asin"><span class="sci-label">sin</span><span class="sci-alt-label">sin⁻¹</span></button>
+    <button class="cb sci-fn" data-calc="cos" data-calc-shift="acos"><span class="sci-label">cos</span><span class="sci-alt-label">cos⁻¹</span></button>
+    <button class="cb sci-fn" data-calc="tan" data-calc-shift="atan"><span class="sci-label">tan</span><span class="sci-alt-label">tan⁻¹</span></button>
+    <button class="cb sci-fn" data-calc="π"   data-calc-shift="τ"   ><span class="sci-label">π</span><span class="sci-alt-label">τ</span></button>
+    <button class="cb sci-fn" data-calc="√"   data-calc-shift="∛"  ><span class="sci-label">√</span><span class="sci-alt-label">∛</span></button>
+    <button class="cb sci-fn" data-calc="x²"  data-calc-shift="x³" ><span class="sci-label">x²</span><span class="sci-alt-label">x³</span></button>
+    <button class="cb sci-fn" data-calc="log" data-calc-shift="ln"  ><span class="sci-label">log</span><span class="sci-alt-label">ln</span></button>
+    <button class="cb sci-fn" data-calc="e"   data-calc-shift="eˣ" ><span class="sci-label">e</span><span class="sci-alt-label">eˣ</span></button>
+  </div>
+
+  <div id="calc-btns">
+    <button class="cb fn"   data-calc="C">C</button>
+    <button class="cb fn"   data-calc="⌫">⌫</button>
+    <button class="cb fn"   data-calc="%">%</button>
+    <button class="cb op"   data-calc="÷">÷</button>
+    <button class="cb"      data-calc="7">7</button>
+    <button class="cb"      data-calc="8">8</button>
+    <button class="cb"      data-calc="9">9</button>
+    <button class="cb op"   data-calc="×">×</button>
+    <button class="cb"      data-calc="4">4</button>
+    <button class="cb"      data-calc="5">5</button>
+    <button class="cb"      data-calc="6">6</button>
+    <button class="cb op"   data-calc="−">−</button>
+    <button class="cb"      data-calc="1">1</button>
+    <button class="cb"      data-calc="2">2</button>
+    <button class="cb"      data-calc="3">3</button>
+    <button class="cb op"   data-calc="+">+</button>
+    <button class="cb wide" data-calc="0">0</button>
+    <button class="cb"      data-calc=".">.</button>
+    <button class="cb eq"   data-calc="=">=</button>
+  </div>
+
+</div>
+
+<script>
+const wrap   = document.getElementById('calc-wrap');
+const valEl  = document.getElementById('calc-val');
+const exprEl = document.getElementById('calc-expr');
+
+let cur = '0', expr = '', op = null, waitNext = false;
+
+function display() { valEl.textContent = cur; exprEl.textContent = expr; }
+
+function calc(a, op, b) {
+  if (op === '+')  return a + b;
+  if (op === '−')  return a - b;
+  if (op === '×')  return a * b;
+  if (op === '÷')  return b === 0 ? NaN : a / b;
+  return b;
+}
+
+function pressKey(k) {
+  const n = parseFloat(cur);
+  if (k === 'C') { cur = '0'; expr = ''; op = null; waitNext = false; }
+  else if (k === '⌫') { if (waitNext) { cur = '0'; waitNext = false; } else if (cur.length > 1) { cur = cur.slice(0, -1); if (cur === '-') cur = '0'; } else { cur = '0'; } }
+  else if (k === '+/-') { cur = String(-n); }
+  else if (k === '%')   { if (op && expr) { const a = parseFloat(expr.replace(/[^0-9.\-]/g, '')); cur = String(!isNaN(a) ? a * n / 100 : n / 100); } else { cur = String(n / 100); } }
+  else if (k === 'sin')  { expr = 'sin(' + cur + ')';  cur = String(Math.sin(n * Math.PI / 180)); waitNext = true; }
+  else if (k === 'cos')  { expr = 'cos(' + cur + ')';  cur = String(Math.cos(n * Math.PI / 180)); waitNext = true; }
+  else if (k === 'tan')  { expr = 'tan(' + cur + ')';  cur = String(Math.tan(n * Math.PI / 180)); waitNext = true; }
+  else if (k === '√')    { expr = '√(' + cur + ')';    cur = String(Math.sqrt(n));                waitNext = true; }
+  else if (k === 'x²')   { expr = '(' + cur + ')²';   cur = String(n * n);                       waitNext = true; }
+  else if (k === 'log')  { expr = 'log(' + cur + ')';  cur = String(Math.log10(n));               waitNext = true; }
+  else if (k === 'π')    { cur = String(Math.PI);      if (waitNext) waitNext = false; }
+  else if (k === 'e')    { cur = String(Math.E);       if (waitNext) waitNext = false; }
+  else if (k === 'asin') { expr = 'sin⁻¹(' + cur + ')'; cur = String(Math.asin(n) * 180 / Math.PI); waitNext = true; }
+  else if (k === 'acos') { expr = 'cos⁻¹(' + cur + ')'; cur = String(Math.acos(n) * 180 / Math.PI); waitNext = true; }
+  else if (k === 'atan') { expr = 'tan⁻¹(' + cur + ')'; cur = String(Math.atan(n) * 180 / Math.PI); waitNext = true; }
+  else if (k === '∛')   { expr = '∛(' + cur + ')';    cur = String(Math.cbrt(n));                waitNext = true; }
+  else if (k === 'x³')   { expr = '(' + cur + ')³';   cur = String(n * n * n);                   waitNext = true; }
+  else if (k === 'ln')   { expr = 'ln(' + cur + ')';   cur = String(Math.log(n));                waitNext = true; }
+  else if (k === 'τ')    { cur = String(2 * Math.PI);  if (waitNext) waitNext = false; }
+  else if (k === 'eˣ')   { expr = 'e^(' + cur + ')';  cur = String(Math.exp(n));                 waitNext = true; }
+  else if ('0123456789'.includes(k)) { if (waitNext) { cur = k; waitNext = false; } else cur = (cur === '0' ? k : cur + k); }
+  else if (k === '.') { if (waitNext) { cur = '0.'; waitNext = false; } else if (!cur.includes('.')) cur += '.'; }
+  else if (['+', '−', '×', '÷'].includes(k)) {
+    if (op && !waitNext) { const a = parseFloat(expr.replace(/[^0-9.\-]/g, '')), b = parseFloat(cur); cur = String(calc(a, op, b)); }
+    expr = cur + ' ' + k; op = k; waitNext = true;
+  } else if (k === '=') {
+    if (!op) return;
+    const a = parseFloat(expr.replace(/[^0-9.\-]/g, '')), b = parseFloat(cur);
+    expr = expr + ' ' + cur + ' ='; cur = String(calc(a, op, b)); op = null; waitNext = true;
+  }
+  if (cur.includes('.')) { const v = parseFloat(cur); if (!isNaN(v)) cur = String(+v.toFixed(10)).replace(/\.?0+$/, '') || '0'; }
+  if (cur === 'NaN' || cur === 'Infinity' || cur === '-Infinity') cur = 'Error';
+  display();
+}
+
+document.getElementById('calc-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.cb');
+  if (btn && btn.dataset.calc) pressKey(btn.dataset.calc);
+});
+
+document.getElementById('calc-sci-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.cb');
+  if (!btn) return;
+  const shifted = wrap.classList.contains('shifted');
+  const key = (shifted && btn.dataset.calcShift) ? btn.dataset.calcShift : btn.dataset.calc;
+  if (key) { pressKey(key); wrap.classList.remove('shifted'); }
+});
+
+document.getElementById('calc-mode-toggle').addEventListener('click', () => {
+  wrap.classList.toggle('sci-mode');
+  if (!wrap.classList.contains('sci-mode')) wrap.classList.remove('shifted');
+});
+document.getElementById('calc-shift-btn').addEventListener('click', () => {
+  wrap.classList.toggle('shifted');
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Backspace')                      { e.preventDefault(); pressKey('⌫'); }
+  else if (e.key === 'Escape')                    { e.preventDefault(); pressKey('C'); }
+  else if (e.key === 'Enter' || e.key === '=')    { e.preventDefault(); pressKey('='); }
+  else if (e.key === '+')   pressKey('+');
+  else if (e.key === '-')   pressKey('−');
+  else if (e.key === '*')   pressKey('×');
+  else if (e.key === '/')   { e.preventDefault(); pressKey('÷'); }
+  else if (e.key === '%')   pressKey('%');
+  else if (e.key === '.')   pressKey('.');
+  else if (/^[0-9]$/.test(e.key)) pressKey(e.key);
+});
+
+display();
+
+// Theme sync from main process
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+</script>
+</body>
+</html>

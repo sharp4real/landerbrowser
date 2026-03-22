@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Now Playing</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#282828;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;--acc-f:rgba(255,255,255,.07);
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:320px;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes popupSlideIn{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+.card{background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);overflow:hidden;box-shadow:none;display:flex;flex-direction:column;animation:popupSlideIn .22s cubic-bezier(.22,1,.36,1) both;backdrop-filter:blur(2px);}
+.card-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;background:var(--bg2);border-bottom:1px solid var(--ln);-webkit-app-region:drag;cursor:grab;flex-shrink:0;}
+.card-hdr *{-webkit-app-region:no-drag;}
+.card-hdr-ico{width:28px;height:28px;border-radius:8px;background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);display:flex;align-items:center;justify-content:center;color:var(--acc);flex-shrink:0;transition:background .15s;}
+.card-title{flex:1;font-size:12px;font-weight:700;color:var(--t0);letter-spacing:-.01em;}
+.media-list{overflow-y:auto;max-height:380px;}
+.media-tab-row{padding:13px 14px 12px;border-bottom:1px solid var(--ln);}
+.media-tab-row:last-child{border-bottom:none;}
+.media-tab-top{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+.media-tab-fav{width:15px;height:15px;border-radius:3px;flex-shrink:0;object-fit:contain;}
+.media-tab-title{font-size:12px;color:var(--t0);font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.media-switch-btn{width:22px;height:22px;flex-shrink:0;border:none;background:transparent;cursor:pointer;color:var(--t3);display:flex;align-items:center;justify-content:center;border-radius:5px;transition:background .1s,color .1s;}
+.media-switch-btn:hover{background:var(--bg4);color:var(--t1);}
+.media-switch-btn svg{display:block;pointer-events:none;}
+.media-center-row{display:flex;align-items:center;justify-content:center;margin-bottom:11px;}
+.media-play-btn{width:36px;height:36px;border-radius:50%;border:none;background:var(--acc);color:#000;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .12s,transform .1s,background .12s;box-shadow:0 2px 12px rgba(var(--acc-raw),.3);}
+.media-play-btn:hover{opacity:.85;transform:scale(1.07);}
+.media-play-btn svg{display:block;pointer-events:none;}
+.media-seek-row{display:flex;align-items:center;gap:6px;margin-bottom:9px;}
+.media-seek-slider{-webkit-appearance:none;appearance:none;flex:1;height:3px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+.media-seek-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;background:var(--acc);cursor:pointer;border:none;box-shadow:0 0 5px rgba(var(--acc-raw),.4);transition:transform .1s;}
+.media-seek-slider::-webkit-slider-thumb:hover{transform:scale(1.3);}
+.media-time-lbl{font-size:10px;color:var(--t3);min-width:34px;flex-shrink:0;font-variant-numeric:tabular-nums;}
+.media-skip-btn{width:22px;height:22px;flex-shrink:0;border:none;background:transparent;cursor:pointer;color:var(--t3);display:flex;align-items:center;justify-content:center;border-radius:5px;transition:background .1s,color .1s;font-size:10px;font-weight:600;font-family:var(--f);}
+.media-skip-btn:hover{background:var(--bg4);color:var(--t1);}
+.media-vol-row{display:flex;align-items:center;gap:8px;}
+.media-vol-icon{flex-shrink:0;color:var(--t3);display:flex;align-items:center;}
+.media-vol-slider{-webkit-appearance:none;appearance:none;flex:1;height:3px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+.media-vol-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;background:var(--acc);cursor:pointer;border:none;box-shadow:0 0 5px rgba(var(--acc-raw),.4);transition:transform .1s;}
+.media-vol-slider::-webkit-slider-thumb:hover{transform:scale(1.3);}
+.media-vol-pct{font-size:10px;color:var(--t3);min-width:26px;text-align:right;flex-shrink:0;}
+.media-mute-btn{width:24px;height:24px;flex-shrink:0;border:none;background:transparent;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t3);transition:background .1s,color .1s;}
+.media-mute-btn:hover{background:var(--bg4);color:var(--t1);}
+.media-mute-btn.muted{color:var(--acc);}
+.media-mute-btn svg{display:block;pointer-events:none;}
+#media-empty{padding:28px 16px;text-align:center;color:var(--t3);font-size:12px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-hdr">
+    <div class="card-hdr-ico">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3h2.5l3-2.5v11L5.5 9H3V3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 4.5c.7.6 1.1 1.5 1.1 2.5s-.4 1.9-1.1 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M10.5 2.8c1.2 1 1.9 2.5 1.9 4.2s-.7 3.2-1.9 4.2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <span class="card-title">Now Playing</span>
+  </div>
+  <div class="media-list" id="media-list">
+    <div id="media-empty">No audio playing</div>
+  </div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+
+const list = document.getElementById('media-list');
+let _audioTabs = [];
+let _seekPoll = null;
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function render(audioTabs) {
+  _audioTabs = audioTabs || [];
+  if (!_audioTabs.length) {
+    list.innerHTML = '<div id="media-empty">No audio playing</div>';
+    _resize();
+    return;
+  }
+
+  const volIconSVG = '<svg width="11" height="11" viewBox="0 0 12 11" fill="none"><path d="M1 3H3.2L6 1v9L3.2 8H1V3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 4c.6.5.9 1.3.9 2s-.3 1.5-.9 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>';
+  const switchSVG  = '<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M4.5 1H1v9h9V6M6.5 1H10v3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  list.innerHTML = _audioTabs.map(function(t) {
+    var favEl = t.favicon
+      ? '<img class="media-tab-fav" src="' + esc(t.favicon) + '" alt="" onerror="this.style.display=\'none\'">'
+      : '';
+    var vol = typeof t.volume === 'number' ? Math.round(t.volume * 100) : 100;
+    var pauseSVG = t.paused
+      ? '<svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M1.5 1.5l9 5-9 5V1.5Z" fill="currentColor"/></svg>'
+      : '<svg width="11" height="13" viewBox="0 0 11 13" fill="none"><rect x="1" y="1" width="3.5" height="11" rx="1.3" fill="currentColor"/><rect x="6.5" y="1" width="3.5" height="11" rx="1.3" fill="currentColor"/></svg>';
+    var muteSVG = t.muted
+      ? '<svg width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M1 4H3.5L7 1v11L3.5 9H1V4Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="10.5" y1="4.5" x2="13" y2="7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="13" y1="4.5" x2="10.5" y2="7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>'
+      : '<svg width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M1 4H3.5L7 1v11L3.5 9H1V4Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M9.5 4.8c.8.7 1.3 1.7 1.3 2.7s-.5 2-1.3 2.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';
+
+    return '<div class="media-tab-row">' +
+      '<div class="media-tab-top">' + favEl +
+        '<span class="media-tab-title">' + esc(t.title || 'Tab') + '</span>' +
+        '<button class="media-switch-btn" title="Switch to tab" data-act="switch" data-id="' + t.id + '">' + switchSVG + '</button>' +
+      '</div>' +
+      '<div class="media-center-row">' +
+        '<button class="media-play-btn" title="' + (t.paused ? 'Play' : 'Pause') + '" data-act="playpause" data-id="' + t.id + '">' + pauseSVG + '</button>' +
+      '</div>' +
+      '<div class="media-seek-row">' +
+        '<button class="media-skip-btn" title="Back 10s" data-act="skip" data-secs="-10" data-id="' + t.id + '">-10</button>' +
+        '<input type="range" class="media-seek-slider" min="0" max="1000" value="0" data-act="seek" data-id="' + t.id + '">' +
+        '<button class="media-skip-btn" title="Forward 10s" data-act="skip" data-secs="10" data-id="' + t.id + '">+10</button>' +
+        '<span class="media-time-lbl" data-time-id="' + t.id + '">--:--</span>' +
+      '</div>' +
+      '<div class="media-vol-row">' +
+        '<span class="media-vol-icon">' + volIconSVG + '</span>' +
+        '<input type="range" class="media-vol-slider" min="0" max="100" value="' + vol + '" data-act="volume" data-id="' + t.id + '">' +
+        '<span class="media-vol-pct">' + vol + '%</span>' +
+        '<button class="media-mute-btn ' + (t.muted ? 'muted' : '') + '" title="' + (t.muted ? 'Unmute' : 'Mute') + '" data-act="mute" data-id="' + t.id + '">' + muteSVG + '</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  list.querySelectorAll('[data-act]').forEach(function(el) {
+    if (el.dataset.act === 'volume') {
+      el.addEventListener('input', function() {
+        var id  = parseInt(el.dataset.id);
+        var vol = parseInt(el.value) / 100;
+        var pct = el.closest('.media-vol-row')?.querySelector('.media-vol-pct');
+        if (pct) pct.textContent = el.value + '%';
+        ipcRenderer.send('tab:volume', { id: id, volume: vol });
+      });
+    } else if (el.dataset.act === 'seek') {
+      el.addEventListener('change', function() {
+        var id  = parseInt(el.dataset.id);
+        var pct = parseInt(el.value) / 1000;
+        ipcRenderer.send('tab:seek', { id: id, pct: pct });
+      });
+    } else {
+      el.addEventListener('click', function() {
+        var id = parseInt(el.dataset.id);
+        if (el.dataset.act === 'mute')      ipcRenderer.send('tab:mute', id);
+        if (el.dataset.act === 'switch')    ipcRenderer.send('tab:switch', id);
+        if (el.dataset.act === 'playpause') ipcRenderer.send('tab:playpause', id);
+        if (el.dataset.act === 'skip')      ipcRenderer.send('tab:skip', { id: id, secs: parseInt(el.dataset.secs || '10') });
+      });
+    }
+  });
+
+  _startSeekPoll();
+  _resize();
+}
+
+function _resize() {
+  setTimeout(function() {
+    var h = document.body.scrollHeight;
+    ipcRenderer.send('media:resize', h);
+  }, 50);
+}
+
+function _startSeekPoll() {
+  if (_seekPoll) clearInterval(_seekPoll);
+  _seekPoll = setInterval(async function() {
+    for (var t of _audioTabs) {
+      try {
+        var res = await ipcRenderer.invoke('tab:get-time', t.id);
+        if (!res || !isFinite(res.dur) || res.dur <= 0) continue;
+        var slider = list.querySelector('.media-seek-slider[data-id="' + t.id + '"]');
+        var lbl    = list.querySelector('.media-time-lbl[data-time-id="' + t.id + '"]');
+        if (slider && document.activeElement !== slider) {
+          slider.value = Math.round((res.ct / res.dur) * 1000);
+          var pct = (res.ct / res.dur) * 100;
+          slider.style.background = 'linear-gradient(to right, var(--acc) ' + pct + '%, var(--bg5) ' + pct + '%)';
+        }
+        if (lbl) {
+          var fmt = function(s) { var m = Math.floor(s/60); return m + ':' + String(Math.floor(s%60)).padStart(2,'0'); };
+          lbl.textContent = fmt(res.ct) + ' / ' + fmt(res.dur);
+        }
+      } catch (e) {}
+    }
+  }, 1000);
+}
+
+ipcRenderer.on('audio:update', function(_, audioTabs) {
+  render(audioTabs);
+});
+</script>
+</body>
+</html>

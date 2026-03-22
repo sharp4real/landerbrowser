@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#051208"/>
+      <stop offset="30%" stop-color="#0a2410"/>
+      <stop offset="60%" stop-color="#103818"/>
+      <stop offset="100%" stop-color="#041208"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- light rays filtering through canopy -->
+  <polygon points="800,0 860,500 740,500" fill="rgba(120,220,80,.06)"/>
+  <polygon points="1100,0 1140,400 1060,400" fill="rgba(100,200,70,.05)"/>
+  <polygon points="500,0 530,350 470,350" fill="rgba(140,230,90,.04)"/>
+  <!-- background trees -->
+  <polygon points="100,600 140,300 180,600" fill="#082010"/>
+  <polygon points="250,600 300,250 350,600" fill="#0a2812"/>
+  <polygon points="420,600 470,280 520,600" fill="#082010"/>
+  <polygon points="580,600 640,220 700,600" fill="#0c3018"/>
+  <polygon points="750,600 800,260 850,600" fill="#0a2812"/>
+  <polygon points="920,600 970,240 1020,600" fill="#082010"/>
+  <polygon points="1080,600 1140,270 1200,600" fill="#0c3018"/>
+  <polygon points="1250,600 1300,230 1350,600" fill="#0a2812"/>
+  <polygon points="1420,600 1480,260 1540,600" fill="#082010"/>
+  <polygon points="1600,600 1650,280 1700,600" fill="#0c3018"/>
+  <polygon points="1780,600 1830,240 1880,600" fill="#0a2812"/>
+  <!-- mid-layer trees (larger) -->
+  <polygon points="50,1080 130,500 210,1080" fill="#061a0c"/>
+  <polygon points="300,1080 400,440 500,1080" fill="#082010"/>
+  <polygon points="550,1080 640,480 730,1080" fill="#061a0c"/>
+  <polygon points="800,1080 900,420 1000,1080" fill="#082010"/>
+  <polygon points="1050,1080 1150,460 1250,1080" fill="#061a0c"/>
+  <polygon points="1300,1080 1400,440 1500,1080" fill="#082010"/>
+  <polygon points="1550,1080 1640,480 1730,1080" fill="#061a0c"/>
+  <polygon points="1750,1080 1850,420 1920,750 1920,1080" fill="#082010"/>
+  <!-- tree trunks -->
+  <rect x="125" y="600" width="10" height="480" fill="#04120a"/>
+  <rect x="395" y="550" width="12" height="530" fill="#04120a"/>
+  <rect x="635" y="580" width="10" height="500" fill="#04120a"/>
+  <rect x="895" y="540" width="12" height="540" fill="#04120a"/>
+  <rect x="1145" y="560" width="10" height="520" fill="#04120a"/>
+  <rect x="1395" y="550" width="12" height="530" fill="#04120a"/>
+  <rect x="1635" y="580" width="10" height="500" fill="#04120a"/>
+  <!-- ground -->
+  <rect y="950" width="1920" height="130" fill="#030a06"/>
+  <!-- fireflies / light particles -->
+  <circle cx="300" cy="500" r="2" fill="rgba(180,255,100,.3)"/>
+  <circle cx="700" cy="450" r="1.5" fill="rgba(160,240,80,.25)"/>
+  <circle cx="1100" cy="520" r="2" fill="rgba(180,255,100,.3)"/>
+  <circle cx="1500" cy="480" r="1.5" fill="rgba(160,240,80,.2)"/>
+  <circle cx="450" cy="650" r="1.8" fill="rgba(180,255,100,.2)"/>
+  <circle cx="1300" cy="600" r="1.5" fill="rgba(160,240,80,.15)"/>
+</svg>

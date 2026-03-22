@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c0520"/>
+      <stop offset="20%" stop-color="#2a0845"/>
+      <stop offset="40%" stop-color="#5a1850"/>
+      <stop offset="55%" stop-color="#a83838"/>
+      <stop offset="70%" stop-color="#e87040"/>
+      <stop offset="82%" stop-color="#f8c860"/>
+      <stop offset="100%" stop-color="#e88840"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- sun glow -->
+  <circle cx="960" cy="750" r="200" fill="rgba(255,180,60,.15)"/>
+  <circle cx="960" cy="750" r="120" fill="rgba(255,200,80,.20)"/>
+  <!-- far mountains -->
+  <polygon points="0,650 200,480 400,550 600,450 800,520 960,420 1120,500 1300,430 1500,490 1700,410 1920,500 1920,750 0,750" fill="rgba(80,30,50,.6)"/>
+  <!-- near mountains -->
+  <polygon points="0,700 250,520 500,620 700,500 960,550 1200,480 1400,560 1600,490 1800,540 1920,580 1920,850 0,850" fill="rgba(40,12,30,.8)"/>
+  <!-- foreground ridge -->
+  <polygon points="0,780 150,700 350,740 550,680 750,720 950,660 1150,710 1350,670 1550,700 1750,660 1920,700 1920,1080 0,1080" fill="rgba(20,6,18,.95)"/>
+  <!-- snow caps -->
+  <polygon points="600,450 640,470 560,470" fill="rgba(255,255,255,.15)"/>
+  <polygon points="960,420 1010,445 910,445" fill="rgba(255,255,255,.18)"/>
+  <polygon points="1700,410 1745,435 1655,435" fill="rgba(255,255,255,.12)"/>
+  <!-- birds -->
+  <path d="M600 350 Q610 340 620 350" stroke="rgba(40,10,20,.5)" fill="none" stroke-width="2"/>
+  <path d="M650 340 Q660 330 670 340" stroke="rgba(40,10,20,.4)" fill="none" stroke-width="1.5"/>
+  <path d="M690 355 Q698 347 706 355" stroke="rgba(40,10,20,.35)" fill="none" stroke-width="1.5"/>
+</svg>

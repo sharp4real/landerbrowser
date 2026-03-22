@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffa726"/>
+      <stop offset="30%" stop-color="#ff8f00"/>
+      <stop offset="60%" stop-color="#ff6f00"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="45%" r="25%">
+      <stop offset="0%" stop-color="rgba(255,235,59,.35)"/>
+      <stop offset="50%" stop-color="rgba(255,193,7,.15)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#sun)"/>
+  <!-- sun -->
+  <circle cx="960" cy="480" r="90" fill="rgba(255,235,59,.30)"/>
+  <circle cx="960" cy="480" r="60" fill="rgba(255,245,157,.40)"/>
+  <!-- light rays -->
+  <line x1="960" y1="300" x2="960" y2="200" stroke="rgba(255,235,59,.08)" stroke-width="60"/>
+  <line x1="760" y1="350" x2="660" y2="260" stroke="rgba(255,235,59,.06)" stroke-width="50"/>
+  <line x1="1160" y1="350" x2="1260" y2="260" stroke="rgba(255,235,59,.06)" stroke-width="50"/>
+  <!-- wheat field -->
+  <rect x="0" y="650" width="1920" height="430" fill="#c17900"/>
+  <ellipse cx="960" cy="660" rx="1100" ry="30" fill="#d48800"/>
+  <!-- wheat stalks (simplified) -->
+  <line x1="100" y1="660" x2="100" y2="580" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="100" cy="575" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="200" y1="665" x2="200" y2="590" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="200" cy="585" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="350" y1="660" x2="350" y2="575" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="350" cy="570" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="500" y1="665" x2="500" y2="585" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="500" cy="580" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="650" y1="660" x2="650" y2="578" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="650" cy="573" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="800" y1="663" x2="800" y2="590" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="800" cy="585" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="960" y1="658" x2="960" y2="575" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="960" cy="570" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="1120" y1="663" x2="1120" y2="588" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="1120" cy="583" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="1280" y1="660" x2="1280" y2="580" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="1280" cy="575" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="1440" y1="665" x2="1440" y2="590" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="1440" cy="585" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="1600" y1="660" x2="1600" y2="578" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="1600" cy="573" rx="4" ry="10" fill="#c8820a"/>
+  <line x1="1760" y1="663" x2="1760" y2="585" stroke="#b36b00" stroke-width="2"/>
+  <ellipse cx="1760" cy="580" rx="4" ry="10" fill="#c8820a"/>
+</svg>

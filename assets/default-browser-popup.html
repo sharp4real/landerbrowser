@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Default Browser — Lander</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg0: #080808; --bg1: #0c0c0c; --bg2: #111111; --bg3: #181818; --bg4: #202020;
+  --ln:  rgba(255,255,255,.06); --ln2: rgba(255,255,255,.10);
+  --t0:  rgba(255,255,255,.92); --t1: rgba(255,255,255,.65);
+  --t2:  rgba(255,255,255,.35); --t3: rgba(255,255,255,.15); --t4: rgba(255,255,255,.07);
+  --acc: rgba(255,255,255,.85); --acc2: rgba(255,255,255,.6);
+  --acc-g: rgba(255,255,255,.08);
+  --acc-raw: 255,255,255;
+  --f: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+html, body {
+  width: 100%;
+  background: transparent;
+  color: var(--t0);
+  font-family: var(--f);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.shell {
+  display: flex; flex-direction: column;
+  background: var(--bg2); border-radius: 10px;
+  border: 1px solid var(--ln2); overflow: hidden;
+}
+
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px 9px;
+  border-bottom: 1px solid var(--ln);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+.panel-head > * { -webkit-app-region: no-drag; }
+.panel-title { font-size: 12.5px; font-weight: 600; color: var(--t0); }
+.icon-btn {
+  width: 24px; height: 24px; border-radius: 5px; border: none;
+  background: transparent; color: var(--t3); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; line-height: 1;
+  transition: background .12s, color .12s;
+}
+.icon-btn:hover { background: var(--bg4); color: var(--t1); }
+
+.body {
+  padding: 16px 14px 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+
+.status-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.status-icon.not-default {
+  background: rgba(255,189,46,.1); border: 1px solid rgba(255,189,46,.25);
+  color: #ffbd2e;
+}
+.status-icon.is-default {
+  background: rgba(76,217,100,.1); border: 1px solid rgba(76,217,100,.25);
+  color: #4cd964;
+}
+
+.status-text {
+  text-align: center;
+}
+.status-title {
+  font-size: 13px; font-weight: 600; color: var(--t0); margin-bottom: 3px;
+}
+.status-sub {
+  font-size: 11px; color: var(--t3); line-height: 1.5;
+}
+
+.set-btn {
+  width: 100%; padding: 9px 16px;
+  background: rgba(var(--acc-raw),.08); border: 1.5px solid rgba(var(--acc-raw),.22);
+  border-radius: 9px; color: var(--acc);
+  font: 600 12px var(--f); cursor: pointer;
+  transition: background .14s, border-color .14s;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.set-btn:hover:not(:disabled) { background: rgba(var(--acc-raw),.16); border-color: rgba(var(--acc-raw),.4); }
+.set-btn:disabled { opacity: .5; cursor: default; }
+.set-btn.done {
+  background: rgba(76,217,100,.1); border-color: rgba(76,217,100,.3); color: #4cd964;
+}
+</style>
+</head>
+<body style="padding:8px;">
+<div class="shell">
+
+  <div class="panel-head">
+    <span class="panel-title">Default Browser</span>
+    <button class="icon-btn" id="close-btn" title="Close">&#x2715;</button>
+  </div>
+
+  <div class="body">
+    <div class="status-icon not-default" id="status-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 6v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="10" cy="14" r="1" fill="currentColor"/>
+      </svg>
+    </div>
+
+    <div class="status-text">
+      <div class="status-title" id="status-title">Checking…</div>
+      <div class="status-sub" id="status-sub">Please wait</div>
+    </div>
+
+    <button class="set-btn" id="set-btn" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M6.5 4v2.5l1.8 1.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Set Default
+    </button>
+  </div>
+
+</div>
+<script>
+const { ipcRenderer } = require('electron');
+
+const statusIcon  = document.getElementById('status-icon');
+const statusTitle = document.getElementById('status-title');
+const statusSub   = document.getElementById('status-sub');
+const setBtn      = document.getElementById('set-btn');
+
+function showDefault() {
+  statusIcon.className = 'status-icon is-default';
+  statusIcon.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M6.5 10l2.5 2.5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+  statusTitle.textContent = 'Lander is your default browser';
+  statusSub.textContent   = 'Links and web searches open in Lander.';
+  setBtn.style.display    = 'none';
+}
+
+function showNotDefault() {
+  statusIcon.className = 'status-icon not-default';
+  statusIcon.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M10 6v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="10" cy="14" r="1" fill="currentColor"/>
+  </svg>`;
+  statusTitle.textContent = 'It\'s not your default browser';
+  statusSub.textContent   = 'Set Lander as default to open all web links here.';
+  setBtn.style.display    = '';
+  setBtn.disabled         = false;
+  setBtn.className        = 'set-btn';
+  setBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+    <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M6.5 4v2.5l1.8 1.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg> Set Default`;
+}
+
+// Check on load
+ipcRenderer.invoke('browser:is-default').then(isDefault => {
+  if (isDefault) showDefault();
+  else showNotDefault();
+}).catch(() => {
+  statusTitle.textContent = 'Could not check status';
+  statusSub.textContent   = '';
+});
+
+setBtn.addEventListener('click', () => {
+  ipcRenderer.send('browser:set-default');
+  setBtn.textContent = 'Opening settings…';
+  setBtn.disabled = true;
+  setTimeout(() => {
+    ipcRenderer.invoke('browser:is-default').then(d => {
+      if (d) {
+        setBtn.className = 'set-btn done';
+        setBtn.innerHTML = '✓ Lander is now your default browser';
+        showDefault();
+      } else {
+        showNotDefault();
+      }
+    }).catch(() => { showNotDefault(); });
+  }, 3500);
+});
+
+document.getElementById('close-btn').addEventListener('click', () => window.close());
+
+// Theme sync
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+</script>
+</body>
+</html>

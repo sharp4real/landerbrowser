@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0d0d"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- lava cracks -->
+  <path d="M0,400 Q200,380 400,420 Q600,460 800,430 Q1000,400 1200,450 Q1400,480 1600,440 Q1800,410 1920,430" fill="none" stroke="rgba(255,80,0,.15)" stroke-width="3"/>
+  <path d="M0,420 Q200,400 400,440 Q600,480 800,450 Q1000,420 1200,470 Q1400,500 1600,460 Q1800,430 1920,450" fill="none" stroke="rgba(255,50,0,.10)" stroke-width="2"/>
+  <path d="M0,600 Q300,580 600,620 Q900,660 1200,630 Q1500,600 1920,640" fill="none" stroke="rgba(255,80,0,.12)" stroke-width="3"/>
+  <path d="M0,800 Q400,780 800,820 Q1200,860 1600,830 Q1920,810 1920,820" fill="none" stroke="rgba(255,80,0,.10)" stroke-width="3"/>
+  <!-- vertical cracks -->
+  <path d="M400,0 Q420,200 380,400" fill="none" stroke="rgba(255,60,0,.08)" stroke-width="2"/>
+  <path d="M800,200 Q820,400 780,600" fill="none" stroke="rgba(255,70,0,.10)" stroke-width="2"/>
+  <path d="M1200,100 Q1220,350 1180,600" fill="none" stroke="rgba(255,60,0,.08)" stroke-width="2"/>
+  <path d="M1600,0 Q1620,250 1580,500" fill="none" stroke="rgba(255,70,0,.10)" stroke-width="2"/>
+  <!-- lava glows -->
+  <radialGradient id="g1" cx="30%" cy="40%" r="15%">
+    <stop offset="0%" stop-color="rgba(255,80,0,.08)"/>
+    <stop offset="100%" stop-color="transparent"/>
+  </radialGradient>
+  <radialGradient id="g2" cx="60%" cy="55%" r="18%">
+    <stop offset="0%" stop-color="rgba(255,60,0,.06)"/>
+    <stop offset="100%" stop-color="transparent"/>
+  </radialGradient>
+  <rect width="1920" height="1080" fill="url(#g1)"/>
+  <rect width="1920" height="1080" fill="url(#g2)"/>
+</svg>

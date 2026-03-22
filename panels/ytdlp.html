@@ -1,0 +1,95 @@
+<div class="panel-head">
+  <span class="panel-title">Video Downloader</span>
+  <span class="panel-action" id="ytdlp-check-update-btn" style="color:var(--t2)">Check updates</span>
+</div>
+
+<div class="ytdlp-version-bar">
+  <div class="ytdlp-version-tag">
+    <div class="ytdlp-ver-dot err" id="ytdlp-dot"></div>
+    <span id="ytdlp-ver-txt">Checking yt-dlp…</span>
+  </div>
+  <button class="ytdlp-update-btn" id="ytdlp-do-update-btn" style="display:none">Update</button>
+</div>
+
+<div class="ytdlp-installing" id="ytdlp-installing">
+  <div class="ytdlp-dl-spin"></div>
+  <div id="ytdlp-install-msg">Downloading yt-dlp…</div>
+</div>
+
+<div class="ytdlp-form" id="ytdlp-form">
+  <div class="ytdlp-url-row">
+    <span class="ytdlp-url-icon">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M6.5 1a5.5 5.5 0 1 0 0 11A5.5 5.5 0 0 0 6.5 1Z" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M6.5 1c-1.4 1.6-2.2 3.2-2.2 5.5s.8 3.9 2.2 5.5M6.5 1c1.4 1.6 2.2 3.2 2.2 5.5S7.9 10.4 6.5 12M1 6.5h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input id="ytdlp-url" type="url" placeholder="Paste video URL (YouTube, Twitch, etc.)…" autocomplete="off" spellcheck="false">
+  </div>
+
+  <div class="ytdlp-mode-row">
+    <button class="ytdlp-mode-btn active" id="ytdlp-mode-video">
+      <svg width="12" height="11" viewBox="0 0 12 11" fill="none">
+        <rect x=".6" y=".6" width="10.8" height="7.8" rx="1.6" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M4.5 3.5l3 1.5-3 1.5V3.5Z" fill="currentColor" opacity=".6"/>
+        <line x1="2.5" y1="10" x2="9.5" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      Video
+    </button>
+    <button class="ytdlp-mode-btn" id="ytdlp-mode-audio">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M4.5 9.5V2.5l6-1.5V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="3" cy="9.5" r="1.5" stroke="currentColor" stroke-width="1.2"/>
+        <circle cx="9" cy="8" r="1.5" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      Audio
+    </button>
+  </div>
+
+  <div class="ytdlp-opts-row" id="ytdlp-video-opts">
+    <select id="ytdlp-quality" title="Quality">
+      <option value="bestvideo+bestaudio/best">Best quality</option>
+      <option value="bestvideo[height<=1080]+bestaudio/best[height<=1080]">1080p</option>
+      <option value="bestvideo[height<=720]+bestaudio/best[height<=720]">720p</option>
+      <option value="bestvideo[height<=480]+bestaudio/best[height<=480]">480p</option>
+    </select>
+    <select id="ytdlp-vext" title="Container" style="flex:0 0 70px">
+      <option value="mp4">mp4</option>
+      <option value="mkv">mkv</option>
+      <option value="webm">webm</option>
+    </select>
+  </div>
+
+  <div class="ytdlp-opts-row" id="ytdlp-audio-opts" style="display:none">
+    <select id="ytdlp-afmt" title="Audio format">
+      <option value="mp3">mp3</option>
+      <option value="m4a">m4a</option>
+      <option value="opus">opus</option>
+      <option value="wav">wav</option>
+    </select>
+  </div>
+
+  <div class="ytdlp-outdir-row">
+    <input id="ytdlp-outdir-display" value="Downloads folder" readonly>
+    <button class="ytdlp-outdir-btn" id="ytdlp-outdir-btn">Choose…</button>
+  </div>
+
+  <button class="ytdlp-dl-btn" id="ytdlp-dl-btn">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+      <path d="M6.5 1v8M3 6.5L6.5 10 10 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="1" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    Download
+  </button>
+</div>
+
+<div class="ytdlp-jobs" id="ytdlp-jobs"></div>
+
+<div class="ytdlp-credits">
+  <div class="ytdlp-credits-text">
+    Powered by <a href="#" id="ytdlp-gh-link">yt-dlp</a> — a free &amp; open-source<br>
+    video downloader by the yt-dlp contributors.<br>
+    <a href="#" id="ytdlp-license-link">Unlicense</a> &nbsp;·&nbsp;
+    <a href="#" id="ytdlp-repo-link">github.com/yt-dlp/yt-dlp</a>
+  </div>
+</div>

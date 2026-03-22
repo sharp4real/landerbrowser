@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extensions — Lander Browser</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#2a2a2a;--bg6:#333;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);--ln3:rgba(255,255,255,.16);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.35);--t3:rgba(255,255,255,.15);
+  --acc:#00d4c8;--acc2:#00bdb0;--acc-raw:0,212,200;
+  --f:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+html,body{width:100%;height:100%;background:var(--bg0);color:var(--t0);font-family:var(--f);overflow-y:auto;-webkit-font-smoothing:antialiased}
+
+.ext-page{max-width:900px;margin:0 auto;padding:32px 28px 48px}
+.ext-page-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.ext-page-icon{width:44px;height:44px;border-radius:12px;background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.18);display:flex;align-items:center;justify-content:center;color:var(--acc);flex-shrink:0}
+.ext-page-title{font-size:22px;font-weight:700;letter-spacing:-.03em;color:var(--t0)}
+.ext-page-subtitle{font-size:12px;color:var(--t2);margin-top:2px}
+
+/* Search */
+.ext-search-wrap{position:relative;margin-bottom:20px}
+.ext-search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none}
+.ext-search-input{width:100%;padding:10px 14px 10px 38px;background:var(--bg2);border:1px solid var(--ln2);border-radius:10px;font:400 13px var(--f);color:var(--t0);outline:none;transition:border-color .15s}
+.ext-search-input::placeholder{color:var(--t3)}
+.ext-search-input:focus{border-color:rgba(var(--acc-raw),.4)}
+
+/* Category pills */
+.ext-cats{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px}
+.ext-cat{padding:6px 14px;border-radius:8px;border:1px solid var(--ln);background:transparent;color:var(--t2);font:500 11.5px var(--f);cursor:pointer;transition:all .15s}
+.ext-cat:hover{color:var(--t1);border-color:var(--ln2)}
+.ext-cat.active{background:rgba(var(--acc-raw),.1);border-color:rgba(var(--acc-raw),.3);color:var(--acc)}
+
+/* Featured card */
+.ext-featured{display:flex;align-items:center;gap:16px;padding:18px 20px;background:linear-gradient(135deg,rgba(var(--acc-raw),.06),rgba(var(--acc-raw),.02));border:1px solid rgba(var(--acc-raw),.15);border-radius:14px;margin-bottom:24px}
+.ext-featured-icon{width:48px;height:48px;border-radius:12px;background:rgba(var(--acc-raw),.1);border:1px solid rgba(var(--acc-raw),.2);display:flex;align-items:center;justify-content:center;color:var(--acc);flex-shrink:0}
+.ext-featured-info{flex:1;min-width:0}
+.ext-featured-tag{font-size:10px;font-weight:600;color:var(--acc);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.ext-featured-name{font-size:16px;font-weight:700;color:var(--t0);margin-bottom:3px}
+.ext-featured-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.ext-feat-btn{padding:8px 20px;border-radius:8px;border:1px solid rgba(var(--acc-raw),.3);background:rgba(var(--acc-raw),.1);color:var(--acc);font:600 12px var(--f);cursor:pointer;transition:all .15s;flex-shrink:0}
+.ext-feat-btn:hover{background:rgba(var(--acc-raw),.2)}
+.ext-feat-btn.on{background:var(--bg3);border-color:var(--ln2);color:var(--t2)}
+
+/* Section label */
+.ext-section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:12px}
+
+/* Grid */
+.ext-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:28px}
+.ext-card{background:var(--bg2);border:1px solid var(--ln);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;transition:border-color .15s}
+.ext-card:hover{border-color:var(--ln2)}
+.ext-card.active{border-color:rgba(var(--acc-raw),.25)}
+.ext-card-top{display:flex;align-items:center;gap:10px}
+.ext-card-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(var(--acc-raw),.08);color:var(--acc)}
+.ext-card-meta{flex:1;min-width:0}
+.ext-card-name{font-size:13px;font-weight:600;color:var(--t0)}
+.ext-card-cat{font-size:10.5px;color:var(--t3);margin-top:1px}
+.ext-card-desc{font-size:11.5px;color:var(--t2);line-height:1.5}
+.ext-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.ext-card-status{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--t3);transition:color .15s}
+.ext-card.active .ext-card-status{color:var(--acc)}
+
+.ic-purple{background:rgba(168,85,247,.1)!important;color:#a855f7!important}
+.ic-gray{background:rgba(255,255,255,.05)!important;color:var(--t2)!important}
+.ic-amber{background:rgba(245,158,11,.1)!important;color:#f59e0b!important}
+.ic-blue{background:rgba(59,130,246,.1)!important;color:#3b82f6!important}
+.ic-indigo{background:rgba(99,102,241,.1)!important;color:#6366f1!important}
+.ic-teal{background:rgba(var(--acc-raw),.1)!important;color:var(--acc)!important}
+.ic-green{background:rgba(34,197,94,.1)!important;color:#22c55e!important}
+.ic-red{background:rgba(239,68,68,.1)!important;color:#ef4444!important}
+.ic-orange{background:rgba(249,115,22,.1)!important;color:#f97316!important}
+.ic-pink{background:rgba(236,72,153,.1)!important;color:#ec4899!important}
+
+.ext-badge-new{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--acc);background:rgba(var(--acc-raw),.15);padding:1px 5px;border-radius:4px;margin-left:4px}
+
+/* Toggle */
+.tog{position:relative;display:inline-flex;flex-shrink:0;cursor:pointer}
+.tog input{position:absolute;opacity:0;width:0;height:0}
+.tog-tr{width:32px;height:18px;background:var(--bg5);border-radius:9px;transition:background .15s;position:relative}
+.tog-tr::after{content:'';position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--t2);transition:transform .15s,background .15s}
+.tog input:checked+.tog-tr{background:rgba(var(--acc-raw),.25)}
+.tog input:checked+.tog-tr::after{transform:translateX(14px);background:var(--acc)}
+
+/* No results */
+.ext-no-results{display:none;text-align:center;padding:32px;color:var(--t3);font-size:12px}
+
+/* Plugin section */
+.plugin-section{background:var(--bg2);border:1px solid var(--ln);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.plugin-section-hdr{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.plugin-section-icon{width:32px;height:32px;border-radius:8px;background:rgba(var(--acc-raw),.08);color:var(--acc);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plugin-section-info{flex:1}
+.plugin-section-name{font-size:13px;font-weight:600;color:var(--t0)}
+.plugin-section-desc{font-size:11px;color:var(--t3);margin-top:1px}
+.plugin-section-body{padding:0 16px 14px}
+.plugin-editor{width:100%;min-height:120px;padding:12px;background:var(--bg3);border:1px solid var(--ln);border-radius:8px;font:12px/1.6 'Geist Mono',monospace;color:var(--t1);resize:vertical;outline:none}
+.plugin-editor:focus{border-color:rgba(var(--acc-raw),.3)}
+.plugin-editor::placeholder{color:var(--t3)}
+.plugin-editor-footer{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;color:var(--t3)}
+.plugin-editor-footer .plugin-hint,.plugin-editor-footer .plugin-warning{flex:1}
+.plugin-warning{color:rgba(245,158,11,.5)}
+.plugin-status{font-size:10px;font-weight:600;color:var(--acc);opacity:0;transition:opacity .2s}
+.plugin-status.flash{opacity:1}
+.plugin-apply-btn{padding:5px 14px;border-radius:6px;border:1px solid var(--ln2);background:var(--bg4);color:var(--t1);font:600 11px var(--f);cursor:pointer;transition:all .12s}
+.plugin-apply-btn:hover{background:var(--bg5);color:var(--t0)}
+
+/* Tabs */
+.mp-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--ln);border-radius:10px;padding:3px;margin-bottom:20px}
+.mp-tab{flex:1;text-align:center;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--t2);font:500 12px var(--f);cursor:pointer;transition:all .15s}
+.mp-tab:hover{color:var(--t1)}
+.mp-tab.on{background:var(--bg4);color:var(--t0);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div class="ext-page">
+
+  <div class="ext-page-header">
+    <div class="ext-page-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 4h16M3 8h16M3 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><rect x="13" y="12" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/></svg>
+    </div>
+    <div>
+      <div class="ext-page-title">Extensions</div>
+      <div class="ext-page-subtitle">Manage add-ons, themes, and plugins for Lander Browser</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="mp-tabs" id="mp-tabs">
+    <button class="mp-tab on" data-tab="extensions">Extensions</button>
+    <button class="mp-tab" data-tab="themes">Themes</button>
+    <button class="mp-tab" data-tab="plugins">Plugins</button>
+  </div>
+
+  <!-- Extensions Tab -->
+  <div id="mp-ext-tab">
+    <div class="ext-search-wrap">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4.2" stroke="currentColor" stroke-width="1.3"/><line x1="8.8" y1="8.8" x2="12.2" y2="12.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <input class="ext-search-input" id="ext-search" type="text" placeholder="Search extensions…" autocomplete="off" spellcheck="false">
+    </div>
+
+    <div class="ext-cats" id="ext-cats">
+      <button class="ext-cat active" data-cat="all">All</button>
+      <button class="ext-cat" data-cat="appearance">Appearance</button>
+      <button class="ext-cat" data-cat="productivity">Productivity</button>
+      <button class="ext-cat" data-cat="privacy">Privacy</button>
+      <button class="ext-cat" data-cat="media">Media</button>
+      <button class="ext-cat" data-cat="fun">Fun</button>
+    </div>
+
+    <div class="ext-featured" id="ext-featured" data-ext="reader-mode">
+      <div class="ext-featured-icon">
+        <svg width="26" height="26" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.4"/><rect x="6" y="6" width="10" height="4" rx="1" fill="currentColor" opacity=".5"/><rect x="6" y="12" width="10" height="1.5" rx=".75" fill="currentColor" opacity=".3"/><rect x="6" y="15" width="7" height="1.5" rx=".75" fill="currentColor" opacity=".2"/></svg>
+      </div>
+      <div class="ext-featured-info">
+        <div class="ext-featured-tag">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" opacity=".9"><path d="M5 1l1.1 2.4 2.6.3-1.9 1.8.5 2.6L5 6.8 2.7 8.1l.5-2.6L1.3 3.7l2.6-.3z"/></svg>
+          Featured Add-On
+        </div>
+        <div class="ext-featured-name">Reader Mode</div>
+        <div class="ext-featured-desc">Strips ads, distractions and sidebars — reformats articles into a clean, focused reading layout</div>
+      </div>
+      <button class="ext-feat-btn" id="ext-featured-btn">Enable</button>
+    </div>
+
+    <div class="ext-section-label">All Add-Ons</div>
+    <div class="ext-no-results" id="ext-no-results">No add-ons match your search.</div>
+    <div class="ext-grid" id="ext-grid"></div>
+  </div>
+
+  <!-- Themes Tab -->
+  <div id="mp-theme-tab" style="display:none">
+    <div class="ext-section-label">Themes</div>
+    <div class="ext-grid" id="ts-grid"></div>
+  </div>
+
+  <!-- Plugins Tab -->
+  <div id="mp-plugin-tab" style="display:none">
+    <div class="plugin-section">
+      <div class="plugin-section-hdr">
+        <div class="plugin-section-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6-6-2.7-6-6Z" stroke="currentColor" stroke-width="1.2"/><path d="M5 5h2v4H5M9 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/></svg>
+        </div>
+        <div class="plugin-section-info">
+          <div class="plugin-section-name">Custom CSS</div>
+          <div class="plugin-section-desc">Inject your own styles into every page you browse</div>
+        </div>
+        <label class="tog"><input type="checkbox" id="plugin-css-enabled"><span class="tog-tr"></span></label>
+      </div>
+      <div class="plugin-section-body">
+        <textarea class="plugin-editor" id="plugin-css-editor" placeholder="/* Your CSS here */&#10;body { font-family: Georgia, serif !important; }"></textarea>
+        <div class="plugin-editor-footer">
+          <span class="plugin-hint">Applied to all tabs when enabled.</span>
+          <span class="plugin-status" id="plugin-css-status">Saved</span>
+          <button class="plugin-apply-btn" id="plugin-css-apply">Apply</button>
+        </div>
+      </div>
+    </div>
+    <div class="plugin-section">
+      <div class="plugin-section-hdr">
+        <div class="plugin-section-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 3L1 7l3 4M10 3l3 4-3 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/><path d="M8 2l-2 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg>
+        </div>
+        <div class="plugin-section-info">
+          <div class="plugin-section-name">Custom JS</div>
+          <div class="plugin-section-desc">Run your own JavaScript on every page after it loads</div>
+        </div>
+        <label class="tog"><input type="checkbox" id="plugin-js-enabled"><span class="tog-tr"></span></label>
+      </div>
+      <div class="plugin-section-body">
+        <textarea class="plugin-editor" id="plugin-js-editor" placeholder="// Your JS here&#10;console.log('Lander plugin running');"></textarea>
+        <div class="plugin-editor-footer">
+          <span class="plugin-warning">Only run JS you trust — it executes with full page access.</span>
+          <span class="plugin-status" id="plugin-js-status">Saved</span>
+          <button class="plugin-apply-btn" id="plugin-js-apply">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const{ipcRenderer}=require('electron');
+
+/* ── Extension definitions ─────────────────────────────────────────────── */
+const EXTENSIONS=[
+  {id:'dark-mode',name:'Dark Mode',cat:'appearance',ic:'ic-purple',desc:'Inverts page colours for night reading — preserves images and video',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M17.5 11A6.5 6.5 0 0 1 7 16.8a6.5 6.5 0 0 0 0-11.6A6.5 6.5 0 0 1 17.5 11Z" fill="currentColor" opacity=".6"/><circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.5"/></svg>'},
+  {id:'grayscale',name:'Grayscale',cat:'appearance',ic:'ic-gray',desc:'Strips all colour from pages — great for focus or accessibility',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 9a3 3 0 1 1 3 5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="11" cy="16" r="1" fill="currentColor"/></svg>'},
+  {id:'night-filter',name:'Night Filter',cat:'appearance',ic:'ic-amber',desc:'Warm amber overlay to reduce blue light and eye strain at night',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="4" fill="currentColor" opacity=".5"/><path d="M11 2v2M11 18v2M2 11h2M18 11h2M4.9 4.9l1.4 1.4M15.7 15.7l1.4 1.4M4.9 17.1l1.4-1.4M15.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>'},
+  {id:'no-animations',name:'No Animations',cat:'appearance',ic:'ic-blue',desc:'Kills all CSS animations and transitions site-wide instantly',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="2.5" rx="1.25" fill="currentColor" opacity=".5"/><rect x="3" y="10" width="16" height="2.5" rx="1.25" fill="currentColor" opacity=".3"/><rect x="3" y="15" width="10" height="2.5" rx="1.25" fill="currentColor" opacity=".15"/><circle cx="17" cy="5.5" r="2.8" fill="currentColor"/></svg>'},
+  {id:'font-boost',name:'Font Boost',cat:'appearance',ic:'ic-indigo',desc:'Increases body font size by ~8% and opens up line-height for easier reading',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="2.5" rx="1.25" fill="currentColor" opacity=".5"/><rect x="3" y="10" width="16" height="2.5" rx="1.25" fill="currentColor" opacity=".4"/><rect x="3" y="15" width="11" height="2.5" rx="1.25" fill="currentColor" opacity=".3"/></svg>'},
+  {id:'custom-cursor',name:'Custom Cursor',cat:'appearance',ic:'ic-teal',desc:'Adds a neon teal ring around your cursor for a stylish look',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M5 3l12 8-7 2-3 7-2-17Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="17" cy="11" r="3" stroke="currentColor" stroke-width="1.2" opacity=".4"/></svg>'},
+  {id:'high-contrast',name:'High Contrast',cat:'appearance',ic:'ic-gray',desc:'Boosts contrast across the whole page for easier reading and accessibility',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 3v8h8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".6"/></svg>'},
+  {id:'neon-glow',name:'Neon Glow',cat:'appearance',ic:'ic-teal',desc:'Adds a teal neon glow effect to headings and links for a futuristic look',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M4 11h2M16 11h2M11 4v2M11 16v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".5"/><circle cx="11" cy="11" r="4.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="11" r="1.5" fill="currentColor" opacity=".6"/></svg>'},
+  {id:'serif-mode',name:'Serif Mode',cat:'appearance',ic:'ic-amber',desc:'Switches page text to an elegant serif font for a classic print-like feel',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M5 17V5h3l3 9 3-9h3v12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/><path d="M8 13h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".4"/></svg>'},
+  {id:'focus-mode',name:'Focus Mode',cat:'productivity',ic:'ic-green',desc:'Hides sidebars, banners and distractions — centres article content',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.5" stroke="currentColor" stroke-width="1.3" opacity=".5"/><path d="M11 3v2M11 17v2M3 11h2M17 11h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>'},
+  {id:'reader-mode',name:'Reader Mode',cat:'productivity',ic:'ic-amber',desc:'Strips clutter and reformats articles into a clean, distraction-free dark layout',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.4"/><rect x="6" y="6" width="10" height="4" rx="1" fill="currentColor" opacity=".5"/><rect x="6" y="12" width="10" height="1.5" rx=".75" fill="currentColor" opacity=".3"/><rect x="6" y="15" width="7" height="1.5" rx=".75" fill="currentColor" opacity=".2"/></svg>'},
+  {id:'scroll-progress',name:'Scroll Progress',cat:'productivity',ic:'ic-teal',desc:'Thin progress bar at the top shows how far through a page you\'ve scrolled',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="2" y="18" width="18" height="2.5" rx="1" fill="currentColor" opacity=".4"/><rect x="2" y="2" width="18" height="2.5" rx="1" fill="currentColor" opacity=".15"/><path d="M11 5v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".7"/></svg>'},
+  {id:'word-count',name:'Word Count',cat:'productivity',ic:'ic-green',desc:'Shows word count and estimated reading time in a subtle corner badge',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M4 11h14M4 7h14M4 15h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".6"/><circle cx="17" cy="15" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M17 14v2M16 15h2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>'},
+  {id:'smooth-scroll',name:'Smooth Scroll',cat:'productivity',ic:'ic-blue',desc:'Enables silky smooth CSS scroll behaviour on all pages',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M11 4v14M7 14l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 8l4-4 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".4"/></svg>'},
+  {id:'smart-copy',name:'Smart Copy',cat:'productivity',ic:'ic-indigo',desc:'Strips rich formatting when copying — always pastes as clean plain text',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="8" y="3" width="11" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M5 6H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/></svg>'},
+  {id:'hide-comments',name:'Hide Comments',cat:'productivity',ic:'ic-red',desc:'Collapses comment sections on news sites, Reddit and blogs',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M3 6h16M3 10h10M3 14h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/><line x1="16" y1="16" x2="22" y2="10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="16" y1="10" x2="22" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>'},
+  {id:'link-preview',name:'Link Preview',cat:'productivity',ic:'ic-teal',desc:'Shows full destination URL in a bottom bar when hovering over any link',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M11 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="1.3" opacity=".6"/></svg>'},
+  {id:'sticky-notes',name:'Sticky Notes',cat:'productivity',ic:'ic-amber',desc:'Floating draggable notepad that stays on top of any page',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6 8h8M6 12h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".5"/></svg>'},
+  {id:'page-zoom',name:'Page Zoom',cat:'productivity',ic:'ic-indigo',desc:'Floating + / − controls to zoom in and out on any page',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M13.5 13.5L19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 9h4M9 7v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".6"/></svg>'},
+  {id:'scroll-top',name:'Scroll To Top',cat:'productivity',ic:'ic-teal',desc:'Floating back-to-top button appears after scrolling down any page',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.4"/><path d="M7 12l4-4 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'},
+  {id:'code-highlight',name:'Code Highlight',cat:'productivity',ic:'ic-green',desc:'Visually styles all code and pre blocks with teal highlighting and monospace font',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M7 7l-4 4 4 4M15 7l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/><path d="M13 5l-4 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".45"/></svg>'},
+  {id:'distraction-block',name:'Distraction Block',cat:'productivity',ic:'ic-red',desc:'Hides cookie banners, popups, newsletter modals and other page interruptions',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.4"/><line x1="7" y1="7" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="15" y1="7" x2="7" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'},
+  {id:'anti-tracking',name:'Anti Tracking',cat:'privacy',ic:'ic-gray',desc:'Hides invisible 1×1 tracking pixels that spy on page visits',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M3 7h16M3 11h16M3 15h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/><circle cx="18" cy="15" r="3.5" fill="currentColor" opacity=".12" stroke="currentColor" stroke-width="1.3"/></svg>'},
+  {id:'print-clean',name:'Print Clean',cat:'privacy',ic:'ic-indigo',desc:'Strips ads, navbars and sidebars when printing or saving as PDF',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 8h10M6 12h10M6 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".5"/></svg>'},
+  {id:'url-cleaner',name:'URL Cleaner',cat:'privacy',ic:'ic-purple',desc:'Silently strips UTM, fbclid, gclid and other tracking parameters from URLs',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M7 5h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>'},
+  {id:'low-data',name:'Low Data Mode',cat:'privacy',ic:'ic-green',desc:'Hides all images and videos to save bandwidth and speed up pages',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M3 19l6-6M3 12l8-8M10 19l9-9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/><circle cx="17" cy="5" r="3" stroke="currentColor" stroke-width="1.3" opacity=".7"/></svg>'},
+  {id:'video-speed',name:'Video Speed',cat:'media',ic:'ic-orange',desc:'Floating speed control on every video — click to cycle 0.25×–3×',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><polygon points="9,5.5 18,11 9,16.5" fill="currentColor" opacity=".5"/><line x1="4" y1="5" x2="4" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="7" y1="5" x2="7" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'},
+  {id:'image-zoom',name:'Image Zoom',cat:'media',ic:'ic-pink',desc:'Click any image to expand it fullscreen — click again to dismiss',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="11" r="4" stroke="currentColor" stroke-width="1.3" opacity=".6"/><path d="M14.5 14.5L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'},
+  {id:'highlight-links',name:'Highlight Links',cat:'media',ic:'ic-teal',desc:'Underlines all links in teal so they\'re always easy to spot',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M4 11s1.5-5 7-5 7 5 7 5-1.5 5-7 5-7-5-7-5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="11" cy="11" r="2.5" fill="currentColor" opacity=".5"/></svg>'},
+  {id:'auto-scroll',name:'Auto Scroll',cat:'media',ic:'ic-orange',desc:'Floating button to auto-scroll down — great for articles and feeds',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M11 3v16M6 14l5 5 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'},
+  {id:'pip-mode',name:'PiP Mode',cat:'media',ic:'ic-blue',desc:'Pops the page video into a floating picture-in-picture window',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="10" width="8" height="6" rx="1.5" fill="currentColor" opacity=".45"/></svg>'},
+  {id:'yt-ad',name:'YouTube Ad Skip',cat:'media',ic:'ic-red',desc:'Automatically skips and mutes YouTube ads — restores your volume and playback speed after each ad',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none"><path d="M4 6.5C4 5.12 5.12 4 6.5 4h9C16.88 4 18 5.12 18 6.5v9c0 1.38-1.12 2.5-2.5 2.5h-9C5.12 18 4 16.88 4 15.5v-9Z" stroke="currentColor" stroke-width="1.4"/><polygon points="9.5,8.5 14.5,11 9.5,13.5" fill="currentColor" opacity=".65"/></svg>'},
+  {id:'bug-cursor',name:'Bug Cursor',cat:'fun',ic:'ic-green',desc:'A little ladybug follows your cursor around the page',badge:'NEW',svg:'<svg width="16" height="16" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="11" cy="14" rx="5" ry="6"/><path d="M7 11.5H3.5M16.5 11.5H20"/></svg>'},
+];
+
+let extState={};
+
+function renderGrid(){
+  const grid=document.getElementById('ext-grid');
+  const search=document.getElementById('ext-search').value.trim().toLowerCase();
+  const activeCat=document.querySelector('.ext-cat.active')?.dataset.cat||'all';
+  let shown=0;
+  grid.innerHTML=EXTENSIONS.map(e=>{
+    const matchCat=activeCat==='all'||e.cat===activeCat;
+    const matchSearch=!search||e.name.toLowerCase().includes(search)||e.desc.toLowerCase().includes(search)||e.cat.toLowerCase().includes(search);
+    if(!matchCat||!matchSearch)return '';
+    shown++;
+    const on=!!extState[e.id];
+    const badge=e.badge?`<span class="ext-badge-new">${e.badge}</span>`:'';
+    return `<div class="ext-card${on?' active':''}" data-ext="${e.id}" data-cat="${e.cat}">
+      <div class="ext-card-top">
+        <div class="ext-card-icon ${e.ic}">${e.svg}</div>
+        <div class="ext-card-meta"><div class="ext-card-name">${e.name}</div><div class="ext-card-cat">${e.cat.charAt(0).toUpperCase()+e.cat.slice(1)} ${badge}</div></div>
+      </div>
+      <div class="ext-card-desc">${e.desc}</div>
+      <div class="ext-card-footer">
+        <span class="ext-card-status">${on?'Active':'Inactive'}</span>
+        <label class="tog"><input type="checkbox" class="ext-tog" data-ext="${e.id}" ${on?'checked':''}><span class="tog-tr"></span></label>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('ext-no-results').style.display=shown?'none':'block';
+
+  // Featured button state
+  const fb=document.getElementById('ext-featured-btn');
+  const fid=document.getElementById('ext-featured')?.dataset.ext;
+  if(fb&&fid){
+    const fOn=!!extState[fid];
+    fb.textContent=fOn?'Disable':'Enable';
+    fb.classList.toggle('on',fOn);
+  }
+
+  // Wire toggles
+  grid.querySelectorAll('.ext-tog').forEach(tog=>{
+    tog.addEventListener('change',function(){
+      extState[this.dataset.ext]=this.checked;
+      ipcRenderer.send('ext:toggle',{ext:this.dataset.ext,on:this.checked});
+      renderGrid();
+    });
+  });
+}
+
+// Init — get current settings
+ipcRenderer.invoke('init').then(data=>{
+  extState=data.settings?.extensions||{};
+  renderGrid();
+});
+
+// Category filter
+document.getElementById('ext-cats').addEventListener('click',e=>{
+  const btn=e.target.closest('.ext-cat');
+  if(!btn)return;
+  document.querySelectorAll('.ext-cat').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+});
+
+// Search
+document.getElementById('ext-search').addEventListener('input',()=>renderGrid());
+
+// Featured button
+document.getElementById('ext-featured-btn').addEventListener('click',()=>{
+  const fid=document.getElementById('ext-featured')?.dataset.ext;
+  if(!fid)return;
+  extState[fid]=!extState[fid];
+  ipcRenderer.send('ext:toggle',{ext:fid,on:extState[fid]});
+  renderGrid();
+});
+
+// Tab switching
+document.getElementById('mp-tabs').addEventListener('click',e=>{
+  const tab=e.target.closest('.mp-tab');
+  if(!tab)return;
+  document.querySelectorAll('.mp-tab').forEach(t=>t.classList.remove('on'));
+  tab.classList.add('on');
+  document.getElementById('mp-ext-tab').style.display=tab.dataset.tab==='extensions'?'':'none';
+  document.getElementById('mp-theme-tab').style.display=tab.dataset.tab==='themes'?'':'none';
+  document.getElementById('mp-plugin-tab').style.display=tab.dataset.tab==='plugins'?'':'none';
+});
+
+// Listen for ext toggle sync from main
+ipcRenderer.on('ext:toggle-sync',(_,{ext,on})=>{
+  extState[ext]=on;
+  renderGrid();
+});
+
+// Theme sync
+ipcRenderer.on('popup:theme',(_,t)=>{
+  if(!t)return;
+  const s=document.documentElement.style;
+  Object.entries(t).forEach(([k,v])=>{if(v)s.setProperty('--'+k.replace(/([A-Z])/g,'-$1').toLowerCase(),v)});
+});
+
+// Plugin handlers
+const pluginCssEditor=document.getElementById('plugin-css-editor');
+const pluginJsEditor=document.getElementById('plugin-js-editor');
+const pluginCssEnabled=document.getElementById('plugin-css-enabled');
+const pluginJsEnabled=document.getElementById('plugin-js-enabled');
+
+if(pluginCssEnabled){
+  pluginCssEnabled.addEventListener('change',function(){
+    ipcRenderer.send('settings:set',{pluginCssEnabled:this.checked});
+  });
+}
+if(pluginJsEnabled){
+  pluginJsEnabled.addEventListener('change',function(){
+    ipcRenderer.send('settings:set',{pluginJsEnabled:this.checked});
+  });
+}
+document.getElementById('plugin-css-apply')?.addEventListener('click',()=>{
+  ipcRenderer.send('settings:set',{pluginCss:pluginCssEditor.value,pluginCssEnabled:pluginCssEnabled.checked});
+  flash('plugin-css-status');
+});
+document.getElementById('plugin-js-apply')?.addEventListener('click',()=>{
+  ipcRenderer.send('settings:set',{pluginJs:pluginJsEditor.value,pluginJsEnabled:pluginJsEnabled.checked});
+  flash('plugin-js-status');
+});
+
+function flash(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.classList.add('flash');
+  setTimeout(()=>el.classList.remove('flash'),1200);
+}
+</script>
+</body>
+</html>

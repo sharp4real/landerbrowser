@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Poison Data</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#282828;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;--acc-f:rgba(255,255,255,.07);
+  --ylw:#fbbf24;--red:#f87171;--grn:#22c55e;
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:320px;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes popupSlideIn{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+.card{background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);overflow:hidden;box-shadow:none;display:flex;flex-direction:column;animation:popupSlideIn .22s cubic-bezier(.22,1,.36,1) both;backdrop-filter:blur(2px);}
+.card-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;background:var(--bg2);border-bottom:1px solid var(--ln);-webkit-app-region:drag;cursor:grab;flex-shrink:0;border-radius:14px 14px 0 0;}
+.card-hdr *{-webkit-app-region:no-drag;}
+.card-hdr-ico{width:28px;height:28px;border-radius:8px;background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);display:flex;align-items:center;justify-content:center;color:var(--acc);transition:background .15s;}
+.card-title{flex:1;font-size:12px;font-weight:700;color:var(--t0);letter-spacing:-.01em;}
+.card-body{overflow-y:auto;overflow-x:hidden;max-height:520px;}
+.card-body::-webkit-scrollbar{width:3px;}
+.card-body::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+
+/* Toggle */
+.tog{display:inline-flex;align-items:center;cursor:pointer;}
+.tog input{display:none;}
+.tog-tr{width:32px;height:18px;background:var(--bg5);border-radius:10px;border:1px solid var(--ln2);position:relative;transition:background .2s,border-color .2s;}
+.tog-tr::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--t3);border-radius:50%;transition:transform .2s,background .2s;}
+.tog input:checked+.tog-tr{background:rgba(var(--acc-raw),.25);border-color:rgba(var(--acc-raw),.4);}
+.tog input:checked+.tog-tr::after{transform:translateX(14px);background:var(--acc);}
+
+/* Poison styles */
+.poison-tog-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;}
+.poison-tog-lbl{font-size:11.5px;font-weight:500;color:var(--t1);}
+.poison-tog-lbl.with-sub{display:flex;flex-direction:column;gap:2px;}
+.poison-tog-sub{font-size:10px;color:var(--t3);font-weight:400;}
+.poison-status{margin:0 10px 10px;padding:9px 12px;border-radius:7px;background:var(--bg3);border:1px solid var(--ln);}
+.poison-status.on{border-color:rgba(var(--acc-raw),.3);background:var(--acc-f);}
+.poison-st-lbl{font-size:10.5px;color:var(--t2);}
+.poison-st-val{font-size:11.5px;font-weight:500;color:var(--t0);margin-top:2px;}
+.poison-personas{padding:0 10px 8px;display:flex;flex-direction:column;gap:4px;}
+.persona-card{padding:10px 12px;border-radius:8px;border:1px solid var(--ln);cursor:pointer;transition:all .15s;}
+.persona-card:hover{border-color:rgba(var(--acc-raw),.3);background:var(--acc-f);}
+.persona-card.selected{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.03);}
+.persona-card.active{border-color:var(--acc);background:var(--acc-f);box-shadow:0 0 0 1px rgba(var(--acc-raw),.2);}
+.persona-name{font-size:12px;font-weight:500;color:var(--t0);display:flex;align-items:center;gap:5px;}
+.persona-card-del{margin-left:auto;width:16px;height:16px;border:none;background:transparent;color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:13px;padding:0;transition:color .1s;}
+.persona-card-del:hover{color:var(--red);}
+.persona-desc{font-size:10.5px;color:var(--t2);margin-top:2px;line-height:1.5;}
+.persona-custom-wrap{border-top:1px solid var(--ln);padding:8px 10px 10px;position:relative;overflow:visible;}
+.persona-create-btn{width:100%;height:30px;background:var(--acc-f);border:1px solid var(--ln2);border-radius:8px;color:var(--t2);font-family:var(--f);font-size:11.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .13s,border-color .13s;}
+.persona-create-btn:hover{background:rgba(var(--acc-raw),.12);border-color:rgba(var(--acc-raw),.22);}
+.persona-popup{position:absolute;left:8px;right:8px;background:var(--bg1);border:1px solid var(--ln2);border-radius:12px;padding:14px;z-index:9999;display:flex;flex-direction:column;gap:0;box-shadow:0 16px 48px rgba(0,0,0,.65);}
+.persona-popup-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.persona-popup-title{font-size:12.5px;font-weight:700;color:var(--t0);}
+.persona-popup-close{width:22px;height:22px;border:none;background:var(--bg3);cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:13px;transition:background .1s;padding:0;}
+.persona-popup-close:hover{background:rgba(255,80,80,.15);color:#f87171;}
+.persona-popup-label{font-size:10.5px;font-weight:600;color:var(--t3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;}
+.persona-popup-field{display:flex;flex-direction:column;margin-bottom:10px;}
+.persona-custom-inp,.persona-custom-kw{width:100%;background:var(--bg3);border:1px solid var(--ln2);border-radius:7px;padding:6px 10px;color:var(--t0);font-family:var(--f);font-size:12px;outline:none;}
+.persona-custom-inp:focus,.persona-custom-kw:focus{border-color:rgba(var(--acc-raw),.35);}
+.persona-custom-kw{resize:none;height:70px;line-height:1.5;}
+.persona-custom-save{width:100%;height:32px;background:var(--acc-f);border:1px solid rgba(var(--acc-raw),.2);border-radius:8px;color:var(--acc);font-family:var(--f);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .13s;}
+.persona-custom-save:hover{background:rgba(var(--acc-raw),.15);}
+
+/* Toast */
+.toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;padding:7px 14px;font-size:11.5px;color:var(--t1);white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:99999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.teal{color:var(--acc);}
+.toast.err{color:var(--red);}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-hdr">
+    <div class="card-hdr-ico">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3.5 1v11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M3.5 1.5l6 2-6 2.5" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round"/><path d="M2 12h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <span class="card-title">Poison Data</span>
+  </div>
+  <div class="card-body">
+    <div class="poison-tog-row">
+      <span class="poison-tog-lbl">Confuse ad profiles with garbage</span>
+      <label class="tog"><input type="checkbox" id="tog-poison"><span class="tog-tr"></span></label>
+    </div>
+    <div class="poison-tog-row" style="border-top:1px solid var(--ln);padding-top:8px">
+      <span class="poison-tog-lbl with-sub">
+        <span>Poison Cookies &amp; Storage</span>
+        <span class="poison-tog-sub">Inject persona data into active tab's cookies &amp; localStorage</span>
+      </span>
+      <label class="tog"><input type="checkbox" id="tog-poison-cookies"><span class="tog-tr"></span></label>
+    </div>
+    <div class="poison-status" id="poison-status">
+      <div class="poison-st-lbl">Active persona</div>
+      <div class="poison-st-val" id="poison-persona-name">None — pick below</div>
+    </div>
+    <div class="poison-personas" id="preset-personas"></div>
+    <div class="persona-custom-wrap">
+      <button class="persona-create-btn" id="persona-create-btn">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Create Persona
+      </button>
+      <div class="persona-popup" id="persona-popup" style="display:none;bottom:38px">
+        <div class="persona-popup-hd">
+          <span class="persona-popup-title">Create Persona</span>
+          <button class="persona-popup-close" id="persona-popup-close">&#x2715;</button>
+        </div>
+        <div class="persona-popup-field">
+          <div class="persona-popup-label">Name</div>
+          <input class="persona-custom-inp" id="custom-name-inp" placeholder="e.g. Gaming, Work, Shopping…" maxlength="28" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="persona-popup-field">
+          <div class="persona-popup-label">Interests <span style="font-weight:400;opacity:.6;text-transform:none;letter-spacing:0">(one per line)</span></div>
+          <textarea class="persona-custom-kw" id="custom-kw-inp" placeholder="gaming&#10;sneakers&#10;anime" spellcheck="false"></textarea>
+        </div>
+        <button class="persona-custom-save" id="custom-save-btn">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="margin-right:4px"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Create Persona
+        </button>
+      </div>
+    </div>
+    <div id="custom-personas" class="poison-personas" style="padding-top:0;padding-bottom:4px"></div>
+  </div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+
+const PERSONAS = {
+  boomer:  { name:'Retiree',     interests:['golf','retirement','cruise','Florida','news','medicare','supplements','senior living'] },
+  teen:    { name:'Gamer',        interests:['gaming','anime','sneakers','energy drink','twitch','pokemon','gaming gear'] },
+  parent:  { name:'Parent',       interests:['school','family vacation','baby','meal kit','safety','minivan','parenting'] },
+  techbro: { name:'Developer',    interests:['startup','ai tools','saas','productivity','cold brew','open source','dev tools'] },
+  prepper: { name:'Prepper',      interests:['emergency supplies','off-grid','survival','homestead','freeze dried food','water purification'] },
+  luxury:  { name:'High Earner',  interests:['designer','yacht','private jet','rolex','5-star hotel','champagne','first class'] },
+};
+
+const PRESET_ICONS = {
+  boomer: '<path d="M3.5 1v11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M3.5 1.5l6 2-6 2.5" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round"/><path d="M2 12h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',
+  teen: '<rect x="1.5" y="4" width="10" height="5.5" rx="2" stroke="currentColor" stroke-width="1.15"/><path d="M4.5 6.75h2M5.5 5.75v2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><circle cx="8.5" cy="6" r=".7" fill="currentColor"/><circle cx="9.5" cy="7.5" r=".7" fill="currentColor"/>',
+  parent: '<path d="M1.5 6.5L6.5 1.5l5 5V12H8.5V9h-3v3H1.5V6.5Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/>',
+  techbro: '<path d="M3.5 4.5L1.5 6.5l2 2M9.5 4.5l2 2-2 2M7 3l-1.5 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>',
+  prepper: '<path d="M6.5 1L2 3v3.5C2 9.3 4 11.2 6.5 12c2.5-.8 4.5-2.7 4.5-5.5V3L6.5 1Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/><path d="M4.5 6.5l1.5 1.5 2.5-3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>',
+  luxury: '<path d="M6.5 11L1.5 5.5 3 2h7l1.5 3.5L6.5 11Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/><path d="M1.5 5.5h10M3 2l1.5 3.5M10 2L8.5 5.5" stroke="currentColor" stroke-width="1.05" stroke-linecap="round"/>',
+};
+
+let _poisonActive = false;
+let _poisonPersona = null;
+let _poisonCookies = false;
+let _poisonInterval = null;
+
+function _loadCustom() { try { return JSON.parse(localStorage.getItem('raw-custom-personas')||'[]'); } catch { return []; } }
+function _saveCustom() {
+  const arr = Object.entries(PERSONAS).filter(([,v])=>v.custom).map(([k,v])=>({key:k,name:v.name,interests:v.interests}));
+  try { localStorage.setItem('raw-custom-personas', JSON.stringify(arr)); } catch {}
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function toast(msg, cls='') {
+  const d = document.createElement('div');
+  d.className = 'toast' + (cls ? ' ' + cls : '');
+  d.textContent = msg;
+  document.body.appendChild(d);
+  requestAnimationFrame(() => d.classList.add('show'));
+  setTimeout(() => { d.classList.remove('show'); setTimeout(() => d.remove(), 300); }, 2400);
+}
+
+function updateUI() {
+  const togPoison = document.getElementById('tog-poison');
+  const nameEl = document.getElementById('poison-persona-name');
+  const statusEl = document.getElementById('poison-status');
+  if (togPoison) togPoison.checked = _poisonActive;
+  const p = _poisonPersona ? PERSONAS[_poisonPersona] : null;
+  if (nameEl) nameEl.textContent = p ? p.name : 'None — pick below';
+  if (statusEl) statusEl.classList.toggle('on', _poisonActive && !!p);
+  renderPresets();
+  renderCustom();
+}
+
+function renderPresets() {
+  const c = document.getElementById('preset-personas');
+  if (!c) return;
+  c.innerHTML = Object.entries(PERSONAS).filter(([,v])=>!v.custom).map(([k,v]) => {
+    const isActive = _poisonActive && _poisonPersona === k;
+    const isSel = !_poisonActive && _poisonPersona === k;
+    const ico = PRESET_ICONS[k] || '';
+    return `<div class="persona-card${isActive?' active':isSel?' selected':''}" data-persona="${k}">
+      <div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7">${ico}</svg>${esc(v.name)}</div>
+      <div class="persona-desc">${esc(v.interests.slice(0,4).join(', '))}</div>
+    </div>`;
+  }).join('');
+  c.querySelectorAll('.persona-card').forEach(card => card.addEventListener('click', () => {
+    _poisonPersona = card.dataset.persona;
+    _saveState(); updateUI();
+    if (_poisonActive) _startPoisoning();
+    toast('Persona: ' + PERSONAS[_poisonPersona].name);
+  }));
+}
+
+function renderCustom() {
+  const c = document.getElementById('custom-personas');
+  if (!c) return;
+  const keys = Object.keys(PERSONAS).filter(k=>PERSONAS[k].custom);
+  if (!keys.length) { c.innerHTML = ''; return; }
+  c.innerHTML = keys.map(k => {
+    const p = PERSONAS[k];
+    const isActive = _poisonActive && _poisonPersona === k;
+    const isSel = !_poisonActive && _poisonPersona === k;
+    const icoSvg = '<svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><circle cx="6.5" cy="4" r="2" stroke="currentColor" stroke-width="1.15"/><path d="M2 12c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"/></svg>';
+    return `<div class="persona-card${isActive?' active':isSel?' selected':''}" data-persona="${k}">
+      <div class="persona-name">${icoSvg}${esc(p.name)}<button class="persona-card-del" data-key="${k}" title="Delete">×</button></div>
+      <div class="persona-desc">${esc(p.interests.slice(0,4).join(', '))}</div>
+    </div>`;
+  }).join('');
+  c.querySelectorAll('.persona-card').forEach(card => card.addEventListener('click', e => {
+    if (e.target.closest('.persona-card-del')) return;
+    _poisonPersona = card.dataset.persona; _saveState(); updateUI();
+    if (_poisonActive) _startPoisoning();
+    toast('Persona: ' + PERSONAS[_poisonPersona].name);
+  }));
+  c.querySelectorAll('.persona-card-del').forEach(btn => btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const k = btn.dataset.key;
+    if (_poisonPersona === k) { _poisonPersona = null; _saveState(); updateUI(); }
+    delete PERSONAS[k]; _saveCustom(); renderCustom();
+  }));
+}
+
+function _startPoisoning() {
+  _stopPoisoning();
+  if (!_poisonPersona) return;
+  const p = PERSONAS[_poisonPersona];
+  const tick = () => {
+    if (!_poisonActive) { _stopPoisoning(); return; }
+    const kw = p.interests[Math.floor(Math.random() * p.interests.length)];
+    ipcRenderer.send('poison:signal', { keyword: kw, persona: _poisonPersona });
+    if (_poisonCookies) ipcRenderer.send('poison:inject-cookies', { keyword: kw, interests: p.interests });
+  };
+  tick();
+  _poisonInterval = setInterval(tick, 40000 + Math.random() * 50000);
+}
+
+function _stopPoisoning() {
+  if (_poisonInterval) { clearInterval(_poisonInterval); _poisonInterval = null; }
+}
+
+function _saveState() {
+  try { localStorage.setItem('raw-poison', JSON.stringify({ persona: _poisonPersona })); } catch {}
+}
+
+function _loadState() {
+  try { const p = JSON.parse(localStorage.getItem('raw-poison')||'{}'); _poisonPersona = p.persona || null; } catch {}
+}
+
+// Load saved custom personas
+_loadCustom().forEach(p => { PERSONAS[p.key] = { name: p.name, interests: p.interests, custom: true }; });
+_loadState();
+updateUI();
+
+document.getElementById('tog-poison')?.addEventListener('change', function() {
+  if (this.checked && !_poisonPersona) { toast('Select a persona first', 'err'); this.checked = false; return; }
+  _poisonActive = this.checked;
+  if (_poisonActive) { _startPoisoning(); toast('Poisoning as ' + PERSONAS[_poisonPersona].name, 'teal'); }
+  else { _stopPoisoning(); toast('Poison disabled'); }
+  _saveState(); updateUI();
+});
+
+document.getElementById('tog-poison-cookies')?.addEventListener('change', function() {
+  _poisonCookies = this.checked;
+  if (_poisonCookies && _poisonActive && _poisonPersona) {
+    const p = PERSONAS[_poisonPersona];
+    const kw = p.interests[Math.floor(Math.random() * p.interests.length)];
+    ipcRenderer.send('poison:inject-cookies', { keyword: kw, interests: p.interests });
+    toast('Cookie poisoning active', 'teal');
+  }
+});
+
+// Custom persona popup
+document.getElementById('persona-create-btn')?.addEventListener('click', () => {
+  const popup = document.getElementById('persona-popup');
+  if (popup) popup.style.display = popup.style.display === 'none' ? '' : 'none';
+});
+document.getElementById('persona-popup-close')?.addEventListener('click', () => {
+  const popup = document.getElementById('persona-popup');
+  if (popup) popup.style.display = 'none';
+});
+document.getElementById('custom-save-btn')?.addEventListener('click', () => {
+  const name = (document.getElementById('custom-name-inp')?.value || '').trim();
+  const raw  = document.getElementById('custom-kw-inp')?.value || '';
+  const kws  = raw.split('\n').map(s => s.trim()).filter(Boolean);
+  if (!name) { toast('Enter a persona name', 'err'); return; }
+  if (!kws.length) { toast('Add at least one keyword', 'err'); return; }
+  const key = 'custom_' + Date.now();
+  PERSONAS[key] = { name, interests: kws, custom: true };
+  _saveCustom(); renderCustom();
+  const popup = document.getElementById('persona-popup');
+  if (popup) popup.style.display = 'none';
+  if (document.getElementById('custom-name-inp')) document.getElementById('custom-name-inp').value = '';
+  if (document.getElementById('custom-kw-inp')) document.getElementById('custom-kw-inp').value = '';
+  toast('Persona "' + name + '" created', 'teal');
+});
+</script>
+</body>
+</html>

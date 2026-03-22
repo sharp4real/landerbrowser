@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Connection — Lander Browser</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg0:  #080808;
+      --bg1:  #0c0c0c;
+      --bg2:  #111111;
+      --bg3:  #181818;
+      --bg4:  #202020;
+      --ln:   rgba(255,255,255,.06);
+      --ln2:  rgba(255,255,255,.10);
+      --t0:   rgba(255,255,255,.92);
+      --t1:   rgba(255,255,255,.65);
+      --t2:   rgba(255,255,255,.35);
+      --t3:   rgba(255,255,255,.15);
+      --acc:  #00d4c8;
+      --acc2: #00bdb0;
+      --acc-raw: 0,212,200;
+      --f: 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color-scheme: dark;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--bg0);
+      font-family: var(--f);
+      color: var(--t0);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      /* Subtle radial halo */
+      background:
+        radial-gradient(ellipse 60% 45% at 50% 40%, rgba(var(--acc-raw),.05) 0%, transparent 65%),
+        var(--bg0);
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 380px;
+      width: 100%;
+      gap: 0;
+    }
+
+    /* ── Icon ─────────────────────────────────────────── */
+    .icon-wrap {
+      position: relative;
+      width: 88px; height: 88px;
+      margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-ring {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(var(--acc-raw),.14);
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+    .icon-ring-sm {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(var(--acc-raw),.08);
+      animation: ringPulse 3s ease-in-out infinite .5s;
+    }
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(1); opacity: .7; }
+      50% { transform: scale(1.06); opacity: .25; }
+    }
+    .icon-circle {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(var(--acc-raw),.06);
+      border: 1px solid rgba(var(--acc-raw),.18);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(var(--acc-raw),.55);
+      position: relative; z-index: 1;
+    }
+
+    /* ── Text ─────────────────────────────────────────── */
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--t0);
+      letter-spacing: -.03em;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      font-size: 13.5px;
+      color: var(--t2);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      max-width: 300px;
+    }
+
+    /* ── URL chip ─────────────────────────────────────── */
+    .url-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px;
+      background: var(--bg2);
+      border: 1px solid var(--ln);
+      border-radius: 20px;
+      font-size: 11.5px; color: var(--t2);
+      margin-bottom: 28px;
+      max-width: 100%; overflow: hidden;
+    }
+    .url-chip span {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* ── Retry button ─────────────────────────────────── */
+    .btn-retry {
+      height: 42px;
+      padding: 0 28px;
+      background: rgba(var(--acc-raw),.1);
+      border: 1px solid rgba(var(--acc-raw),.28);
+      color: var(--acc);
+      font-family: var(--f);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      transition: background .15s, border-color .15s, transform .1s;
+      letter-spacing: -.01em;
+    }
+    .btn-retry:hover {
+      background: rgba(var(--acc-raw),.18);
+      border-color: rgba(var(--acc-raw),.45);
+    }
+    .btn-retry:active { transform: scale(.96); }
+    .btn-retry .spin {
+      width: 13px; height: 13px;
+      border: 1.5px solid rgba(var(--acc-raw),.3);
+      border-top-color: var(--acc);
+      border-radius: 50%;
+      display: none;
+      animation: spin .65s linear infinite;
+    }
+    .btn-retry.checking .btn-retry-icon { display: none; }
+    .btn-retry.checking .spin { display: block; }
+    .btn-retry.checking { pointer-events: none; opacity: .75; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Status ───────────────────────────────────────── */
+    .status {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--t3);
+      min-height: 18px;
+      transition: color .2s;
+    }
+    .status.err { color: rgba(255,95,87,.7); }
+
+    /* ── Tips ─────────────────────────────────────────── */
+    .tips {
+      margin-top: 32px;
+      display: flex; flex-direction: column; gap: 8px;
+      width: 100%;
+    }
+    .tip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      background: var(--bg2);
+      border: 1px solid var(--ln);
+      border-radius: 10px;
+      font-size: 12px; color: var(--t2);
+      text-align: left;
+    }
+    .tip svg { color: var(--t3); flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="icon-wrap">
+      <div class="icon-ring"></div>
+      <div class="icon-ring-sm"></div>
+      <div class="icon-circle">
+        <!-- Disconnected wifi / no-network icon -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <!-- Wifi arcs with slash through them -->
+          <path d="M4 12C7.6 8.5 12.6 6.5 16 6.5C19.4 6.5 24.4 8.5 28 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/>
+          <path d="M7.5 15.5C10 13 12.9 11.7 16 11.7C19.1 11.7 22 13 24.5 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+          <path d="M11 19C12.5 17.5 14.1 16.7 16 16.7C17.9 16.7 19.5 17.5 21 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+          <circle cx="16" cy="23" r="1.5" fill="currentColor"/>
+          <!-- Diagonal slash -->
+          <path d="M5 5L27 27" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="title">No Internet Connection</div>
+    <div class="subtitle">Lander Browser can't load this page. Check your network connection and try again.</div>
+
+    <div class="url-chip" id="url-chip" style="display:none">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+        <path d="M4.5 1.5H2.5A1 1 0 0 0 1.5 2.5V7.5A1 1 0 0 0 2.5 8.5H7.5A1 1 0 0 0 8.5 7.5V5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M6 1.5H8.5M8.5 1.5V4M8.5 1.5L5 5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span id="url-text"></span>
+    </div>
+
+    <button class="btn-retry" id="btn-retry" onclick="retry()">
+      <svg class="btn-retry-icon" width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M2 6.5A4.5 4.5 0 0 1 10 3.7M10 3.7V1.5M10 3.7H7.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11 6.5A4.5 4.5 0 0 1 3 9.3M3 9.3v2.2M3 9.3H5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="spin"></div>
+      Try Again
+    </button>
+    <div class="status" id="status"></div>
+
+    <div class="tips">
+      <div class="tip">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.1"/>
+          <path d="M4 6.5l2 2 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Check that Wi-Fi or Ethernet is connected
+      </div>
+      <div class="tip">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.1"/>
+          <path d="M6.5 4v2.5l1.5 1.2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Try again in a few moments if the issue is temporary
+      </div>
+      <div class="tip">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <path d="M6.5 1.5L2 4v3.5c0 3 2 4.5 4.5 5 2.5-.5 4.5-2 4.5-5V4L6.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        </svg>
+        If using a VPN or proxy, try disabling it
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Show the URL that failed to load
+    const params = new URLSearchParams(window.location.search);
+    const originalUrl = params.get('url') || '';
+    if (originalUrl) {
+      const chip = document.getElementById('url-chip');
+      const text = document.getElementById('url-text');
+      chip.style.display = 'inline-flex';
+      try {
+        const u = new URL(originalUrl);
+        text.textContent = u.hostname + (u.pathname !== '/' ? u.pathname.slice(0, 40) : '');
+      } catch {
+        text.textContent = originalUrl.slice(0, 50);
+      }
+    }
+
+    async function retry() {
+      const btn    = document.getElementById('btn-retry');
+      const status = document.getElementById('status');
+      btn.classList.add('checking');
+      status.className = 'status';
+      status.textContent = 'Checking connection…';
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        const response = await fetch('https://dns.google/resolve?name=google.com', {
+          signal: controller.signal,
+          cache: 'no-store'
+        });
+        clearTimeout(timeout);
+
+        if (response.ok) {
+          status.textContent = 'Connection restored — reloading…';
+          setTimeout(() => {
+            window.location.href = originalUrl || 'about:blank';
+          }, 400);
+        } else {
+          throw new Error('not ok');
+        }
+      } catch {
+        btn.classList.remove('checking');
+        status.className = 'status err';
+        status.textContent = 'Still offline. Check your connection and try again.';
+      }
+    }
+  </script>
+</body>
+</html>

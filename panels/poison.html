@@ -1,0 +1,54 @@
+<div class="panel-head"><span class="panel-title">Poison Data</span></div>
+<div class="poison-scroll">
+  <div class="poison-tog-row">
+    <span class="poison-tog-lbl">Confuse ad profiles with garbage</span>
+    <label class="tog"><input type="checkbox" id="tog-poison"><span class="tog-tr"></span></label>
+  </div>
+  <div class="poison-tog-row" style="border-top:1px solid var(--ln);padding-top:8px">
+    <span class="poison-tog-lbl" style="display:flex;flex-direction:column;gap:2px">
+      <span>Poison Cookies &amp; Storage</span>
+      <span style="font-size:10px;color:var(--t3);font-weight:400">Inject persona data into active tab's cookies &amp; localStorage</span>
+    </span>
+    <label class="tog"><input type="checkbox" id="tog-poison-cookies"><span class="tog-tr"></span></label>
+  </div>
+  <div class="poison-status" id="poison-status">
+    <div class="poison-st-lbl">Active persona</div>
+    <div class="poison-st-val" id="poison-persona-name">None — pick below</div>
+  </div>
+  <div class="poison-personas">
+    <div class="persona-card" data-persona="boomer"><div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><path d="M3.5 1v11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M3.5 1.5l6 2-6 2.5" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round" stroke-linecap="round"/><path d="M2 12h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Retiree</div><div class="persona-desc">Golf, cruises, news, retirement communities</div></div>
+    <div class="persona-card" data-persona="teen"><div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><rect x="1.5" y="4" width="10" height="5.5" rx="2" stroke="currentColor" stroke-width="1.15"/><path d="M4.5 6.75h2M5.5 5.75v2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><circle cx="8.5" cy="6" r=".7" fill="currentColor"/><circle cx="9.5" cy="7.5" r=".7" fill="currentColor"/></svg>Gamer</div><div class="persona-desc">Gaming, anime, sneakers, streaming</div></div>
+    <div class="persona-card" data-persona="parent"><div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><path d="M1.5 6.5L6.5 1.5l5 5V12H8.5V9h-3v3H1.5V6.5Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/></svg>Parent</div><div class="persona-desc">School, family travel, safety, meal delivery</div></div>
+    <div class="persona-card" data-persona="techbro"><div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><path d="M3.5 4.5L1.5 6.5l2 2M9.5 4.5l2 2-2 2M7 3l-1.5 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Developer</div><div class="persona-desc">Startups, AI tools, SaaS, productivity</div></div>
+    <div class="persona-card" data-persona="prepper"><div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><path d="M6.5 1L2 3v3.5C2 9.3 4 11.2 6.5 12c2.5-.8 4.5-2.7 4.5-5.5V3L6.5 1Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/><path d="M4.5 6.5l1.5 1.5 2.5-3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>Prepper</div><div class="persona-desc">Off-grid, emergency supplies, homesteading</div></div>
+    <div class="persona-card" data-persona="luxury"><div class="persona-name"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" style="flex-shrink:0;color:var(--acc);opacity:.7"><path d="M6.5 11L1.5 5.5 3 2h7l1.5 3.5L6.5 11Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"/><path d="M1.5 5.5h10M3 2l1.5 3.5M10 2L8.5 5.5" stroke="currentColor" stroke-width="1.05" stroke-linecap="round"/></svg>High Earner</div><div class="persona-desc">Designer brands, luxury travel, fine dining</div></div>
+  </div>
+  <!-- Custom persona creator -->
+  <div class="persona-custom-wrap">
+    <button class="persona-create-btn" id="persona-create-btn">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Create Persona
+    </button>
+    <!-- Popup form (shown after first time, anchored to button) -->
+    <div class="persona-popup" id="persona-popup" style="display:none;top:38px">
+      <div class="persona-popup-arrow"></div>
+      <div class="persona-popup-hd">
+        <span class="persona-popup-title">Create Persona</span>
+        <button class="persona-popup-close" id="persona-popup-close">&#x2715;</button>
+      </div>
+      <div class="persona-popup-field">
+        <div class="persona-popup-label">Name</div>
+        <input class="persona-custom-inp" id="custom-name-inp" placeholder="e.g. Gaming, Work, Shopping…" maxlength="28" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="persona-popup-field">
+        <div class="persona-popup-label">Interests <span style="font-weight:400;opacity:.6;text-transform:none;letter-spacing:0">(one per line)</span></div>
+        <textarea class="persona-custom-kw" id="custom-kw-inp" placeholder="gaming&#10;sneakers&#10;anime" spellcheck="false"></textarea>
+      </div>
+      <button class="persona-custom-save" id="custom-save-btn">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="margin-right:5px"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Create Persona
+      </button>
+    </div>
+  </div>
+  <div id="custom-persona-cards" class="poison-personas" style="padding-top:0;padding-bottom:4px"></div>
+</div>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Already using Lander</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{
+  width:340px;background:transparent;
+  font-family:var(--f);font-size:13px;
+  user-select:none;overflow:hidden;color:var(--t0);
+  -webkit-font-smoothing:antialiased;
+}
+body{padding:8px;}
+@keyframes slideIn{from{opacity:0;transform:translateY(6px) scale(.97);}to{opacity:1;transform:none;}}
+.card{
+  background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);
+  overflow:hidden;display:flex;flex-direction:column;
+  animation:slideIn .2s cubic-bezier(.22,1,.36,1) both;
+}
+.hdr{
+  display:flex;align-items:center;gap:10px;padding:13px 15px 12px;
+  background:var(--bg2);border-bottom:1px solid var(--ln);
+  -webkit-app-region:drag;position:relative;flex-shrink:0;
+}
+.hdr::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 10%,rgba(var(--acc-raw),.18) 40%,rgba(var(--acc-raw),.35) 50%,rgba(var(--acc-raw),.18) 60%,transparent 90%);
+  pointer-events:none;
+}
+.hdr *{-webkit-app-region:no-drag;}
+.hdr-ico{
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
+  background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);
+  display:flex;align-items:center;justify-content:center;color:var(--acc);
+}
+.hdr-text{flex:1;}
+.hdr-title{font-size:13px;font-weight:700;color:var(--t0);letter-spacing:-.02em;}
+.hdr-sub{font-size:10.5px;color:var(--t3);margin-top:2px;}
+
+.body{padding:18px 18px 16px;display:flex;flex-direction:column;gap:14px;}
+
+.comp-row{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;
+  background:rgba(var(--acc-raw),.04);border:1px solid rgba(var(--acc-raw),.1);
+  border-radius:10px;
+}
+.comp-icon{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.comp-label{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:3px;}
+.comp-value{font-size:13px;font-weight:700;color:var(--t0);}
+
+.features{display:flex;flex-direction:column;gap:6px;}
+.feat-row{display:flex;align-items:center;gap:9px;}
+.feat-dot{width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0;opacity:.7;}
+.feat-text{font-size:11.5px;color:var(--t1);}
+
+.actions{display:flex;gap:8px;}
+.btn{
+  flex:1;padding:9px 12px;border-radius:9px;font:600 12.5px var(--f);
+  cursor:pointer;transition:all .13s;border:1px solid var(--ln2);
+  background:var(--bg3);color:var(--t1);
+}
+.btn:hover{background:var(--bg4);color:var(--t0);}
+.btn.primary{
+  background:rgba(var(--acc-raw),.1);border-color:rgba(var(--acc-raw),.25);
+  color:var(--acc);
+}
+.btn.primary:hover{background:rgba(var(--acc-raw),.18);}
+
+.dismiss-row{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding-top:2px;
+}
+.dismiss-row label{display:flex;align-items:center;gap:6px;cursor:pointer;}
+.dismiss-row input{accent-color:var(--acc);cursor:pointer;}
+.dismiss-row span{font-size:10.5px;color:var(--t3);}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="hdr">
+    <div class="hdr-ico">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+        <path d="M10 2L2 6v5c0 4.4 3.3 8 8 9 4.7-1 8-4.6 8-9V6L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="rgba(255,255,255,.06)"/>
+        <path d="M7 10l2.5 2.5L14 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="hdr-text">
+      <div class="hdr-title">You're already browsing privately</div>
+      <div class="hdr-sub" id="site-sub">Visiting <span id="site-name">this browser's page</span></div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="comp-row">
+      <div class="comp-icon" id="their-icon" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" id="their-svg"></svg>
+      </div>
+      <div style="flex:1">
+        <div class="comp-label">You're looking at</div>
+        <div class="comp-value" id="their-name">Another browser</div>
+      </div>
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" style="color:rgba(255,255,255,.2)">
+        <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="comp-icon" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+          <path d="M10 2L2 6v5c0 4.4 3.3 8 8 9 4.7-1 8-4.6 8-9V6L10 2Z" stroke="rgba(255,255,255,.6)" stroke-width="1.5" fill="rgba(255,255,255,.05)"/>
+          <path d="M7 10l2.5 2.5L14 8" stroke="rgba(255,255,255,.6)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feat-row"><div class="feat-dot"></div><span class="feat-text">Ad &amp; tracker blocking on every site</span></div>
+      <div class="feat-row"><div class="feat-dot"></div><span class="feat-text">Fingerprint spoofing — harder to track across sites</span></div>
+      <div class="feat-row"><div class="feat-dot"></div><span class="feat-text">No telemetry, no cloud sync, no account needed</span></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="btn-close">Dismiss</button>
+      <button class="btn primary" id="btn-stay">Stay on Lander</button>
+    </div>
+
+    <div class="dismiss-row">
+      <label>
+        <input type="checkbox" id="chk-remember">
+        <span>Don't show this again for this site</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+
+const BROWSERS = {
+  chrome:  { name: 'Another Browser',  color: '#4285F4' },
+  firefox: { name: 'Mozilla Firefox',  color: '#FF7139' },
+  opera:   { name: 'Opera',            color: '#FF1B2D' },
+  edge:    { name: 'Microsoft Edge',   color: '#0078D4' },
+  safari:  { name: 'Apple Safari',     color: '#1C9AEC' },
+  brave:   { name: 'Brave Browser',    color: '#FB542B' },
+  vivaldi: { name: 'Vivaldi',          color: '#EF3939' },
+};
+
+let _host = '';
+
+ipcRenderer.on('browser-switch:info', (_, { host, browser }) => {
+  _host = host || '';
+  const siteNameEl = document.getElementById('site-name');
+  if (siteNameEl) siteNameEl.textContent = host || 'a browser site';
+
+  const info = BROWSERS[browser] || { name: browser || 'Another Browser', color: 'rgba(255,255,255,.5)' };
+  const nameEl = document.getElementById('their-name');
+  if (nameEl) nameEl.textContent = info.name;
+
+  const iconEl = document.getElementById('their-icon');
+  if (iconEl) iconEl.style.border = '1px solid ' + info.color + '33';
+
+  const svgEl = document.getElementById('their-svg');
+  if (svgEl) svgEl.innerHTML = `<circle cx="10" cy="10" r="8" fill="${info.color}22" stroke="${info.color}88" stroke-width="1.2"/>
+    <text x="10" y="14" text-anchor="middle" font-size="10" fill="${info.color}" font-weight="700" font-family="system-ui">${info.name[0]}</text>`;
+});
+
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v) r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+
+const DISMISS_KEY = 'bs-dismissed';
+function _getDismissed() { try { return JSON.parse(localStorage.getItem(DISMISS_KEY) || '[]'); } catch { return []; } }
+function _addDismissed(h) { try { const a = _getDismissed(); if (!a.includes(h)) { a.push(h); localStorage.setItem(DISMISS_KEY, JSON.stringify(a)); } } catch {} }
+
+document.getElementById('btn-close').addEventListener('click', () => {
+  if (document.getElementById('chk-remember').checked && _host) _addDismissed(_host);
+  ipcRenderer.send('browser-switch:close');
+});
+document.getElementById('btn-stay').addEventListener('click', () => {
+  if (document.getElementById('chk-remember').checked && _host) _addDismissed(_host);
+  ipcRenderer.send('browser-switch:close');
+});
+</script>
+</body>
+</html>

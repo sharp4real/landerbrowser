@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c0404"/>
+      <stop offset="30%" stop-color="#901818"/>
+      <stop offset="60%" stop-color="#c82828"/>
+      <stop offset="100%" stop-color="#280404"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- lanterns -->
+  <ellipse cx="300" cy="250" rx="30" ry="40" fill="rgba(255,60,20,.4)"/>
+  <ellipse cx="300" cy="250" rx="20" ry="28" fill="rgba(255,100,30,.3)"/>
+  <rect x="296" y="205" width="8" height="10" fill="rgba(255,220,60,.5)"/>
+  <line x1="300" y1="195" x2="300" y2="150" stroke="rgba(255,220,60,.3)" stroke-width="2"/>
+  <ellipse cx="700" cy="200" rx="28" ry="38" fill="rgba(255,60,20,.35)"/>
+  <ellipse cx="700" cy="200" rx="18" ry="26" fill="rgba(255,100,30,.25)"/>
+  <rect x="696" y="157" width="8" height="10" fill="rgba(255,220,60,.4)"/>
+  <line x1="700" y1="147" x2="700" y2="100" stroke="rgba(255,220,60,.25)" stroke-width="2"/>
+  <ellipse cx="1200" cy="220" rx="32" ry="42" fill="rgba(255,60,20,.38)"/>
+  <ellipse cx="1200" cy="220" rx="22" ry="30" fill="rgba(255,100,30,.28)"/>
+  <rect x="1196" y="173" width="8" height="10" fill="rgba(255,220,60,.45)"/>
+  <line x1="1200" y1="163" x2="1200" y2="120" stroke="rgba(255,220,60,.28)" stroke-width="2"/>
+  <ellipse cx="1600" cy="180" rx="26" ry="36" fill="rgba(255,60,20,.33)"/>
+  <ellipse cx="1600" cy="180" rx="17" ry="24" fill="rgba(255,100,30,.23)"/>
+  <rect x="1596" y="139" width="8" height="10" fill="rgba(255,220,60,.4)"/>
+  <line x1="1600" y1="129" x2="1600" y2="90" stroke="rgba(255,220,60,.22)" stroke-width="2"/>
+  <!-- gold circles (coins) -->
+  <circle cx="480" cy="600" r="35" fill="rgba(255,220,60,.15)"/>
+  <circle cx="480" cy="600" r="25" fill="rgba(255,200,40,.1)"/>
+  <circle cx="1450" cy="650" r="30" fill="rgba(255,220,60,.12)"/>
+  <circle cx="1450" cy="650" r="20" fill="rgba(255,200,40,.08)"/>
+  <!-- architectural silhouette (pagoda) -->
+  <polygon points="910,700 860,600 820,610 780,550 740,560 720,510 960,400 1200,510 1180,560 1140,550 1100,610 1060,600 1010,700" fill="rgba(80,5,5,.5)"/>
+  <rect x="920" y="700" width="80" height="380" fill="rgba(80,5,5,.5)"/>
+  <!-- decorative bottom -->
+  <rect y="950" width="1920" height="130" fill="rgba(80,5,5,.6)"/>
+</svg>

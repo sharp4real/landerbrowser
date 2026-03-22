@@ -1,0 +1,58 @@
+<!-- Step 1: Agreement (shown until user accepts) -->
+<div id="geo-agree">
+  <div class="geo-agree-hero">
+    <div class="geo-agree-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M10 19C10 19 3 13.8 3 8a7 7 0 0 1 14 0C17 13.8 10 19 10 19Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="geo-agree-hero-text">
+      <div class="geo-agree-title">Location Masking</div>
+      <div class="geo-agree-subtitle">Override browser location for weather, news &amp; regional content</div>
+    </div>
+  </div>
+  <div class="geo-warn-box">
+    <div class="geo-warn-row">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="7" y1="6" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="11" r=".7" fill="currentColor"/></svg>
+      <p><strong>Not a VPN</strong> — your real IP address stays the same. Streaming services like Netflix check your IP and won't be fooled.</p>
+    </div>
+    <div class="geo-warn-row">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="7" y1="6" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="11" r=".7" fill="currentColor"/></svg>
+      <p>Works on sites that <strong>request browser location</strong> (weather, local news). IP-based detection is unaffected.</p>
+    </div>
+  </div>
+  <div class="geo-agree-checks">
+    <label class="geo-agree-check">
+      <input type="checkbox" id="geo-chk-ip">
+      <span>My IP address is <strong>not hidden</strong> — streaming services won't be affected</span>
+    </label>
+    <label class="geo-agree-check">
+      <input type="checkbox" id="geo-chk-loc">
+      <span>This only spoofs <strong>browser geolocation requests</strong>, not all network traffic</span>
+    </label>
+  </div>
+  <button id="geo-agree-btn" disabled>Enable Location Masking</button>
+</div>
+
+<!-- Step 2: Main control (shown after agreement) -->
+<div id="geo-main" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+  <div id="geo-status-bar">
+    <div id="geo-dot"></div>
+    <div id="geo-status-info">
+      <div id="geo-status-state">Location Masking Off</div>
+      <div id="geo-status-city">Select a city below</div>
+    </div>
+    <div id="geo-toggle-wrap">
+      <label class="tog"><input type="checkbox" id="geo-master-toggle"><span class="tog-tr"></span></label>
+    </div>
+  </div>
+  <div class="geo-not-vpn">
+    <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="7" y1="6" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="11" r=".7" fill="currentColor"/></svg>
+    Not a VPN — your IP address does not change
+  </div>
+  <div id="geo-search-wrap">
+    <input id="geo-search" placeholder="Search cities…" autocomplete="off" spellcheck="false">
+  </div>
+  <div id="geo-list"></div>
+</div>

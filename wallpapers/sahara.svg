@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd0a0"/>
+      <stop offset="25%" stop-color="#f0a870"/>
+      <stop offset="50%" stop-color="#e08850"/>
+      <stop offset="75%" stop-color="#b06030"/>
+      <stop offset="100%" stop-color="#604020"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <path d="M0 550 Q300 480 600 530 T1200 500 T1920 540" fill="none" stroke="rgba(180,100,40,.2)" stroke-width="2"/>
+  <path d="M0 600 Q400 550 800 580 T1600 560 T1920 590" fill="none" stroke="rgba(160,80,30,.15)" stroke-width="1.5"/>
+  <ellipse cx="960" cy="300" rx="500" ry="200" fill="rgba(255,200,120,.1)"/>
+  <path d="M0 800 Q250 770 500 790 T1000 780 T1500 790 T1920 775 V1080 H0Z" fill="rgba(120,60,20,.3)"/>
+  <path d="M0 850 Q300 830 600 845 T1200 835 T1920 850 V1080 H0Z" fill="rgba(100,50,15,.4)"/>
+  <path d="M0 900 Q400 890 800 895 T1600 890 T1920 900 V1080 H0Z" fill="rgba(80,40,10,.5)"/>
+  <circle cx="1500" cy="180" r="70" fill="rgba(255,220,150,.5)"/>
+  <circle cx="1500" cy="180" r="120" fill="rgba(255,200,120,.08)"/>
+</svg>

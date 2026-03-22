@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add to Sidebar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);
+  --t2:rgba(255,255,255,.35);--t3:rgba(255,255,255,.15);
+  --acc:#00d4c8;--acc-raw:0,212,200;
+  --acc-g:rgba(0,212,200,.08);
+  --r-lg:16px;--r-sm:8px;
+  --f:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+html,body{
+  width:100%;height:100%;
+  background:transparent;
+  font-family:var(--f);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  user-select:none;
+}
+body{display:flex;align-items:center;justify-content:center}
+.card{
+  margin:8px;
+  background:var(--bg2);border:1px solid var(--ln);
+  border-radius:var(--r-lg);
+  padding:22px 22px 18px;width:320px;max-width:92vw;
+  display:flex;flex-direction:column;gap:11px;
+  box-shadow:none;
+  animation:_sbSlideIn .2s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes _sbSlideIn{from{opacity:0;transform:scale(.94) translateY(-6px)}to{opacity:1;transform:none}}
+.sbp-title{font-size:13.5px;font-weight:600;color:var(--t0);margin-bottom:2px}
+.sbp-input{
+  width:100%;height:34px;background:var(--bg3);border:1px solid var(--ln);
+  border-radius:var(--r-sm);padding:0 10px;font-family:var(--f);font-size:12.5px;
+  color:var(--t0);outline:none;caret-color:var(--acc);
+  transition:border-color .15s;
+}
+.sbp-input:focus{border-color:rgba(var(--acc-raw),.35);box-shadow:0 0 0 2px var(--acc-g)}
+.sbp-input::placeholder{color:var(--t3)}
+.sbp-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:2px}
+.sbp-btn{
+  padding:7px 18px;border-radius:var(--r-sm);font-family:var(--f);font-size:12.5px;
+  font-weight:500;cursor:pointer;border:1px solid var(--ln);background:var(--bg3);
+  color:var(--t1);transition:background .12s;
+}
+.sbp-btn:hover{background:var(--bg4)}
+.sbp-btn.ok{background:var(--acc);border-color:transparent;color:#000;font-weight:600}
+.sbp-btn.ok:hover{filter:brightness(1.1)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="sbp-title">Add to Sidebar</div>
+  <input class="sbp-input" id="sb-url" type="text" placeholder="https://example.com" autocomplete="off" spellcheck="false">
+  <input class="sbp-input" id="sb-name" type="text" placeholder="Label (optional)" autocomplete="off" spellcheck="false">
+  <div class="sbp-btns">
+    <button class="sbp-btn" id="sb-cancel">Cancel</button>
+    <button class="sbp-btn ok" id="sb-add">Add</button>
+  </div>
+</div>
+<script>
+const{ipcRenderer}=require('electron');
+const urlInp=document.getElementById('sb-url');
+const nameInp=document.getElementById('sb-name');
+const addBtn=document.getElementById('sb-add');
+const cancelBtn=document.getElementById('sb-cancel');
+
+ipcRenderer.on('sb:init',(_,data)=>{
+  if(data){
+    if(data.url)urlInp.value=data.url;
+    if(data.title)nameInp.value=data.title;
+  }
+  setTimeout(()=>urlInp.select(),40);
+});
+
+ipcRenderer.on('popup:theme',(_,t)=>{
+  if(!t)return;
+  const s=document.documentElement.style;
+  if(t.bg0)s.setProperty('--bg0',t.bg0);
+  if(t.bg1)s.setProperty('--bg1',t.bg1);
+  if(t.bg2)s.setProperty('--bg2',t.bg2);
+  if(t.bg3)s.setProperty('--bg3',t.bg3);
+  if(t.bg4)s.setProperty('--bg4',t.bg4);
+  if(t.ln)s.setProperty('--ln',t.ln);
+  if(t.ln2)s.setProperty('--ln2',t.ln2);
+  if(t.t0)s.setProperty('--t0',t.t0);
+  if(t.t1)s.setProperty('--t1',t.t1);
+  if(t.t2)s.setProperty('--t2',t.t2);
+  if(t.t3)s.setProperty('--t3',t.t3);
+  if(t.acc)s.setProperty('--acc',t.acc);
+  if(t.accRaw||t['acc-raw']){
+    s.setProperty('--acc-raw',t.accRaw||t['acc-raw']);
+    s.setProperty('--acc-g','rgba('+(t.accRaw||t['acc-raw'])+',.08)');
+  }
+  if(t.f)s.setProperty('--f',t.f);
+});
+
+addBtn.addEventListener('click',()=>{
+  let url=(urlInp.value||'').trim();
+  if(!url){urlInp.focus();return;}
+  if(!/^[a-zA-Z]+:\/\//.test(url))url='https://'+url;
+  const title=(nameInp.value||'').trim()||url;
+  ipcRenderer.send('sb-add:submit',{url,title});
+});
+
+cancelBtn.addEventListener('click',()=>{
+  ipcRenderer.send('sb-add:cancel');
+});
+
+urlInp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();nameInp.focus();}});
+nameInp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBtn.click();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')ipcRenderer.send('sb-add:cancel');});
+</script>
+</body>
+</html>

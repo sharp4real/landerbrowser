@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Location Masking</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#282828;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;--acc-f:rgba(255,255,255,.07);
+  --ylw:#fbbf24;--red:#f87171;--grn:#22c55e;
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:320px;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes popupSlideIn{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+.card{background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);overflow:hidden;box-shadow:none;display:flex;flex-direction:column;animation:popupSlideIn .22s cubic-bezier(.22,1,.36,1) both;}
+.card-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;background:var(--bg2);border-bottom:1px solid var(--ln);-webkit-app-region:drag;cursor:grab;flex-shrink:0;}
+.card-hdr *{-webkit-app-region:no-drag;}
+.card-hdr-ico{width:28px;height:28px;border-radius:8px;background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);display:flex;align-items:center;justify-content:center;color:var(--acc);transition:background .15s;}
+.card-title{flex:1;font-size:12px;font-weight:700;color:var(--t0);letter-spacing:-.01em;}
+
+/* Toggle */
+.tog{display:inline-flex;align-items:center;cursor:pointer;}
+.tog input{display:none;}
+.tog-tr{width:32px;height:18px;background:var(--bg5);border-radius:10px;border:1px solid var(--ln2);position:relative;transition:background .2s,border-color .2s;}
+.tog-tr::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--t3);border-radius:50%;transition:transform .2s,background .2s;}
+.tog input:checked+.tog-tr{background:rgba(var(--acc-raw),.25);border-color:rgba(var(--acc-raw),.4);}
+.tog input:checked+.tog-tr::after{transform:translateX(14px);background:var(--acc);}
+
+/* Agreement screen */
+#geo-agree{padding:16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:380px;}
+.geo-agree-hero{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--ln);}
+.geo-agree-icon{width:40px;height:40px;border-radius:12px;flex-shrink:0;background:var(--acc-f);border:1px solid var(--ln2);display:flex;align-items:center;justify-content:center;color:var(--t2);}
+.geo-agree-title{font-size:13px;font-weight:700;color:var(--t0);}
+.geo-agree-subtitle{font-size:11px;color:var(--t3);margin-top:3px;line-height:1.45;}
+.geo-warn-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.18);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
+.geo-warn-row{display:flex;align-items:flex-start;gap:8px;}
+.geo-warn-row svg{flex-shrink:0;margin-top:1px;color:var(--ylw);opacity:.85;}
+.geo-warn-row p{font-size:11px;color:var(--t2);line-height:1.5;margin:0;}
+.geo-warn-row strong{color:var(--t1);}
+.geo-agree-checks{display:flex;flex-direction:column;gap:8px;}
+.geo-agree-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;}
+.geo-agree-check input{margin:2px 0 0;accent-color:var(--acc);width:13px;height:13px;flex-shrink:0;cursor:pointer;}
+.geo-agree-check span{font-size:11px;color:var(--t2);line-height:1.5;}
+#geo-agree-btn{width:100%;padding:9px;border-radius:8px;background:var(--acc-f);color:var(--t2);font-weight:700;font-size:12.5px;border:1px solid var(--ln2);cursor:pointer;font-family:var(--f);opacity:.5;transition:opacity .15s;}
+#geo-agree-btn.ready{opacity:1;background:rgba(var(--acc-raw),.15);border-color:rgba(var(--acc-raw),.3);color:var(--acc);}
+
+/* Main screen */
+#geo-main{display:none;flex-direction:column;overflow:hidden;}
+#geo-status-bar{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--ln);flex-shrink:0;}
+#geo-dot{width:8px;height:8px;border-radius:50%;background:var(--bg5);flex-shrink:0;transition:background .3s,box-shadow .3s;}
+#geo-dot.on{background:var(--grn);box-shadow:0 0 7px rgba(34,197,94,.6);animation:geoPulse 2s ease-in-out infinite;}
+@keyframes geoPulse{0%,100%{box-shadow:0 0 4px rgba(34,197,94,.5);}50%{box-shadow:0 0 10px rgba(34,197,94,.8);}}
+#geo-status-info{flex:1;min-width:0;}
+#geo-status-state{font-size:11.5px;font-weight:600;color:var(--t1);}
+#geo-status-city{font-size:10.5px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.geo-not-vpn{font-size:10px;color:var(--t3);padding:5px 14px;border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.geo-not-vpn svg{flex-shrink:0;color:var(--ylw);opacity:.7;}
+#geo-search-wrap{padding:8px 10px 5px;flex-shrink:0;}
+#geo-search{width:100%;background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:5px 10px;color:var(--t0);font-family:var(--f);font-size:12px;outline:none;}
+#geo-search:focus{border-color:rgba(var(--acc-raw),.3);}
+#geo-search::placeholder{color:var(--t3);}
+#geo-list{overflow-y:auto;max-height:260px;padding:2px 0 6px;scrollbar-width:thin;scrollbar-color:var(--bg5) transparent;}
+#geo-list::-webkit-scrollbar{width:3px;}
+#geo-list::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+#geo-list::-webkit-scrollbar-track{background:transparent;}
+#geo-agree::-webkit-scrollbar{width:3px;}
+#geo-agree::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+.geo-region-hdr{font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;padding:7px 14px 3px;}
+.geo-city-row{display:flex;align-items:center;gap:9px;padding:6px 14px;cursor:pointer;transition:background .1s;}
+.geo-city-row:hover{background:var(--bg3);}
+.geo-city-row.active{background:rgba(var(--acc-raw),.07);}
+.geo-city-row.active .geo-city-name{color:var(--acc);font-weight:600;}
+.geo-city-flag{font-size:14px;flex-shrink:0;width:20px;text-align:center;}
+.geo-city-name{font-size:12px;color:var(--t1);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.geo-city-check{flex-shrink:0;color:var(--acc);opacity:0;}
+.geo-city-row.active .geo-city-check{opacity:1;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-hdr">
+    <div class="card-hdr-ico">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M10 19C10 19 3 13.8 3 8a7 7 0 0 1 14 0C17 13.8 10 19 10 19Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="card-title">Location Masking</span>
+  </div>
+
+  <!-- Agreement screen -->
+  <div id="geo-agree">
+    <div class="geo-agree-hero">
+      <div class="geo-agree-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M10 19C10 19 3 13.8 3 8a7 7 0 0 1 14 0C17 13.8 10 19 10 19Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="geo-agree-title">Location Masking</div>
+        <div class="geo-agree-subtitle">Override browser location for weather, news &amp; regional content</div>
+      </div>
+    </div>
+    <div class="geo-warn-box">
+      <div class="geo-warn-row">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="7" y1="6" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="11" r=".7" fill="currentColor"/></svg>
+        <p><strong>Not a VPN</strong> — your real IP address stays the same. Streaming services like Netflix check your IP and won't be fooled.</p>
+      </div>
+      <div class="geo-warn-row">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="7" y1="6" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="11" r=".7" fill="currentColor"/></svg>
+        <p>Works on sites that <strong>request browser location</strong> (weather, local news). IP-based detection is unaffected.</p>
+      </div>
+    </div>
+    <div class="geo-agree-checks">
+      <label class="geo-agree-check">
+        <input type="checkbox" id="geo-chk-ip">
+        <span>My IP address is <strong>not hidden</strong> — streaming services won't be affected</span>
+      </label>
+      <label class="geo-agree-check">
+        <input type="checkbox" id="geo-chk-loc">
+        <span>This only spoofs <strong>browser geolocation requests</strong>, not all network traffic</span>
+      </label>
+    </div>
+    <button id="geo-agree-btn" disabled>Enable Location Masking</button>
+  </div>
+
+  <!-- Main screen -->
+  <div id="geo-main">
+    <div id="geo-status-bar">
+      <div id="geo-dot"></div>
+      <div id="geo-status-info">
+        <div id="geo-status-state">Location Masking Off</div>
+        <div id="geo-status-city">Select a city below</div>
+      </div>
+      <label class="tog"><input type="checkbox" id="geo-master-toggle"><span class="tog-tr"></span></label>
+    </div>
+    <div class="geo-not-vpn">
+      <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="7" y1="6" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="11" r=".7" fill="currentColor"/></svg>
+      Not a VPN — your IP address does not change
+    </div>
+    <div id="geo-search-wrap">
+      <input id="geo-search" placeholder="Search cities…" autocomplete="off" spellcheck="false">
+    </div>
+    <div id="geo-list"></div>
+  </div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+
+const GEO_CITIES = [
+  { id:'new-york',     flag:'🇺🇸', label:'New York',       region:'North America' },
+  { id:'los-angeles',  flag:'🇺🇸', label:'Los Angeles',    region:'North America' },
+  { id:'chicago',      flag:'🇺🇸', label:'Chicago',        region:'North America' },
+  { id:'miami',        flag:'🇺🇸', label:'Miami',          region:'North America' },
+  { id:'dallas',       flag:'🇺🇸', label:'Dallas',         region:'North America' },
+  { id:'seattle',      flag:'🇺🇸', label:'Seattle',        region:'North America' },
+  { id:'atlanta',      flag:'🇺🇸', label:'Atlanta',        region:'North America' },
+  { id:'toronto',      flag:'🇨🇦', label:'Toronto',        region:'North America' },
+  { id:'vancouver',    flag:'🇨🇦', label:'Vancouver',      region:'North America' },
+  { id:'mexico-city',  flag:'🇲🇽', label:'Mexico City',    region:'North America' },
+  { id:'london',       flag:'🇬🇧', label:'London',         region:'Europe' },
+  { id:'manchester',   flag:'🇬🇧', label:'Manchester',     region:'Europe' },
+  { id:'paris',        flag:'🇫🇷', label:'Paris',          region:'Europe' },
+  { id:'berlin',       flag:'🇩🇪', label:'Berlin',         region:'Europe' },
+  { id:'frankfurt',    flag:'🇩🇪', label:'Frankfurt',      region:'Europe' },
+  { id:'amsterdam',    flag:'🇳🇱', label:'Amsterdam',      region:'Europe' },
+  { id:'rome',         flag:'🇮🇹', label:'Rome',           region:'Europe' },
+  { id:'madrid',       flag:'🇪🇸', label:'Madrid',         region:'Europe' },
+  { id:'stockholm',    flag:'🇸🇪', label:'Stockholm',      region:'Europe' },
+  { id:'warsaw',       flag:'🇵🇱', label:'Warsaw',         region:'Europe' },
+  { id:'vienna',       flag:'🇦🇹', label:'Vienna',         region:'Europe' },
+  { id:'zurich',       flag:'🇨🇭', label:'Zurich',         region:'Europe' },
+  { id:'brussels',     flag:'🇧🇪', label:'Brussels',       region:'Europe' },
+  { id:'prague',       flag:'🇨🇿', label:'Prague',         region:'Europe' },
+  { id:'tokyo',        flag:'🇯🇵', label:'Tokyo',          region:'Asia / Pacific' },
+  { id:'osaka',        flag:'🇯🇵', label:'Osaka',          region:'Asia / Pacific' },
+  { id:'seoul',        flag:'🇰🇷', label:'Seoul',          region:'Asia / Pacific' },
+  { id:'singapore',    flag:'🇸🇬', label:'Singapore',      region:'Asia / Pacific' },
+  { id:'hong-kong',    flag:'🇭🇰', label:'Hong Kong',      region:'Asia / Pacific' },
+  { id:'shanghai',     flag:'🇨🇳', label:'Shanghai',       region:'Asia / Pacific' },
+  { id:'bangkok',      flag:'🇹🇭', label:'Bangkok',        region:'Asia / Pacific' },
+  { id:'jakarta',      flag:'🇮🇩', label:'Jakarta',        region:'Asia / Pacific' },
+  { id:'kl',           flag:'🇲🇾', label:'Kuala Lumpur',   region:'Asia / Pacific' },
+  { id:'mumbai',       flag:'🇮🇳', label:'Mumbai',         region:'Asia / Pacific' },
+  { id:'delhi',        flag:'🇮🇳', label:'Delhi',          region:'Asia / Pacific' },
+  { id:'dubai',        flag:'🇦🇪', label:'Dubai',          region:'Asia / Pacific' },
+  { id:'sydney',       flag:'🇦🇺', label:'Sydney',         region:'Asia / Pacific' },
+  { id:'melbourne',    flag:'🇦🇺', label:'Melbourne',      region:'Asia / Pacific' },
+  { id:'auckland',     flag:'🇳🇿', label:'Auckland',       region:'Asia / Pacific' },
+  { id:'sao-paulo',    flag:'🇧🇷', label:'São Paulo',      region:'South America' },
+  { id:'rio',          flag:'🇧🇷', label:'Rio de Janeiro', region:'South America' },
+  { id:'buenos-aires', flag:'🇦🇷', label:'Buenos Aires',   region:'South America' },
+  { id:'bogota',       flag:'🇨🇴', label:'Bogotá',         region:'South America' },
+  { id:'lima',         flag:'🇵🇪', label:'Lima',           region:'South America' },
+  { id:'santiago',     flag:'🇨🇱', label:'Santiago',       region:'South America' },
+  { id:'cairo',        flag:'🇪🇬', label:'Cairo',          region:'Africa / Middle East' },
+  { id:'lagos',        flag:'🇳🇬', label:'Lagos',          region:'Africa / Middle East' },
+  { id:'johannesburg', flag:'🇿🇦', label:'Johannesburg',   region:'Africa / Middle East' },
+  { id:'nairobi',      flag:'🇰🇪', label:'Nairobi',        region:'Africa / Middle East' },
+  { id:'tel-aviv',     flag:'🇮🇱', label:'Tel Aviv',       region:'Africa / Middle East' },
+  { id:'riyadh',       flag:'🇸🇦', label:'Riyadh',         region:'Africa / Middle East' },
+];
+
+const GEO_AGREED_KEY = 'rb-geo-agreed';
+let _settings = {};
+
+function _geoAgreed() { return localStorage.getItem(GEO_AGREED_KEY) === '1'; }
+
+function _showScreen() {
+  const agree = document.getElementById('geo-agree');
+  const main  = document.getElementById('geo-main');
+  if (_geoAgreed()) {
+    agree.style.display = 'none';
+    main.style.display  = 'flex';
+    _renderList('');
+    _syncStatus();
+  } else {
+    agree.style.display = 'flex';
+    main.style.display  = 'none';
+  }
+}
+
+function _renderList(q) {
+  const geoList = document.getElementById('geo-list');
+  if (!geoList) return;
+  const filter = (q || '').toLowerCase();
+  const cur = _settings.geoRegion || 'new-york';
+  const grouped = {};
+  GEO_CITIES.forEach(c => {
+    if (filter && !c.label.toLowerCase().includes(filter) && !c.region.toLowerCase().includes(filter)) return;
+    if (!grouped[c.region]) grouped[c.region] = [];
+    grouped[c.region].push(c);
+  });
+  let html = '';
+  Object.entries(grouped).forEach(([region, cities]) => {
+    html += `<div class="geo-region-hdr">${region}</div>`;
+    cities.forEach(c => {
+      const active = c.id === cur ? ' active' : '';
+      html += `<div class="geo-city-row${active}" data-geo="${c.id}">
+        <span class="geo-city-flag">${c.flag}</span>
+        <span class="geo-city-name">${c.label}</span>
+        <span class="geo-city-check">✓</span>
+      </div>`;
+    });
+  });
+  if (!html) html = '<div style="padding:16px;color:var(--t3);font-size:12px;text-align:center">No cities found</div>';
+  geoList.innerHTML = html;
+  geoList.querySelectorAll('.geo-city-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.geo;
+      ipcRenderer.send('settings:set', { geoRegion: id });
+      _settings.geoRegion = id;
+      geoList.querySelectorAll('.geo-city-row').forEach(r => r.classList.remove('active'));
+      row.classList.add('active');
+      const city = GEO_CITIES.find(c => c.id === id);
+      const geoCity = document.getElementById('geo-status-city');
+      if (geoCity && city) geoCity.textContent = city.flag + '  ' + city.label;
+    });
+  });
+}
+
+function _syncStatus() {
+  const on = !!_settings.geoEnabled;
+  const cur = _settings.geoRegion || 'new-york';
+  const city = GEO_CITIES.find(c => c.id === cur);
+  const dot = document.getElementById('geo-dot');
+  const state = document.getElementById('geo-status-state');
+  const cityEl = document.getElementById('geo-status-city');
+  const toggle = document.getElementById('geo-master-toggle');
+  if (dot)   dot.classList.toggle('on', on);
+  if (state) state.textContent = on ? 'Location Masking On' : 'Location Masking Off';
+  if (cityEl) cityEl.textContent = city ? (city.flag + '  ' + city.label) : cur;
+  if (toggle) toggle.checked = on;
+}
+
+// Agreement checkboxes
+['geo-chk-ip', 'geo-chk-loc'].forEach(id => {
+  document.getElementById(id)?.addEventListener('change', () => {
+    const ip = document.getElementById('geo-chk-ip')?.checked;
+    const loc = document.getElementById('geo-chk-loc')?.checked;
+    const btn = document.getElementById('geo-agree-btn');
+    if (btn) { btn.disabled = !(ip && loc); btn.classList.toggle('ready', !!(ip && loc)); }
+  });
+});
+
+document.getElementById('geo-agree-btn')?.addEventListener('click', () => {
+  const ip = document.getElementById('geo-chk-ip')?.checked;
+  const loc = document.getElementById('geo-chk-loc')?.checked;
+  if (!ip || !loc) return;
+  localStorage.setItem(GEO_AGREED_KEY, '1');
+  ipcRenderer.send('settings:set', { geoEnabled: true, geoRegion: _settings.geoRegion || 'new-york' });
+  _settings.geoEnabled = true;
+  if (!_settings.geoRegion) _settings.geoRegion = 'new-york';
+  _showScreen();
+});
+
+document.getElementById('geo-master-toggle')?.addEventListener('change', function() {
+  ipcRenderer.send('settings:set', { geoEnabled: this.checked });
+  _settings.geoEnabled = this.checked;
+  const dot = document.getElementById('geo-dot');
+  const state = document.getElementById('geo-status-state');
+  if (dot) dot.classList.toggle('on', this.checked);
+  if (state) state.textContent = this.checked ? 'Location Masking On' : 'Location Masking Off';
+});
+
+document.getElementById('geo-search')?.addEventListener('input', function() { _renderList(this.value); });
+
+ipcRenderer.on('settings:set', async () => {
+  _settings = await ipcRenderer.invoke('get-settings');
+  if (_geoAgreed()) _syncStatus();
+});
+
+async function init() {
+  _settings = await ipcRenderer.invoke('get-settings');
+  _showScreen();
+}
+
+init();
+</script>
+</body>
+</html>

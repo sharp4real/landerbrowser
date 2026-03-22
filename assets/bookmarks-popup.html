@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Bookmarks</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#282828;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;--acc-f:rgba(255,255,255,.07);
+  --red:#f87171;
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:320px;height:460px;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes popupSlideIn{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+.card{background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);overflow:hidden;box-shadow:none;display:flex;flex-direction:column;height:100%;animation:popupSlideIn .22s cubic-bezier(.22,1,.36,1) both;backdrop-filter:blur(2px);}
+.card-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;background:var(--bg2);border-bottom:1px solid var(--ln);-webkit-app-region:drag;cursor:grab;flex-shrink:0;}
+.card-hdr *{-webkit-app-region:no-drag;}
+.card-hdr-ico{width:28px;height:28px;border-radius:8px;background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);display:flex;align-items:center;justify-content:center;color:var(--acc);flex-shrink:0;transition:background .15s;}
+.card-title{flex:1;font-size:12px;font-weight:700;color:var(--t0);letter-spacing:-.01em;}
+.bm-count{font-size:10px;color:var(--t3);margin-right:2px;font-variant-numeric:tabular-nums;}
+
+.bm-search-row{padding:8px 12px;border-bottom:1px solid var(--ln);flex-shrink:0;}
+.bm-search{width:100%;background:var(--bg3);border:1px solid var(--ln);border-radius:8px;color:var(--t1);font:12px var(--f);padding:6px 10px 6px 30px;outline:none;transition:border-color .12s;}
+.bm-search:focus{border-color:rgba(var(--acc-raw),.3);}
+.bm-search-wrap{position:relative;}
+.bm-search-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;}
+
+.bm-list{flex:1;overflow-y:auto;padding:4px 0;}
+.bm-list::-webkit-scrollbar{width:3px;}
+.bm-list::-webkit-scrollbar-thumb{background:var(--ln2);border-radius:3px;}
+.bm-list::-webkit-scrollbar-track{background:transparent;}
+
+.bm-item{display:flex;align-items:center;gap:9px;padding:7px 13px;cursor:pointer;transition:background .1s;position:relative;}
+.bm-item:hover{background:var(--acc-f);}
+.bm-item:hover .bm-del{opacity:1;}
+.bm-fav{width:18px;height:18px;border-radius:4px;background:var(--bg4);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.bm-fav img{width:16px;height:16px;object-fit:contain;}
+.bm-body{flex:1;min-width:0;}
+.bm-t{font-size:11.5px;font-weight:600;color:var(--t0);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bm-u{font-size:10px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.bm-del{opacity:0;background:transparent;border:none;color:var(--t3);cursor:pointer;padding:2px 5px;border-radius:5px;font-size:14px;transition:all .12s;flex-shrink:0;}
+.bm-del:hover{background:rgba(248,113,113,.12);color:var(--red);}
+
+.bm-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--t3);font-size:11px;}
+.bm-empty svg{opacity:.4;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-hdr">
+    <div class="card-hdr-ico">
+      <svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M2 2h8v9L6 8.5 2 11V2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="card-title">Bookmarks</span>
+    <span class="bm-count" id="bm-count"></span>
+  </div>
+  <div class="bm-search-row">
+    <div class="bm-search-wrap">
+      <svg class="bm-search-ico" width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M7.5 7.5L10 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <input class="bm-search" id="bm-search" type="text" placeholder="Search bookmarks…" autocomplete="off">
+    </div>
+  </div>
+  <div class="bm-list" id="bm-list"></div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+});
+
+let bookmarks = [];
+let query = '';
+
+const list   = document.getElementById('bm-list');
+const search = document.getElementById('bm-search');
+const count  = document.getElementById('bm-count');
+
+function _host(url) { try { return new URL(url).hostname; } catch { return url; } }
+function _faviconSrc(url) { try { const o = new URL(url); return o.origin + '/favicon.ico'; } catch { return ''; } }
+
+function render() {
+  const q = query.toLowerCase().trim();
+  const shown = q
+    ? bookmarks.filter(b => (b.title||'').toLowerCase().includes(q) || (b.url||'').toLowerCase().includes(q))
+    : bookmarks;
+
+  if (count) count.textContent = bookmarks.length ? bookmarks.length + ' saved' : '';
+
+  if (!shown.length) {
+    list.innerHTML = '<div class="bm-empty">' +
+      '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v16l-7-4-7 4V5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>' +
+      '<span>' + (q ? 'No results for "' + q + '"' : 'No bookmarks yet') + '</span></div>';
+    return;
+  }
+
+  list.innerHTML = shown.map(b => {
+    const favSrc = _faviconSrc(b.url || '');
+    const favHtml = favSrc
+      ? `<img src="${favSrc}" onerror="this.parentNode.textContent='★'">`
+      : '★';
+    return `<div class="bm-item" data-url="${(b.url||'').replace(/"/g,'&quot;')}" data-id="${b.id}">
+      <div class="bm-fav">${favHtml}</div>
+      <div class="bm-body">
+        <div class="bm-t">${(b.title||_host(b.url||'')).replace(/</g,'&lt;')}</div>
+        <div class="bm-u">${_host(b.url||'').replace(/</g,'&lt;')}</div>
+      </div>
+      <button class="bm-del" data-id="${b.id}" title="Remove">×</button>
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.bm-item').forEach(el => {
+    el.addEventListener('click', function(e) {
+      if (e.target.closest('.bm-del')) return;
+      const url = this.dataset.url;
+      if (url) ipcRenderer.send('nav:go', { id: null, tabUrl: url });
+    });
+  });
+  list.querySelectorAll('.bm-del').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      ipcRenderer.send('bookmark:remove', this.dataset.id);
+    });
+  });
+}
+
+search.addEventListener('input', function() { query = this.value; render(); });
+
+ipcRenderer.invoke('init').then(data => {
+  bookmarks = (data && data.bookmarks) ? data.bookmarks : [];
+  render();
+}).catch(() => render());
+
+ipcRenderer.on('bookmarks:set', (_, bms) => {
+  bookmarks = Array.isArray(bms) ? bms : [];
+  render();
+});
+</script>
+</body>
+</html>

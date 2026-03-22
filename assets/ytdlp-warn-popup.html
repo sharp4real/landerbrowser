@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Video Downloader — Warning</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);
+  --t2:rgba(255,255,255,.35);--t3:rgba(255,255,255,.15);
+  --acc:#00d4c8;--acc-raw:0,212,200;
+  --ylw:#fbbf24;
+  --f:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+html,body{
+  width:100%;height:100%;
+  background:transparent;
+  font-family:var(--f);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  user-select:none;
+}
+body{
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.card{
+  background:var(--bg2);
+  border:1px solid var(--ln2);
+  border-radius:16px;
+  padding:24px 26px 22px;
+  width:420px;max-width:90vw;
+  display:flex;flex-direction:column;gap:12px;
+  box-shadow:0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+  animation:_slideIn .2s cubic-bezier(.22,1,.36,1) both;
+  text-align:left;
+}
+@keyframes _slideIn{from{opacity:0;transform:scale(.94) translateY(-6px)}to{opacity:1;transform:none}}
+.warn-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(255,189,46,.14),rgba(255,140,0,.08));
+  border:1px solid rgba(255,189,46,.22);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ylw);
+}
+.warn-title{font-size:15px;font-weight:700;color:var(--t0);letter-spacing:-.02em}
+.warn-body{font-size:12px;color:var(--t2);line-height:1.7}
+.warn-body b{color:var(--t1)}
+.warn-actions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.warn-btn{
+  width:100%;padding:10px 20px;border-radius:10px;border:none;
+  font:600 13px var(--f);cursor:pointer;transition:all .12s;letter-spacing:-.01em;
+}
+.warn-accept{background:var(--acc);color:#000}
+.warn-accept:hover{filter:brightness(1.1)}
+.warn-cancel{
+  background:transparent;color:var(--t3);
+  border:1px solid var(--ln);font-weight:500;font-size:12px;
+}
+.warn-cancel:hover{background:var(--bg3);color:var(--t1)}
+
+/* ── light mode ── */
+body.light{background:rgba(255,255,255,.35)}
+body.light .card{
+  background:rgba(255,255,255,.92);
+  border-color:rgba(0,0,0,.10);
+  box-shadow:0 24px 80px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.06);
+}
+body.light .warn-title{color:rgba(0,0,0,.88)}
+body.light .warn-body{color:rgba(0,0,0,.45)}
+body.light .warn-body b{color:rgba(0,0,0,.65)}
+body.light .warn-cancel{border-color:rgba(0,0,0,.10);color:rgba(0,0,0,.4)}
+body.light .warn-cancel:hover{background:rgba(0,0,0,.06);color:rgba(0,0,0,.7)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="warn-icon">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M11 2L20.5 19H1.5L11 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M11 9v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="11" cy="15.5" r=".9" fill="currentColor"/>
+    </svg>
+  </div>
+  <div class="warn-title">Before You Use Video Downloader</div>
+  <div class="warn-body">
+    <b>Lander Browser's Video Downloader uses yt-dlp</b>, an open-source tool that can download videos from many websites.<br><br>
+    <b>Please read before continuing:</b><br>
+    &bull; Downloading videos may violate the <b>Terms of Service</b> of the platform you're downloading from (e.g. YouTube, Twitch).<br>
+    &bull; Only download content you have the <b>right to download</b> — content you own, content licensed for download, or content in the public domain.<br>
+    &bull; <b>Do not use this tool</b> to download copyrighted material without permission.<br>
+    &bull; Lander Browser is not responsible for how you use yt-dlp.
+  </div>
+  <div class="warn-actions">
+    <button class="warn-btn warn-accept" id="btn-accept">I understand — open Video Downloader</button>
+    <button class="warn-btn warn-cancel" id="btn-cancel">Cancel</button>
+  </div>
+</div>
+<script>
+const{ipcRenderer}=require('electron');
+
+ipcRenderer.on('popup:theme',(_,t)=>{
+  if(!t)return;
+  const s=document.documentElement.style;
+  if(t.bg0)s.setProperty('--bg0',t.bg0);
+  if(t.bg1)s.setProperty('--bg1',t.bg1);
+  if(t.bg2)s.setProperty('--bg2',t.bg2);
+  if(t.bg3)s.setProperty('--bg3',t.bg3);
+  if(t.bg4)s.setProperty('--bg4',t.bg4);
+  if(t.ln)s.setProperty('--ln',t.ln);
+  if(t.ln2)s.setProperty('--ln2',t.ln2);
+  if(t.t0)s.setProperty('--t0',t.t0);
+  if(t.t1)s.setProperty('--t1',t.t1);
+  if(t.t2)s.setProperty('--t2',t.t2);
+  if(t.t3)s.setProperty('--t3',t.t3);
+  if(t.acc)s.setProperty('--acc',t.acc);
+  if(t.accRaw||t['acc-raw'])s.setProperty('--acc-raw',t.accRaw||t['acc-raw']);
+  if(t.f)s.setProperty('--f',t.f);
+  if(t.bg0){
+    const m=t.bg0.match(/\d+/g);
+    if(m&&m.length>=3){
+      const lum=parseInt(m[0])*.299+parseInt(m[1])*.587+parseInt(m[2])*.114;
+      document.body.classList.toggle('light',lum>140);
+    }
+  }
+});
+
+document.getElementById('btn-accept').addEventListener('click',()=>{
+  ipcRenderer.send('ytdlp-warn:accept');
+});
+document.getElementById('btn-cancel').addEventListener('click',()=>{
+  ipcRenderer.send('ytdlp-warn:cancel');
+});
+</script>
+</body>
+</html>

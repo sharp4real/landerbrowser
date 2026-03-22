@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Night sky gradient — deep blue with warm undertone -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#020818"/>
+      <stop offset="40%" stop-color="#0a1428"/>
+      <stop offset="70%" stop-color="#0c1e3a"/>
+      <stop offset="100%" stop-color="#112844"/>
+    </linearGradient>
+    <!-- Snow ground -->
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8d8e8"/>
+      <stop offset="100%" stop-color="#8aa0b8"/>
+    </linearGradient>
+    <!-- Tree gradient -->
+    <linearGradient id="tree" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a4a28"/>
+      <stop offset="100%" stop-color="#0e3018"/>
+    </linearGradient>
+    <linearGradient id="treeLt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e5830"/>
+      <stop offset="100%" stop-color="#12381e"/>
+    </linearGradient>
+    <!-- Warm window glow -->
+    <radialGradient id="windowGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe090" stop-opacity=".9"/>
+      <stop offset="60%" stop-color="#ffb840" stop-opacity=".4"/>
+      <stop offset="100%" stop-color="#ff8800" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Star glow -->
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff8c0" stop-opacity=".8"/>
+      <stop offset="40%" stop-color="#ffd700" stop-opacity=".3"/>
+      <stop offset="100%" stop-color="#ffd700" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Ornament shine -->
+    <radialGradient id="ornRed" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ff6060"/>
+      <stop offset="100%" stop-color="#b01010"/>
+    </radialGradient>
+    <radialGradient id="ornGold" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe070"/>
+      <stop offset="100%" stop-color="#c89020"/>
+    </radialGradient>
+    <radialGradient id="ornBlue" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#80c0ff"/>
+      <stop offset="100%" stop-color="#2060c0"/>
+    </radialGradient>
+    <radialGradient id="ornSilver" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#e8f0f8"/>
+      <stop offset="100%" stop-color="#8898a8"/>
+    </radialGradient>
+    <!-- Present bow gradient -->
+    <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#c89800"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="softglow"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="bigGlow"><feGaussianBlur stdDeviation="20"/></filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+
+  <!-- Stars -->
+  <g fill="#fff">
+    <circle cx="120" cy="60" r="1.2" opacity=".7"/><circle cx="280" cy="140" r="1" opacity=".5"/>
+    <circle cx="450" cy="45" r="1.5" opacity=".8"/><circle cx="520" cy="190" r=".8" opacity=".4"/>
+    <circle cx="680" cy="80" r="1.3" opacity=".6"/><circle cx="790" cy="30" r="1" opacity=".7"/>
+    <circle cx="900" cy="150" r=".9" opacity=".5"/><circle cx="1050" cy="60" r="1.4" opacity=".7"/>
+    <circle cx="1180" cy="120" r="1" opacity=".6"/><circle cx="1320" cy="40" r="1.2" opacity=".8"/>
+    <circle cx="1460" cy="100" r=".8" opacity=".5"/><circle cx="1540" cy="170" r="1.1" opacity=".6"/>
+    <circle cx="1670" cy="50" r="1.3" opacity=".7"/><circle cx="1800" cy="130" r="1" opacity=".5"/>
+    <circle cx="1870" cy="70" r="1.4" opacity=".6"/><circle cx="350" cy="230" r=".7" opacity=".4"/>
+    <circle cx="1100" cy="200" r=".9" opacity=".45"/><circle cx="1700" cy="220" r="1" opacity=".5"/>
+    <circle cx="200" cy="320" r=".8" opacity=".3"/><circle cx="1400" cy="280" r=".7" opacity=".35"/>
+  </g>
+
+  <!-- Moon -->
+  <circle cx="1600" cy="140" r="40" fill="#e8e0d0" opacity=".12" filter="url(#bigGlow)"/>
+  <circle cx="1600" cy="140" r="22" fill="#f0e8d8" opacity=".25"/>
+  <circle cx="1604" cy="136" r="20" fill="#020818"/>
+  <circle cx="1598" cy="142" r="18" fill="#e8dcc8" opacity=".2"/>
+
+  <!-- Aurora / atmospheric glow (subtle) -->
+  <ellipse cx="960" cy="200" rx="800" ry="150" fill="#1a5060" opacity=".06" filter="url(#bigGlow)"/>
+
+  <!-- ═══ SNOW GROUND ═══ -->
+  <path d="M0 680 Q150 660 300 675 Q500 695 700 680 Q900 665 1100 680 Q1300 698 1500 678 Q1700 660 1920 680 L1920 1080 L0 1080Z" fill="url(#snow)" opacity=".85"/>
+  <!-- Snow shadow layer -->
+  <path d="M0 700 Q200 685 400 700 Q600 715 800 698 Q1000 682 1200 700 Q1400 715 1600 698 Q1800 680 1920 700 L1920 1080 L0 1080Z" fill="#6880a0" opacity=".15"/>
+
+  <!-- ═══ CABIN (right side) ═══ -->
+  <g>
+    <!-- Cabin body -->
+    <rect x="1350" y="520" width="280" height="180" rx="4" fill="#3a2010"/>
+    <rect x="1350" y="520" width="280" height="180" rx="4" fill="#4a2818" opacity=".6"/>
+    <!-- Roof -->
+    <polygon points="1330,520 1490,420 1650,520" fill="#2a1208"/>
+    <polygon points="1330,520 1490,428 1650,520" fill="#351810" opacity=".8"/>
+    <!-- Snow on roof -->
+    <path d="M1328,520 Q1370,508 1410,515 Q1450,510 1490,505 Q1530,510 1570,515 Q1610,508 1652,520" fill="#d8e4f0" stroke="#c0d0e0" stroke-width="1"/>
+    <path d="M1328,520 Q1370,512 1410,518 Q1450,514 1490,510 Q1530,514 1570,518 Q1610,512 1652,520" fill="#e8f0f8" opacity=".6"/>
+    <!-- Log texture lines -->
+    <line x1="1355" y1="550" x2="1625" y2="550" stroke="#2a1808" stroke-width="1" opacity=".4"/>
+    <line x1="1355" y1="580" x2="1625" y2="580" stroke="#2a1808" stroke-width="1" opacity=".4"/>
+    <line x1="1355" y1="610" x2="1625" y2="610" stroke="#2a1808" stroke-width="1" opacity=".4"/>
+    <line x1="1355" y1="640" x2="1625" y2="640" stroke="#2a1808" stroke-width="1" opacity=".4"/>
+    <line x1="1355" y1="670" x2="1625" y2="670" stroke="#2a1808" stroke-width="1" opacity=".4"/>
+    <!-- Windows (warm glow) -->
+    <rect x="1380" y="560" width="50" height="45" rx="3" fill="url(#windowGlow)"/>
+    <rect x="1380" y="560" width="50" height="45" rx="3" fill="none" stroke="#2a1808" stroke-width="2"/>
+    <line x1="1405" y1="560" x2="1405" y2="605" stroke="#2a1808" stroke-width="1.5"/>
+    <line x1="1380" y1="582" x2="1430" y2="582" stroke="#2a1808" stroke-width="1.5"/>
+    <rect x="1550" y="560" width="50" height="45" rx="3" fill="url(#windowGlow)"/>
+    <rect x="1550" y="560" width="50" height="45" rx="3" fill="none" stroke="#2a1808" stroke-width="2"/>
+    <line x1="1575" y1="560" x2="1575" y2="605" stroke="#2a1808" stroke-width="1.5"/>
+    <line x1="1550" y1="582" x2="1600" y2="582" stroke="#2a1808" stroke-width="1.5"/>
+    <!-- Door -->
+    <rect x="1468" y="630" width="44" height="70" rx="3" fill="#2a1808"/>
+    <circle cx="1504" cy="668" r="3" fill="#c89030"/>
+    <!-- Chimney -->
+    <rect x="1550" y="440" width="30" height="80" fill="#3a1808"/>
+    <rect x="1546" y="435" width="38" height="10" rx="2" fill="#4a2818"/>
+    <!-- Snow on chimney -->
+    <path d="M1544,438 Q1556,430 1565,435 Q1575,430 1586,438" fill="#d8e4f0"/>
+    <!-- Chimney smoke -->
+    <g opacity=".15" filter="url(#glow)">
+      <circle cx="1565" cy="415" r="8" fill="#c0c8d0"/>
+      <circle cx="1570" cy="395" r="10" fill="#c0c8d0"/>
+      <circle cx="1563" cy="370" r="12" fill="#c0c8d0"/>
+      <circle cx="1568" cy="340" r="14" fill="#c0c8d0"/>
+    </g>
+    <!-- Window light spills on snow -->
+    <ellipse cx="1405" cy="700" rx="40" ry="10" fill="#ffe080" opacity=".08" filter="url(#glow)"/>
+    <ellipse cx="1575" cy="700" rx="40" ry="10" fill="#ffe080" opacity=".08" filter="url(#glow)"/>
+    <!-- Door light -->
+    <ellipse cx="1490" cy="700" rx="30" ry="8" fill="#ffe080" opacity=".06" filter="url(#glow)"/>
+  </g>
+
+  <!-- ═══ MAIN CHRISTMAS TREE (centre-left) ═══ -->
+  <g>
+    <!-- Trunk -->
+    <rect x="738" y="620" width="24" height="60" fill="#3a1808" rx="3"/>
+    <!-- Tree layers (bottom to top, layered for depth) -->
+    <polygon points="750,300 620,620 880,620" fill="url(#tree)"/>
+    <polygon points="750,340 640,580 860,580" fill="url(#treeLt)" opacity=".8"/>
+    <polygon points="750,380 660,540 840,540" fill="url(#tree)" opacity=".9"/>
+    <polygon points="750,420 680,510 820,510" fill="url(#treeLt)" opacity=".7"/>
+    <!-- Snow on branches -->
+    <path d="M620,620 Q660,610 690,616 Q720,612 750,620 Q780,612 810,616 Q840,610 880,620" fill="#d8e4f0" opacity=".6"/>
+    <path d="M640,580 Q670,572 700,576 Q730,570 750,578 Q780,570 810,576 Q840,572 860,580" fill="#d8e4f0" opacity=".5"/>
+    <path d="M660,540 Q685,534 710,538 Q730,533 750,538 Q770,533 790,538 Q815,534 840,540" fill="#d8e4f0" opacity=".45"/>
+
+    <!-- Star on top -->
+    <g filter="url(#softglow)">
+      <circle cx="750" cy="295" r="15" fill="url(#starGlow)"/>
+    </g>
+    <polygon points="750,278 754,290 766,290 756,298 760,310 750,302 740,310 744,298 734,290 746,290" fill="#ffd700" opacity=".9"/>
+
+    <!-- Ornaments -->
+    <circle cx="700" cy="520" r="7" fill="url(#ornRed)"/><circle cx="700" cy="518" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="800" cy="510" r="6" fill="url(#ornGold)"/><circle cx="800" cy="508" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="720" cy="470" r="7" fill="url(#ornBlue)"/><circle cx="720" cy="468" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="780" cy="460" r="6" fill="url(#ornRed)"/><circle cx="780" cy="458" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="740" cy="420" r="6" fill="url(#ornSilver)"/><circle cx="740" cy="418" r="2" fill="#fff" opacity=".25"/>
+    <circle cx="760" cy="400" r="5" fill="url(#ornGold)"/><circle cx="760" cy="398" r="1.5" fill="#fff" opacity=".3"/>
+    <circle cx="690" cy="560" r="7" fill="url(#ornGold)"/><circle cx="690" cy="558" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="810" cy="550" r="6" fill="url(#ornBlue)"/><circle cx="810" cy="548" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="670" cy="600" r="7" fill="url(#ornRed)"/><circle cx="670" cy="598" r="2" fill="#fff" opacity=".3"/>
+    <circle cx="830" cy="595" r="6" fill="url(#ornSilver)"/><circle cx="830" cy="593" r="2" fill="#fff" opacity=".25"/>
+    <circle cx="750" cy="370" r="5" fill="url(#ornRed)"/><circle cx="750" cy="368" r="1.5" fill="#fff" opacity=".3"/>
+
+    <!-- Tinsel / garland loops -->
+    <path d="M690,500 Q720,490 750,500 Q780,510 810,500" fill="none" stroke="#ffd700" stroke-width="1" opacity=".25"/>
+    <path d="M670,560 Q710,548 750,558 Q790,568 830,558" fill="none" stroke="#ffd700" stroke-width="1" opacity=".22"/>
+    <path d="M710,440 Q730,432 750,440 Q770,448 790,440" fill="none" stroke="#ffd700" stroke-width="1" opacity=".2"/>
+
+    <!-- Tree glow on snow -->
+    <ellipse cx="750" cy="680" rx="80" ry="12" fill="#40a060" opacity=".04" filter="url(#glow)"/>
+  </g>
+
+  <!-- ═══ PRESENTS under tree ═══ -->
+  <!-- Present 1 (red, gold ribbon) -->
+  <rect x="690" y="640" width="40" height="30" rx="3" fill="#c02020"/>
+  <rect x="707" y="640" width="6" height="30" fill="url(#ribbon)" opacity=".8"/>
+  <rect x="690" y="652" width="40" height="6" fill="url(#ribbon)" opacity=".8"/>
+  <!-- Present 2 (blue) -->
+  <rect x="740" y="648" width="35" height="25" rx="3" fill="#2060c0"/>
+  <rect x="755" y="648" width="5" height="25" fill="#e0e8f0" opacity=".6"/>
+  <rect x="740" y="658" width="35" height="5" fill="#e0e8f0" opacity=".6"/>
+  <!-- Present 3 (green, small) -->
+  <rect x="780" y="654" width="28" height="20" rx="2" fill="#208040"/>
+  <rect x="792" y="654" width="4" height="20" fill="url(#ribbon)" opacity=".7"/>
+  <rect x="780" y="662" width="28" height="4" fill="url(#ribbon)" opacity=".7"/>
+
+  <!-- ═══ SMALL TREES ═══ -->
+  <!-- Far left tree -->
+  <polygon points="200,500 150,680 250,680" fill="#0e3018" opacity=".7"/>
+  <polygon points="200,530 160,650 240,650" fill="#143820" opacity=".6"/>
+  <path d="M148,680 Q170,672 200,678 Q230,672 252,680" fill="#d0dce8" opacity=".35"/>
+  <!-- Left-centre tree -->
+  <polygon points="420,530 380,680 460,680" fill="#123520" opacity=".65"/>
+  <polygon points="420,555 390,650 450,650" fill="#184028" opacity=".55"/>
+  <path d="M378,680 Q400,674 420,678 Q440,674 462,680" fill="#d0dce8" opacity=".3"/>
+  <!-- Right tree -->
+  <polygon points="1150,540 1110,680 1190,680" fill="#0e3018" opacity=".6"/>
+  <polygon points="1150,565 1120,660 1180,660" fill="#143820" opacity=".5"/>
+  <path d="M1108,680 Q1130,674 1150,678 Q1170,674 1192,680" fill="#d0dce8" opacity=".3"/>
+
+  <!-- ═══ SNOWMAN (left) ═══ -->
+  <g>
+    <circle cx="350" cy="650" r="28" fill="#d8e4f0" opacity=".7"/>
+    <circle cx="350" cy="618" r="20" fill="#d8e4f0" opacity=".7"/>
+    <circle cx="350" cy="595" r="14" fill="#d8e4f0" opacity=".7"/>
+    <!-- Eyes -->
+    <circle cx="345" cy="591" r="2" fill="#1a1a1a" opacity=".6"/>
+    <circle cx="355" cy="591" r="2" fill="#1a1a1a" opacity=".6"/>
+    <!-- Nose (carrot) -->
+    <polygon points="350,596 360,598 350,600" fill="#e08020" opacity=".6"/>
+    <!-- Scarf -->
+    <path d="M336,604 Q350,608 364,604" fill="none" stroke="#c02020" stroke-width="3" opacity=".5"/>
+    <!-- Hat -->
+    <rect x="339" y="577" width="22" height="16" rx="2" fill="#1a1a1a" opacity=".5"/>
+    <rect x="335" y="593" width="30" height="3" rx="1" fill="#1a1a1a" opacity=".5"/>
+    <!-- Arms (sticks) -->
+    <line x1="322" y1="618" x2="300" y2="600" stroke="#3a2010" stroke-width="2" opacity=".4"/>
+    <line x1="378" y1="618" x2="400" y2="600" stroke="#3a2010" stroke-width="2" opacity=".4"/>
+  </g>
+
+  <!-- ═══ STRING LIGHTS across top ═══ -->
+  <g>
+    <!-- Wire -->
+    <path d="M0,350 Q240,380 480,350 Q720,320 960,350 Q1200,380 1440,350 Q1680,320 1920,350" fill="none" stroke="#303030" stroke-width="1" opacity=".3"/>
+    <!-- Bulbs -->
+    <g filter="url(#softglow)">
+      <circle cx="120" cy="365" r="5" fill="#ff4040" opacity=".7"/>
+      <circle cx="240" cy="375" r="5" fill="#40c040" opacity=".7"/>
+      <circle cx="360" cy="368" r="5" fill="#ffd700" opacity=".7"/>
+      <circle cx="480" cy="350" r="5" fill="#4080ff" opacity=".7"/>
+      <circle cx="600" cy="340" r="5" fill="#ff4040" opacity=".7"/>
+      <circle cx="720" cy="332" r="5" fill="#40c040" opacity=".7"/>
+      <circle cx="840" cy="338" r="5" fill="#ffd700" opacity=".7"/>
+      <circle cx="960" cy="350" r="5" fill="#4080ff" opacity=".7"/>
+      <circle cx="1080" cy="365" r="5" fill="#ff4040" opacity=".7"/>
+      <circle cx="1200" cy="375" r="5" fill="#40c040" opacity=".7"/>
+      <circle cx="1320" cy="368" r="5" fill="#ffd700" opacity=".7"/>
+      <circle cx="1440" cy="350" r="5" fill="#4080ff" opacity=".7"/>
+      <circle cx="1560" cy="338" r="5" fill="#ff4040" opacity=".7"/>
+      <circle cx="1680" cy="328" r="5" fill="#40c040" opacity=".7"/>
+      <circle cx="1800" cy="338" r="5" fill="#ffd700" opacity=".7"/>
+    </g>
+  </g>
+
+  <!-- ═══ FALLING SNOW (many particles, varied sizes/opacity) ═══ -->
+  <g fill="#fff">
+    <!-- Large flakes -->
+    <circle cx="80" cy="120" r="3" opacity=".5"/><circle cx="250" cy="280" r="2.5" opacity=".45"/>
+    <circle cx="430" cy="100" r="3" opacity=".5"/><circle cx="580" cy="350" r="2.5" opacity=".4"/>
+    <circle cx="770" cy="180" r="3" opacity=".5"/><circle cx="950" cy="420" r="2.5" opacity=".45"/>
+    <circle cx="1100" cy="130" r="3" opacity=".5"/><circle cx="1280" cy="300" r="2.5" opacity=".4"/>
+    <circle cx="1450" cy="250" r="3" opacity=".5"/><circle cx="1620" cy="400" r="2.5" opacity=".45"/>
+    <circle cx="1780" cy="160" r="3" opacity=".5"/><circle cx="1880" cy="320" r="2.5" opacity=".4"/>
+    <!-- Medium flakes -->
+    <circle cx="160" cy="450" r="2" opacity=".35"/><circle cx="340" cy="520" r="2" opacity=".3"/>
+    <circle cx="510" cy="250" r="2" opacity=".35"/><circle cx="660" cy="480" r="2" opacity=".3"/>
+    <circle cx="850" cy="550" r="2" opacity=".35"/><circle cx="1030" cy="320" r="2" opacity=".3"/>
+    <circle cx="1200" cy="480" r="2" opacity=".35"/><circle cx="1380" cy="550" r="2" opacity=".3"/>
+    <circle cx="1540" cy="500" r="2" opacity=".35"/><circle cx="1720" cy="520" r="2" opacity=".3"/>
+    <!-- Small flakes -->
+    <circle cx="100" cy="600" r="1.5" opacity=".25"/><circle cx="300" cy="640" r="1.5" opacity=".22"/>
+    <circle cx="480" cy="580" r="1.5" opacity=".25"/><circle cx="620" cy="620" r="1.5" opacity=".22"/>
+    <circle cx="810" cy="650" r="1.5" opacity=".25"/><circle cx="1000" cy="600" r="1.5" opacity=".22"/>
+    <circle cx="1170" cy="640" r="1.5" opacity=".25"/><circle cx="1350" cy="620" r="1.5" opacity=".22"/>
+    <circle cx="1500" cy="650" r="1.5" opacity=".25"/><circle cx="1680" cy="600" r="1.5" opacity=".22"/>
+    <circle cx="1860" cy="640" r="1.5" opacity=".25"/>
+    <!-- Tiny flakes (depth) -->
+    <circle cx="190" cy="380" r="1" opacity=".2"/><circle cx="560" cy="430" r="1" opacity=".18"/>
+    <circle cx="890" cy="270" r="1" opacity=".2"/><circle cx="1140" cy="380" r="1" opacity=".18"/>
+    <circle cx="1460" cy="440" r="1" opacity=".2"/><circle cx="1760" cy="280" r="1" opacity=".18"/>
+    <circle cx="70" cy="500" r="1" opacity=".15"/><circle cx="400" cy="400" r="1" opacity=".15"/>
+    <circle cx="1300" cy="200" r="1" opacity=".15"/><circle cx="1900" cy="450" r="1" opacity=".15"/>
+  </g>
+
+  <!-- ═══ CANDY CANE (near tree) ═══ -->
+  <g opacity=".5">
+    <path d="M640,660 L640,630 Q640,615 650,615 Q660,615 660,630" fill="none" stroke="#c02020" stroke-width="5" stroke-linecap="round"/>
+    <line x1="640" y1="660" x2="640" y2="645" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Snow shimmer -->
+  <g fill="#fff" opacity=".15">
+    <circle cx="500" cy="690" r="1.5"/><circle cx="800" cy="700" r="1.2"/>
+    <circle cx="1100" cy="685" r="1.5"/><circle cx="1400" cy="695" r="1.2"/>
+    <circle cx="300" cy="710" r="1"/><circle cx="1700" cy="690" r="1.3"/>
+  </g>
+</svg>

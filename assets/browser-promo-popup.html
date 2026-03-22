@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>You're already browsing better</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#0b0d14;--bg1:#0e1118;--bg2:#131720;--bg3:#1a2030;
+  --ln:rgba(184,190,221,.07);--ln2:rgba(184,190,221,.12);
+  --t0:#d4d9ef;--t1:#b8bedd;--t2:rgba(184,190,221,.55);--t3:rgba(184,190,221,.35);
+  --acc:#00d4c8;--acc2:#00bdb0;--acc-raw:0,212,200;--acc-f:rgba(0,212,200,.07);
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:100%;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px) scale(.97);}to{opacity:1;transform:none;}}
+.shell{
+  background:var(--bg1);border:1px solid var(--ln2);border-radius:14px;overflow:hidden;
+  animation:slideUp .2s cubic-bezier(.22,1,.36,1) both;
+  display:flex;flex-direction:column;
+}
+.hdr{
+  display:flex;align-items:center;gap:10px;padding:13px 15px 12px;
+  background:var(--bg2);border-bottom:1px solid var(--ln);
+  -webkit-app-region:drag;position:relative;flex-shrink:0;
+}
+.hdr::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 5%,rgba(var(--acc-raw),.35) 30%,rgba(var(--acc-raw),.6) 50%,rgba(var(--acc-raw),.35) 70%,transparent 95%);
+  pointer-events:none;}
+.hdr *{-webkit-app-region:no-drag;}
+.hdr-ico{width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  background:rgba(var(--acc-raw),.1);border:1px solid rgba(var(--acc-raw),.2);
+  display:flex;align-items:center;justify-content:center;color:var(--acc);}
+.hdr-title{font-size:13px;font-weight:700;color:var(--t0);letter-spacing:-.02em;}
+.hdr-sub{font-size:10px;color:var(--t3);margin-top:1px;}
+.dismiss{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;border:none;background:none;color:var(--t3);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;border-radius:4px;transition:background .1s,color .1s;}
+.dismiss:hover{background:var(--bg3);color:var(--t1);}
+.body{padding:14px 15px;display:flex;flex-direction:column;gap:10px;}
+.fact{font-size:12px;color:var(--t1);line-height:1.6;text-align:center;padding:10px 12px;
+  background:rgba(var(--acc-raw),.05);border:1px solid rgba(var(--acc-raw),.1);
+  border-radius:8px;}
+.facts-wrap{display:flex;flex-direction:column;gap:6px;}
+.feat-row{display:flex;align-items:flex-start;gap:9px;padding:6px 0;}
+.feat-ico{flex-shrink:0;color:var(--acc);margin-top:1px;}
+.feat-text{font-size:11.5px;color:var(--t1);line-height:1.5;}
+.feat-text strong{color:var(--t0);font-weight:600;}
+.footer{padding:10px 15px;border-top:1px solid var(--ln);display:flex;align-items:center;justify-content:center;gap:6px;}
+.badge{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--acc);background:rgba(var(--acc-raw),.1);border:1px solid rgba(var(--acc-raw),.2);
+  padding:2px 7px;border-radius:4px;}
+.footer-txt{font-size:11px;color:var(--t2);}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hdr">
+    <div class="hdr-ico">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 1L2 3.5v4.5C2 11 4.5 13 7 14c2.5-1 5-3 5-6V3.5L7 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M5 7.5l1.5 1.5L9.5 5.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div>
+      <div class="hdr-title">You're already browsing better</div>
+      <div class="hdr-sub">Lander Browser vs. the rest</div>
+    </div>
+    <button class="dismiss" id="dismiss-btn" title="Dismiss">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 1l6 6M7 1L1 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="body">
+    <div class="facts-wrap">
+      <div class="feat-row">
+        <div class="feat-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="feat-text"><strong>Ad &amp; tracker blocking</strong> — built in, on every site, always on. Most browsers require an extension.</div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="feat-text"><strong>Fingerprint spoofing</strong> — makes you harder to track across sessions. Most browsers expose your fingerprint.</div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="feat-text"><strong>Zero telemetry</strong> — Lander never phones home. Other browsers report your usage by default.</div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="feat-text"><strong>URL tracking stripped</strong> — junk parameters removed automatically from every link you click.</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="badge">You're set</span>
+    <span class="footer-txt">Lander is already protecting you.</span>
+  </div>
+</div>
+<script>
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+  r.setProperty('--acc-f', 'rgba(' + (t['acc-raw'] || t.accRaw || '0,212,200') + ',.07)');
+  const bg = t.bg0 || '';
+  document.documentElement.style.colorScheme = /^#[cdef]/i.test(bg.trim()) ? 'light' : 'dark';
+});
+document.getElementById('dismiss-btn')?.addEventListener('click', () => {
+  window.close();
+});
+</script>
+</body>
+</html>

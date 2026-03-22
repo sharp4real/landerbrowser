@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Privacy Shield</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808; --bg1:#0c0c0c; --bg2:#111111;
+  --acc:#00d4c8; --acc-raw:0,212,200;
+  --ln:rgba(255,255,255,.06);
+  --t0:rgba(255,255,255,.92); --t1:rgba(255,255,255,.65); --t2:rgba(255,255,255,.35);
+}
+html,body{
+  width:320px;
+  background:transparent;
+  font-family:-apple-system,'Segoe UI',sans-serif;
+  font-size:13px;
+  user-select:none;
+  overflow:hidden;
+  color:var(--t0);
+}
+
+/* Floating card */
+.card{
+  margin:8px;
+  background:var(--bg1);
+  border-radius:10px;
+  border:1px solid var(--ln);
+  overflow:hidden;
+  box-shadow:none;
+}
+
+/* Header — drag region so the popup is freely movable */
+.hdr{
+  display:flex;align-items:center;gap:9px;
+  padding:11px 13px 10px;
+  background:var(--bg2);
+  border-bottom:1px solid var(--ln);
+  -webkit-app-region:drag;
+  cursor:grab;
+}
+.hdr-ico,.hdr-txt,.power-btn{-webkit-app-region:no-drag;}
+.hdr-ico{
+  width:30px;height:30px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;transition:background .2s,border .2s;
+}
+.hdr-ico.on{background:rgba(var(--acc-raw),.14);border:1.5px solid rgba(var(--acc-raw),.28)}
+.hdr-ico.off{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);opacity:.4}
+.hdr-txt{flex:1;min-width:0}
+.hdr-title{
+  font-size:12.5px;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  color:var(--t0);
+}
+.hdr-sub{font-size:10px;color:var(--t2);margin-top:1px}
+
+/* Power */
+.power-row{
+  display:flex;align-items:center;justify-content:center;
+  padding:16px 0 10px;
+  background:var(--bg1);
+}
+.power-btn{
+  width:54px;height:54px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;outline:none;
+}
+.power-btn.on{
+  background:rgba(var(--acc-raw),.14);
+  box-shadow:0 0 0 6px rgba(var(--acc-raw),.07);
+  color:var(--acc);
+}
+.power-btn.off{
+  background:rgba(255,255,255,.05);
+  box-shadow:0 0 0 6px rgba(255,255,255,.03);
+  color:rgba(255,255,255,.22);
+}
+.power-btn svg{width:26px;height:26px}
+
+/* Stats */
+.stats{
+  display:flex;
+  border-top:1px solid var(--ln);
+  background:var(--bg1);
+}
+.stat{flex:1;padding:10px 8px;text-align:center}
+.stat+.stat{border-left:1px solid var(--ln)}
+.stat-n{
+  font-size:18px;font-weight:700;letter-spacing:-.5px;
+  color:var(--t0);transition:color .2s;
+}
+.stat-n.dim{color:var(--t2)}
+.stat-l{font-size:9px;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+
+/* Footer */
+.ftr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 12px;
+  background:var(--bg2);
+  border-top:1px solid var(--ln);
+}
+.ftr-domain{font-size:10px;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- header -->
+  <div class="hdr">
+    <div class="hdr-ico on" id="hdr-ico">
+      <svg width="14" height="16" viewBox="0 0 12 14" fill="none">
+        <path d="M6 1L1 3V7c0 3.3 2.2 6 5 7 2.8-1 5-3.7 5-7V3L6 1Z"
+          stroke="var(--acc)" stroke-width="1.3" stroke-linejoin="round"
+          fill="rgba(var(--acc-raw),.18)"/>
+        <path d="M3.5 7l1.5 1.5L8.5 5"
+          stroke="var(--acc)" stroke-width="1.3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="hdr-txt">
+      <div class="hdr-title" id="hdr-title">Privacy Shield</div>
+      <div class="hdr-sub">Powered by uBlock Origin</div>
+    </div>
+  </div>
+
+  <!-- power -->
+  <div class="power-row">
+    <button class="power-btn on" id="power-btn" title="Toggle blocking for this site">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 3v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M7.2 5.9A9 9 0 1 0 16.8 5.9"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n" id="st-page">0</div>
+      <div class="stat-l">This page</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" id="st-session">0</div>
+      <div class="stat-l">Session</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" id="st-total">0</div>
+      <div class="stat-l">All time</div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div class="ftr">
+    <span class="ftr-domain" id="ftr-domain">No active page</span>
+  </div>
+
+</div>
+<script>
+const { ipcRenderer } = require('electron');
+
+function fmt(n) {
+  n = n || 0;
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+  return String(n);
+}
+
+let _domain = '', _paused = false;
+
+function applyTheme(t) {
+  if (!t) return;
+  const r = document.documentElement.style;
+  if (t.bg0)    r.setProperty('--bg0',     t.bg0);
+  if (t.bg1)    r.setProperty('--bg1',     t.bg1);
+  if (t.bg2)    r.setProperty('--bg2',     t.bg2);
+  if (t.acc)    r.setProperty('--acc',     t.acc);
+  if (t.accRaw) r.setProperty('--acc-raw', t.accRaw);
+  if (t.ln)     r.setProperty('--ln',      t.ln);
+  if (t.t0)     r.setProperty('--t0',      t.t0);
+  if (t.t1)     r.setProperty('--t1',      t.t1);
+  if (t.t2)     r.setProperty('--t2',      t.t2);
+}
+
+function applyPause(paused) {
+  _paused = paused;
+  document.getElementById('hdr-ico').className  = 'hdr-ico '   + (paused ? 'off' : 'on');
+  document.getElementById('power-btn').className = 'power-btn ' + (paused ? 'off' : 'on');
+  ['st-page','st-session','st-total'].forEach(id =>
+    document.getElementById(id).classList.toggle('dim', paused));
+}
+
+ipcRenderer.invoke('ubo:get-stats').then(d => {
+  applyTheme(d.theme);
+  _domain = d.domain || '';
+  document.getElementById('hdr-title').textContent = _domain || 'Privacy Shield';
+  document.getElementById('ftr-domain').textContent = _domain || 'No active page';
+  document.getElementById('st-page').textContent    = fmt(d.pageBlocked);
+  document.getElementById('st-session').textContent = fmt(d.sessionBlocked);
+  document.getElementById('st-total').textContent   = fmt(d.totalBlocked);
+  applyPause(!!d.paused);
+}).catch(() => {});
+
+document.getElementById('power-btn').addEventListener('click', () => {
+  const willPause = !_paused;
+  applyPause(willPause);
+  ipcRenderer.send(willPause ? 'whitelist:add' : 'whitelist:remove', _domain);
+});
+
+// Live theme updates from main process
+ipcRenderer.on('popup:theme', (_, t) => { applyTheme(t); });
+</script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lander Browser — Incognito</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg0:  #0b0d14;
+  --bg1:  #0e1118;
+  --bg2:  #131720;
+  --bg3:  #1a2030;
+  --bg4:  #222840;
+  --bg5:  #2a3050;
+  --ln:   rgba(184,190,221,.07);
+  --ln2:  rgba(184,190,221,.12);
+  --t0:   #d4d9ef;
+  --t1:   #b8bedd;
+  --t2:   rgba(184,190,221,.55);
+  --t3:   rgba(184,190,221,.35);
+  --acc:  #00d4c8;
+  --acc2: #00bdb0;
+  --acc-g: rgba(0,212,200,.12);
+  --acc-raw: 0,212,200;
+  --tab-h: 34px;
+  --nav-h: 48px;
+  --chrome-h: 82px;
+  --f: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+/* ── Accent classes (synced from main window) ── */
+body.accent-orange { --acc: #ff8c00; --acc2: #e07800; --acc-g: rgba(255,140,0,.12); --acc-raw: 255,140,0; }
+body.accent-green  { --acc: #22c55e; --acc2: #16a34a; --acc-g: rgba(34,197,94,.12);  --acc-raw: 34,197,94; }
+body.accent-white  { --acc: rgba(255,255,255,.85); --acc2: rgba(255,255,255,.6); --acc-g: rgba(255,255,255,.08); --acc-raw: 255,255,255; }
+body.accent-pink   { --acc: #ec4899; --acc2: #db2777; --acc-g: rgba(236,72,153,.12); --acc-raw: 236,72,153; }
+body.accent-red    { --acc: #ef4444; --acc2: #dc2626; --acc-g: rgba(239,68,68,.12);  --acc-raw: 239,68,68; }
+body.accent-purple { --acc: #a855f7; --acc2: #9333ea; --acc-g: rgba(168,85,247,.12); --acc-raw: 168,85,247; }
+body.accent-yellow { --acc: #eab308; --acc2: #ca8a04; --acc-g: rgba(234,179,8,.12);  --acc-raw: 234,179,8; }
+body.accent-grey   { --acc: #94a3b8; --acc2: #64748b; --acc-g: rgba(148,163,184,.12);--acc-raw: 148,163,184; }
+body.accent-turq   { --acc: #06b6d4; --acc2: #0891b2; --acc-g: rgba(6,182,212,.12);  --acc-raw: 6,182,212; }
+
+/* ── Light theme ────────────────────────────────────────────────────────── */
+body.theme-light {
+  --bg0: #d4d4d6; --bg1: #dadade; --bg2: #f3f3f5;
+  --bg3: #e6e6e8; --bg4: #c8c8ca; --bg5: #b2b2b5;
+  --ln:  rgba(0,0,0,.08); --ln2: rgba(0,0,0,.13);
+  --t0: #1c1c1e; --t1: #3a3a3c; --t2: #636366; --t3: #8e8e93;
+  --acc: #009e94; --acc2: #00847c; --acc-g: rgba(0,158,148,.1);
+  color-scheme: light;
+}
+body.theme-light html,
+body.theme-light body { background: var(--bg0); color: var(--t0); }
+body.theme-light #chrome { background: var(--bg1); border-bottom: 1px solid var(--ln2); }
+body.theme-light #nav-row { background: var(--bg2); border-top-color: var(--ln2); }
+body.theme-light .tab { background: transparent; color: var(--t2); }
+body.theme-light .tab.active { background: var(--bg2); color: var(--t0); border-color: var(--ln2); border-bottom-color: var(--bg2); }
+body.theme-light .tab:hover:not(.active) { background: var(--bg4); }
+body.theme-light .tab-title { color: var(--t2); }
+body.theme-light .tab.active .tab-title { color: var(--t0); }
+body.theme-light .ib { color: var(--t2); }
+body.theme-light .ib:hover { color: var(--t0); background: var(--bg4); }
+body.theme-light #omnibox { background: var(--bg3); color: var(--t0); border-color: var(--ln2); caret-color: var(--acc); }
+body.theme-light #omnibox::placeholder { color: var(--t3); }
+body.theme-light #omnibox:focus { background: rgba(var(--acc-raw),.03); border-color: rgba(var(--acc-raw),.35); box-shadow: 0 0 0 2.5px rgba(var(--acc-raw),.13); }
+body.theme-light #newtab { background: var(--bg0); }
+body.theme-light .nt-title { color: var(--t0); }
+body.theme-light .nt-sub { color: var(--t2); }
+body.theme-light .nt-search { background: rgba(255,255,255,.72) !important; border: 1.5px solid rgba(0,0,0,.2) !important; color: var(--t0) !important; }
+body.theme-light .nt-search::placeholder { color: var(--t3) !important; }
+body.theme-light .nt-search:focus { background: rgba(255,255,255,.92) !important; border-color: rgba(0,0,0,.3) !important; }
+body.theme-light .nt-pill { background: var(--bg4); border-color: var(--ln2); color: var(--t2); }
+body.theme-light input, body.theme-light select, body.theme-light textarea { color-scheme: light; }
+body.theme-light #btn-new-tab { color: var(--t3); }
+body.theme-light #btn-new-tab:hover { color: var(--t1); background: rgba(0,0,0,.06); }
+body.theme-light .wc-btn { color: var(--t2); }
+body.theme-light .wc-btn:hover { background: rgba(0,0,0,.08); color: var(--t1); }
+body.theme-light .tab.active::before { background: linear-gradient(90deg, var(--acc), var(--acc2)); }
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: transparent;
+  font-family: var(--f);
+  color: var(--t0);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  font-size: 13px;
+}
+body {
+  clip-path: inset(0 round 12px);
+}
+
+#shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg0);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(var(--acc-raw),0.08);
+  position: relative;
+}
+
+/* CHROME */
+#chrome {
+  flex-shrink: 0;
+  height: var(--chrome-h);
+  min-height: var(--chrome-h);
+  max-height: var(--chrome-h);
+  background: var(--bg1);
+  border-bottom: 1px solid var(--ln);
+  position: relative;
+  z-index: 100001;
+  display: flex;
+  flex-direction: column;
+  -webkit-app-region: drag;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+#chrome::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 5%, rgba(var(--acc-raw),.25) 20%, var(--acc) 45%, var(--acc2) 75%, rgba(var(--acc-raw),.25) 90%, transparent 95%);
+  opacity: .7;
+  pointer-events: none; z-index: 1;
+}
+#chrome::after {
+  content: '';
+  position: absolute; top: 2px; left: 0; right: 0; height: 60px;
+  background: linear-gradient(180deg, rgba(var(--acc-raw),.04) 0%, transparent 100%);
+  pointer-events: none; z-index: 0;
+}
+#chrome button, #chrome input,
+#chrome .tab, #chrome .tab-close, #chrome #btn-new-tab,
+#chrome #omnibox, #chrome #nav-right,
+#chrome #win-controls { -webkit-app-region: no-drag; }
+
+/* TAB ROW */
+#mac-spacer {
+  width: 0; flex-shrink: 0; height: 100%; display: none; -webkit-app-region: drag;
+}
+body.platform-darwin #mac-spacer { display: block; width: 78px; }
+
+#tab-row {
+  height: var(--tab-h);
+  min-height: var(--tab-h);
+  max-height: var(--tab-h);
+  display: flex;
+  align-items: flex-end;
+  overflow: visible;
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+#tab-row > * { -webkit-app-region: no-drag; }
+
+#tab-area {
+  display: flex;
+  align-items: flex-end;
+  flex: 1; min-width: 0;
+  overflow: hidden; height: 100%;
+}
+#tab-strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  flex: 0 1 auto; min-width: 0;
+  overflow-x: auto; overflow-y: hidden;
+  padding-left: 4px; height: 100%;
+  -webkit-app-region: no-drag;
+  scroll-behavior: smooth;
+}
+#tab-strip::-webkit-scrollbar { display: none; }
+
+.tab {
+  position: relative;
+  display: flex; align-items: center; gap: 5px;
+  height: 100%; padding: 0 6px 0 8px;
+  border-radius: 6px 6px 0 0;
+  background: transparent; cursor: pointer;
+  flex: 0 0 160px; width: 160px; min-width: 60px; max-width: 180px;
+  border: 1px solid transparent; border-bottom: none;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+  transition: background 0.1s;
+}
+.tab:hover { background: rgba(255,255,255,.04); }
+.tab.active {
+  background: var(--bg2);
+  border-color: var(--ln);
+  border-bottom-color: var(--bg2);
+  z-index: 2;
+}
+.tab.active::before {
+  content: '';
+  position: absolute; top: 0; left: 6px; right: 6px; height: 2px;
+  background: linear-gradient(90deg, var(--acc), var(--acc2));
+  border-radius: 0 0 2px 2px;
+}
+.tab-spin {
+  width: 11px; height: 11px; flex-shrink: 0;
+  border: 1.5px solid var(--bg5); border-top-color: var(--acc);
+  border-radius: 50%; animation: spin .65s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.tab-fav { width: 12px; height: 12px; flex-shrink: 0; border-radius: 2px; object-fit: contain; display: block; }
+.tab-title {
+  flex: 1; min-width: 40px;
+  font-size: 11.5px; font-weight: 400;
+  color: var(--t2); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: -.01em;
+}
+.tab.active .tab-title { color: var(--t0); }
+.tab-close {
+  width: 14px; height: 14px; flex-shrink: 0;
+  border: none; background: transparent; border-radius: 3px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0; color: var(--t2); padding: 0;
+  transition: opacity .1s, background .1s, color .1s;
+  -webkit-app-region: no-drag;
+}
+.tab:hover .tab-close, .tab.active .tab-close { opacity: 1; }
+.tab-close:hover { background: rgba(255,80,80,.2); color: #ff5f57; }
+.tab-close svg { display: block; pointer-events: none; }
+
+/* ── Pinned tabs ── */
+.tab.pinned { flex: 0 0 34px !important; width: 34px !important; min-width: 34px !important; max-width: 34px !important; padding: 0; justify-content: center; }
+.tab.pinned .tab-title { display: none; }
+.tab.pinned .tab-close { display: none; }
+.tab.pinned .tab-fav, .tab.pinned .tab-spin { margin: 0; }
+.tab.pinned::after { content: ''; position: absolute; bottom: 2px; left: 30%; right: 30%; height: 2px; border-radius: 1px; background: var(--acc); opacity: .5; }
+.tab.pinned.active::after { opacity: 1; }
+
+#btn-new-tab {
+  flex-shrink: 0;
+  width: 28px; height: 28px; margin: 0 2px 0;
+  align-self: flex-end;
+  border: none; background: transparent; border-radius: 5px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--t3);
+  transition: color .12s, background .12s;
+  -webkit-app-region: no-drag;
+}
+#btn-new-tab:hover { color: var(--t1); background: rgba(255,255,255,.06); }
+#tab-row-spacer { flex: 1; min-width: 8px; height: 100%; -webkit-app-region: drag; }
+
+/* Window controls */
+#win-controls {
+  display: flex; align-items: center; gap: 0;
+  flex-shrink: 0; align-self: center;
+  -webkit-app-region: no-drag;
+}
+.wc-btn {
+  width: 46px; height: 32px;
+  border: none; background: transparent;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--t2); transition: background .1s, color .1s;
+  -webkit-app-region: no-drag;
+}
+.wc-btn:hover { background: rgba(255,255,255,.08); color: var(--t1); }
+.wc-btn.close:hover { background: #e81123; color: #fff; }
+.wc-btn svg { display: block; pointer-events: none; }
+
+/* NAV ROW */
+#nav-row {
+  height: var(--nav-h);
+  min-height: var(--nav-h);
+  max-height: var(--nav-h);
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  align-items: center;
+  padding: 0 4px;
+  border-top: 1px solid var(--ln);
+  background: var(--bg2);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+#nav-left, #nav-right { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
+#nav-left  { justify-self: start; }
+#nav-right { justify-self: end; }
+#nav-row > * { -webkit-app-region: no-drag; }
+
+.ib {
+  width: 28px; height: 28px; flex-shrink: 0;
+  border: none; background: transparent; border-radius: 6px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--t2); position: relative;
+  transition: background .12s, color .12s;
+  -webkit-app-region: no-drag;
+}
+.ib:hover  { background: var(--bg4); color: var(--t1); }
+.ib:active { background: var(--bg5); }
+.ib:disabled { opacity: .2; pointer-events: none; }
+.ib svg { display: block; pointer-events: none; }
+
+#omni-wrap {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center;
+  padding: 0 4px;
+  -webkit-app-region: no-drag;
+  position: relative;
+}
+#omni-inner {
+  position: relative; width: 100%; height: 32px;
+  display: flex; align-items: center;
+}
+#url-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: rgba(var(--acc-raw),.55); display: flex; align-items: center;
+  z-index: 2; pointer-events: none;
+}
+#omnibox {
+  position: relative; width: 100%; height: 32px;
+  background: rgba(var(--acc-raw),.06); border: 1px solid rgba(var(--acc-raw),.14);
+  border-radius: 10px; padding: 0 12px 0 30px;
+  font-family: var(--f); font-size: 12.5px; font-weight: 400;
+  color: var(--t0); outline: none; caret-color: var(--acc);
+  letter-spacing: -.01em;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+  -webkit-app-region: no-drag;
+}
+#omnibox::placeholder { color: var(--t3); }
+#omnibox:focus {
+  border-color: rgba(var(--acc-raw),.42);
+  background: rgba(var(--acc-raw),.09);
+  box-shadow: 0 0 0 2.5px rgba(var(--acc-raw),.14), 0 0 16px rgba(var(--acc-raw),.06);
+}
+
+#prog {
+  position: absolute; bottom: 0; left: 0;
+  height: 1px; width: 0%; opacity: 0;
+  background: linear-gradient(90deg, var(--acc), rgba(var(--acc-raw),.6));
+  pointer-events: none;
+  transition: width .3s ease, opacity .2s;
+}
+#prog.on { opacity: 1; }
+
+/* CONTENT */
+#body {
+  flex: 1; overflow: hidden;
+  position: relative; background: transparent;
+}
+
+/* NEW TAB PAGE */
+#newtab {
+  position: absolute; inset: 0;
+  background: var(--bg0);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px; z-index: 5;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s cubic-bezier(.16,1,.3,1);
+}
+#newtab.vis { opacity: 1; pointer-events: auto; }
+
+.ig-priv-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(var(--acc-raw),.06);
+  border: 1.5px solid rgba(var(--acc-raw),.14);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--acc);
+}
+.ig-priv-title {
+  font-size: 18px; font-weight: 500; color: var(--t0);
+  letter-spacing: -.02em; text-align: center;
+  margin: 0;
+}
+.ig-priv-sub {
+  font-size: 12px; color: var(--t2); text-align: center;
+  max-width: 340px; line-height: 1.55;
+  margin: 0;
+}
+.ig-search-wrap {
+  position: relative; display: flex; align-items: center;
+  margin-top: 6px;
+}
+.ig-search {
+  width: min(420px, 80vw); height: 42px;
+  background: var(--bg3);
+  border: 1px solid var(--ln2);
+  border-radius: 21px;
+  padding: 0 18px 0 38px;
+  font-family: var(--f); font-size: 13px;
+  color: var(--t0); outline: none;
+  caret-color: var(--acc);
+  transition: border-color .2s, background .2s, box-shadow .2s;
+}
+.ig-search::placeholder { color: var(--t3); }
+.ig-search:focus {
+  border-color: rgba(var(--acc-raw),.30);
+  background: rgba(var(--acc-raw),.04);
+  box-shadow: 0 0 0 2.5px rgba(var(--acc-raw),.07);
+}
+.ig-search-ico {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--t3); pointer-events: none; display: flex;
+}
+.ig-readmore {
+  font-size: 11px; color: var(--t3); cursor: pointer;
+  text-decoration: none; transition: color .15s;
+  user-select: none; margin-top: 2px;
+}
+.ig-readmore:hover { color: var(--t2); }
+.ig-disclaimer {
+  display: none; max-width: 380px;
+  padding: 14px 18px;
+  background: var(--bg2); border: 1px solid var(--ln);
+  border-radius: 10px;
+  font-size: 11px; color: var(--t2); line-height: 1.6;
+  text-align: left;
+  animation: igFadeIn .2s ease;
+}
+.ig-disclaimer.open { display: block; }
+.ig-disc-title {
+  font-size: 11.5px; font-weight: 600; color: var(--t1);
+  margin-bottom: 6px;
+}
+.ig-disc-list { margin: 0; padding-left: 16px; }
+.ig-disc-list li { margin-bottom: 4px; }
+@keyframes igFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+</style>
+</head>
+<body>
+
+<div id="shell">
+
+  <!-- CHROME -->
+  <div id="chrome">
+    <!-- TAB ROW -->
+    <div id="tab-row">
+      <div id="mac-spacer"></div>
+      <div id="tab-area">
+        <div id="tab-strip"></div>
+        <button id="btn-new-tab" title="New private tab (Ctrl+T)">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div id="tab-row-spacer"></div>
+      <div id="win-controls">
+        <button class="wc-btn" id="wc-min" title="Minimize">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 5.5h9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="wc-btn" id="wc-max" title="Maximize">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="1" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+        </button>
+        <button class="wc-btn close" id="wc-close" title="Close">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 1.5l8 8M9.5 1.5l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- NAV ROW -->
+    <div id="nav-row">
+      <div id="nav-left">
+        <button class="ib" id="btn-back" title="Back (Alt+Left)" disabled>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ib" id="btn-fwd" title="Forward (Alt+Right)" disabled>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 2.5L10 7l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ib" id="btn-reload" title="Reload (Ctrl+R)">
+          <svg id="ico-reload" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7A4.5 4.5 0 0 1 11 4.2M11 4.2V1.5M11 4.2H8.3" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 7A4.5 4.5 0 0 1 3 9.8M3 9.8v2.7M3 9.8h2.7" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div id="omni-wrap">
+        <div id="omni-inner">
+          <span id="url-icon">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="5.5" width="9" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M3.5 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          </span>
+          <input id="omnibox" type="text" autocomplete="off" spellcheck="false" placeholder="Search or enter address"/>
+          <div id="prog"></div>
+        </div>
+      </div>
+      <div id="nav-right">
+        <button class="ib" id="btn-theme" title="Toggle light/dark mode">
+          <svg id="theme-ico" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M9.9 9.9l1.1 1.1M2.9 11.1l1.1-1.1M9.9 4.1l1.1-1.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="ib" id="btn-pip" title="Pop out video (Picture-in-Picture)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="2" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+            <rect x="6.5" y="6" width="5.5" height="4" rx="1" fill="currentColor" opacity=".55"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="body">
+    <div id="newtab" class="vis">
+      <div class="ig-priv-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="3" y1="11" x2="21" y2="11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="ig-priv-title">You're Browsing Privately</div>
+      <div class="ig-priv-sub">Your history, cookies, and site data are cleared when you close this window.</div>
+      <div class="ig-search-wrap">
+        <span class="ig-search-ico">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </span>
+        <input class="ig-search" id="ig-nt-search" type="text" autocomplete="off" spellcheck="false" placeholder="Search privately or enter address"/>
+      </div>
+      <span class="ig-readmore" id="ig-readmore">Read more about private browsing</span>
+      <div class="ig-disclaimer" id="ig-disclaimer">
+        <div class="ig-disc-title">What incognito does and doesn't do</div>
+        <ul class="ig-disc-list">
+          <li>History, cookies, and form data are cleared when you close this window.</li>
+          <li>Downloads and bookmarks you create are kept.</li>
+          <li>Your activity is <strong>not invisible</strong> — your ISP, employer, or websites can still see your traffic.</li>
+          <li>Your IP address is unchanged. Use a VPN for stronger anonymity.</li>
+          <li>Extensions active in incognito may still track activity.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+const { ipcRenderer } = require('electron');
+
+// Receive full theme CSS variables from main window (same as popup windows)
+// This keeps incognito visually in sync when the user changes theme/accent in Settings.
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v) r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+  // Remove body accent-* class since we're now driving colours via CSS vars directly
+  document.body.className = document.body.className.replace(/\baccent-\w+/g, '').trim();
+});
+
+
+if (process.platform === 'darwin') document.body.classList.add('platform-darwin');
+
+const tabs = [];
+let activeId = null;
+let _loading = false;
+
+const tabStrip  = document.getElementById('tab-strip');
+const newTabBtn = document.getElementById('btn-new-tab');
+const omnibox   = document.getElementById('omnibox');
+const btnBack   = document.getElementById('btn-back');
+const btnFwd    = document.getElementById('btn-fwd');
+const btnReload = document.getElementById('btn-reload');
+const newtab    = document.getElementById('newtab');
+const ntSearch  = document.getElementById('ig-nt-search');
+const prog      = document.getElementById('prog');
+const icoReload = document.getElementById('ico-reload');
+
+// Read more disclaimer toggle
+const _readMore = document.getElementById('ig-readmore');
+const _disclaimer = document.getElementById('ig-disclaimer');
+if (_readMore && _disclaimer) {
+  _readMore.addEventListener('click', () => _disclaimer.classList.toggle('open'));
+}
+
+const RELOAD_PATHS = `<path d="M2.5 7A4.5 4.5 0 0 1 11 4.2M11 4.2V1.5M11 4.2H8.3" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 7A4.5 4.5 0 0 1 3 9.8M3 9.8v2.7M3 9.8h2.7" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>`;
+const STOP_PATHS  = `<path d="M3 3l8 8M11 3L3 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`;
+
+function setLoadingUI(on) {
+  _loading = on;
+  if (icoReload) icoReload.innerHTML = on ? STOP_PATHS : RELOAD_PATHS;
+  btnReload.title = on ? 'Stop (Esc)' : 'Reload (Ctrl+R)';
+  if (prog) {
+    if (on) { prog.style.width = '0%'; prog.classList.add('on'); prog.style.width = '70%'; }
+    else    { prog.style.width = '100%'; setTimeout(() => { prog.classList.remove('on'); prog.style.width = '0%'; }, 300); }
+  }
+}
+
+function computeTabWidth() {
+  const n = tabs.length;
+  if (!n) return 160;
+  const avail = (tabStrip.parentElement?.clientWidth || 600) - 40;
+  return Math.max(60, Math.min(180, Math.floor(avail / n)));
+}
+
+function renderTabs() {
+  // Sort: pinned first, then regular
+  const pinned = tabs.filter(t => t.pinned);
+  const normal = tabs.filter(t => !t.pinned);
+  const sorted = [...pinned, ...normal];
+
+  const normalW = computeTabWidth();
+  tabStrip.innerHTML = '';
+  sorted.forEach(t => {
+    const el = document.createElement('div');
+    const isPinned = !!t.pinned;
+    el.className = 'tab' + (t.id === activeId ? ' active' : '') + (isPinned ? ' pinned' : '');
+    if (!isPinned) el.style.cssText = `flex:0 0 ${normalW}px;width:${normalW}px;`;
+    el.dataset.id = t.id;
+    let inner = '';
+    if (t.loading) {
+      inner += '<div class="tab-spin"></div>';
+    } else if (t.favicon) {
+      inner += `<img class="tab-fav" src="${t.favicon}" onerror="this.remove()"/>`;
+    } else {
+      inner += `<svg class="tab-fav" width="12" height="12" viewBox="0 0 12 12" fill="none" style="color:var(--t3)"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.1"/></svg>`;
+    }
+    const title = (t.title || 'New Tab').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (!isPinned) {
+      inner += `<span class="tab-title">${title}</span>`;
+      inner += `<button class="tab-close"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5l5 5M6.5 1.5l-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>`;
+    }
+    el.innerHTML = inner;
+    el.addEventListener('mousedown', e => { if (!e.target.closest('.tab-close')) ipcRenderer.send('ig:tab:activate', t.id); });
+    if (!isPinned) el.querySelector('.tab-close').addEventListener('click', e => { e.stopPropagation(); ipcRenderer.send('ig:tab:close', t.id); });
+    el.addEventListener('contextmenu', e => { e.preventDefault(); ipcRenderer.send('ig:tab:contextmenu', { tabId: t.id, pinned: !!t.pinned }); });
+    tabStrip.appendChild(el);
+  });
+}
+
+// Native context menu responses from main process
+ipcRenderer.on('ig:tab:set-pin', (_, { tabId, pinned }) => {
+  const t = tabs.find(t => t.id === tabId);
+  if (t) { t.pinned = pinned; renderTabs(); }
+});
+ipcRenderer.on('ig:close-tab-native', (_, id) => {
+  ipcRenderer.send('ig:tab:close', id);
+});
+
+function updateNewtab() {
+  const t = tabs.find(t => t.id === activeId);
+  newtab.classList.toggle('vis', !!(t && t.url === 'newtab'));
+}
+
+ipcRenderer.on('ig:tab:add',      (_, d) => { tabs.push({...d}); renderTabs(); updateNewtab(); });
+ipcRenderer.on('ig:tab:activate', (_, id) => {
+  activeId = id; renderTabs(); updateNewtab();
+  const t = tabs.find(t => t.id === id);
+  if (t && document.activeElement !== omnibox)
+    omnibox.value = (t.url && t.url !== 'newtab') ? t.url : '';
+});
+ipcRenderer.on('ig:tab:remove',   (_, id) => { const i = tabs.findIndex(t => t.id === id); if (i !== -1) tabs.splice(i,1); renderTabs(); updateNewtab(); });
+ipcRenderer.on('ig:tab:update',   (_, d)  => { const t = tabs.find(t => t.id === d.id); if (t) Object.assign(t, d); renderTabs(); if (d.id === activeId) updateNewtab(); });
+ipcRenderer.on('ig:nav:state',    (_, st) => {
+  if (document.activeElement !== omnibox)
+    omnibox.value = (st.url && st.url !== 'newtab') ? st.url : '';
+  btnBack.disabled = !st.canBack;
+  btnFwd.disabled  = !st.canFwd;
+  setLoadingUI(!!st.loading);
+  updateNewtab();
+});
+
+function navigate(raw) {
+  const v = raw.trim(); if (!v) return;
+  let url;
+  if (/^(https?|file|ftp):\/\//.test(v)) url = v;
+  else if (/^[a-zA-Z0-9]([a-zA-Z0-9-]*\.)+[a-zA-Z]{2,}(\/|$)/.test(v)) url = 'https://' + v;
+  else url = 'https://www.startpage.com/do/dsearch?query=' + encodeURIComponent(v);
+  ipcRenderer.send('ig:nav:go', url);
+  omnibox.value = url; omnibox.blur();
+}
+
+newTabBtn.addEventListener('click', () => ipcRenderer.send('ig:tab:create', 'newtab'));
+btnBack.addEventListener('click',   () => ipcRenderer.send('ig:nav:back'));
+btnFwd.addEventListener('click',    () => ipcRenderer.send('ig:nav:forward'));
+btnReload.addEventListener('click', () => _loading ? ipcRenderer.send('ig:nav:stop') : ipcRenderer.send('ig:nav:reload'));
+
+document.getElementById('btn-pip').addEventListener('click', () => ipcRenderer.send('ig:pip:start'));
+
+omnibox.addEventListener('keydown', e => {
+  if (e.key === 'Enter')  { e.preventDefault(); navigate(omnibox.value); }
+  if (e.key === 'Escape') { if (_loading) ipcRenderer.send('ig:nav:stop'); omnibox.blur(); }
+});
+omnibox.addEventListener('focus', () => omnibox.select());
+ntSearch.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); const v = ntSearch.value; ntSearch.value = ''; navigate(v); }
+});
+
+document.getElementById('wc-close').addEventListener('click', () => ipcRenderer.send('ig:win:close'));
+document.getElementById('wc-min').addEventListener('click',   () => ipcRenderer.send('ig:win:minimize'));
+document.getElementById('wc-max').addEventListener('click',   () => ipcRenderer.send('ig:win:maximize'));
+
+document.addEventListener('keydown', e => {
+  const mod = process.platform === 'darwin' ? e.metaKey : e.ctrlKey;
+  if (mod && e.key === 't') { e.preventDefault(); ipcRenderer.send('ig:tab:create', 'newtab'); }
+  if (mod && e.key === 'w') { e.preventDefault(); if (activeId) ipcRenderer.send('ig:tab:close', activeId); }
+  if (mod && e.key === 'l') { e.preventDefault(); omnibox.focus(); omnibox.select(); }
+  if (mod && e.key === 'r') { e.preventDefault(); ipcRenderer.send('ig:nav:reload'); }
+  if (e.key === 'F5')       { e.preventDefault(); ipcRenderer.send('ig:nav:reload'); }
+  if (e.key === 'Escape' && _loading) ipcRenderer.send('ig:nav:stop');
+});
+
+window.addEventListener('resize', renderTabs);
+
+// IPC-based window dragging — more reliable than -webkit-app-region on Windows
+let _igDrag = false, _igSX = 0, _igSY = 0;
+const igChrome = document.getElementById('chrome');
+igChrome.addEventListener('mousedown', e => {
+  if (e.button !== 0) return;
+  if (e.target.closest('button,input,#tab-strip,.tab,#omnibox,#win-controls')) return;
+  _igDrag = true; _igSX = e.screenX; _igSY = e.screenY;
+  e.preventDefault();
+});
+window.addEventListener('mousemove', e => {
+  if (!_igDrag) return;
+  const dx = e.screenX - _igSX, dy = e.screenY - _igSY;
+  _igSX = e.screenX; _igSY = e.screenY;
+  if (dx || dy) ipcRenderer.send('ig:win:moveBy', { dx, dy });
+});
+window.addEventListener('mouseup', () => { _igDrag = false; });
+
+// ── Theme toggle ────────────────────────────────────────────────────────────
+const _MOON_PATHS = '<path d="M11 7.5A4.5 4.5 0 0 1 5 2a5 5 0 1 0 6 5.5Z" fill="currentColor" opacity=".55" stroke="none"/><path d="M11 7.5A4.5 4.5 0 0 1 5 2a5 5 0 1 0 6 5.5Z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round" fill="none"/>';
+const _SUN_PATHS  = '<circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M9.9 9.9l1.1 1.1M2.9 11.1l1.1-1.1M9.9 4.1l1.1-1.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>';
+
+function applyIgTheme(light) {
+  document.body.classList.toggle('theme-light', light);
+  const ico = document.getElementById('theme-ico');
+  if (ico) ico.innerHTML = light ? _MOON_PATHS : _SUN_PATHS;
+  try { localStorage.setItem('lander-ig-theme', light ? 'light' : 'dark'); } catch {}
+}
+
+try { applyIgTheme(localStorage.getItem('lander-ig-theme') === 'light'); } catch { applyIgTheme(false); }
+
+const _btnTheme = document.getElementById('btn-theme');
+if (_btnTheme) _btnTheme.addEventListener('click', () => applyIgTheme(!document.body.classList.contains('theme-light')));
+
+// Listen for theme/accent sync from main window settings
+ipcRenderer.on('ig:settings', (_, s) => {
+  if (s && s.theme !== undefined) applyIgTheme(s.theme === 'light');
+  if (s && s.accentColor) {
+    // Remove any existing accent-* class and apply the new one
+    document.body.className = document.body.className.replace(/\baccent-\w+/g, '').trim();
+    if (s.accentColor !== 'default') document.body.classList.add('accent-' + s.accentColor);
+  }
+});
+
+
+</script>
+</body>
+</html>

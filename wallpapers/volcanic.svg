@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0302"/>
+      <stop offset="40%" stop-color="#401408"/>
+      <stop offset="70%" stop-color="#6a2008"/>
+      <stop offset="100%" stop-color="#0e0402"/>
+    </linearGradient>
+    <radialGradient id="lava" cx="50%" cy="85%" r="30%">
+      <stop offset="0%" stop-color="rgba(255,100,0,.4)"/>
+      <stop offset="50%" stop-color="rgba(255,50,0,.2)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#lava)"/>
+  <!-- volcano cone -->
+  <polygon points="700,300 960,100 1220,300 1300,600 620,600" fill="#2c0c04"/>
+  <polygon points="750,310 960,130 1170,310 1250,580 670,580" fill="#1c0804"/>
+  <!-- crater glow -->
+  <ellipse cx="960" cy="130" rx="60" ry="20" fill="rgba(255,100,0,.5)"/>
+  <ellipse cx="960" cy="130" rx="40" ry="12" fill="rgba(255,180,0,.4)"/>
+  <ellipse cx="960" cy="130" rx="20" ry="6" fill="rgba(255,220,50,.5)"/>
+  <!-- lava flow down sides -->
+  <path d="M940 140 Q930 250 920 400 Q910 550 900 700" stroke="rgba(255,100,0,.4)" fill="none" stroke-width="8"/>
+  <path d="M940 140 Q930 250 920 400 Q910 550 900 700" stroke="rgba(255,180,50,.2)" fill="none" stroke-width="4"/>
+  <path d="M980 140 Q1000 280 1020 450 Q1040 620 1050 750" stroke="rgba(255,80,0,.35)" fill="none" stroke-width="6"/>
+  <path d="M980 140 Q1000 280 1020 450 Q1040 620 1050 750" stroke="rgba(255,160,40,.15)" fill="none" stroke-width="3"/>
+  <!-- lava pool at base -->
+  <ellipse cx="960" cy="800" rx="500" ry="60" fill="rgba(255,80,0,.2)"/>
+  <ellipse cx="960" cy="800" rx="300" ry="35" fill="rgba(255,120,10,.15)"/>
+  <ellipse cx="960" cy="800" rx="150" ry="18" fill="rgba(255,180,40,.1)"/>
+  <!-- smoke from crater -->
+  <ellipse cx="960" cy="80" rx="80" ry="30" fill="rgba(60,30,10,.15)"/>
+  <ellipse cx="940" cy="50" rx="100" ry="40" fill="rgba(50,25,8,.1)"/>
+  <ellipse cx="980" cy="30" rx="120" ry="35" fill="rgba(40,20,5,.06)"/>
+  <!-- foreground rocky terrain -->
+  <polygon points="0,700 100,650 200,680 350,640 500,670 650,650 800,680 960,660 1100,680 1250,650 1400,670 1550,640 1700,660 1920,650 1920,1080 0,1080" fill="#180808"/>
+  <!-- ember particles -->
+  <circle cx="920" cy="300" r="2" fill="rgba(255,180,50,.5)"/>
+  <circle cx="1010" cy="250" r="1.5" fill="rgba(255,140,30,.4)"/>
+  <circle cx="950" cy="200" r="1.8" fill="rgba(255,160,40,.45)"/>
+  <circle cx="990" cy="350" r="2" fill="rgba(255,120,20,.4)"/>
+  <circle cx="930" cy="180" r="1.2" fill="rgba(255,100,10,.3)"/>
+  <circle cx="970" cy="80" r="2.5" fill="rgba(255,200,60,.5)"/>
+  <circle cx="940" cy="60" r="2" fill="rgba(255,180,50,.4)"/>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a20"/>
+      <stop offset="100%" stop-color="#14142a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- geometric shapes -->
+  <!-- triangles -->
+  <polygon points="200,200 300,100 400,200" fill="none" stroke="rgba(255,100,200,.08)" stroke-width="1.5"/>
+  <polygon points="600,300 750,150 900,300" fill="none" stroke="rgba(100,200,255,.08)" stroke-width="1.5"/>
+  <polygon points="1200,250 1350,100 1500,250" fill="none" stroke="rgba(255,200,100,.08)" stroke-width="1.5"/>
+  <polygon points="1600,200 1700,100 1800,200" fill="none" stroke="rgba(100,255,200,.08)" stroke-width="1.5"/>
+  <!-- circles -->
+  <circle cx="500" cy="500" r="80" fill="none" stroke="rgba(255,100,200,.06)" stroke-width="1.5"/>
+  <circle cx="500" cy="500" r="60" fill="none" stroke="rgba(255,100,200,.04)" stroke-width="1"/>
+  <circle cx="1400" cy="600" r="100" fill="none" stroke="rgba(100,200,255,.06)" stroke-width="1.5"/>
+  <circle cx="1400" cy="600" r="75" fill="none" stroke="rgba(100,200,255,.04)" stroke-width="1"/>
+  <!-- squares -->
+  <rect x="800" y="400" width="120" height="120" fill="none" stroke="rgba(255,200,100,.06)" stroke-width="1.5" transform="rotate(15 860 460)"/>
+  <rect x="820" y="420" width="80" height="80" fill="none" stroke="rgba(255,200,100,.04)" stroke-width="1" transform="rotate(15 860 460)"/>
+  <!-- hexagons -->
+  <polygon points="300,700 340,680 380,700 380,740 340,760 300,740" fill="none" stroke="rgba(100,255,200,.08)" stroke-width="1.5"/>
+  <polygon points="1100,800 1140,780 1180,800 1180,840 1140,860 1100,840" fill="none" stroke="rgba(255,100,200,.08)" stroke-width="1.5"/>
+  <!-- connecting lines -->
+  <line x1="400" y1="200" x2="600" y2="300" stroke="rgba(200,150,255,.04)" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="900" y1="300" x2="860" y2="400" stroke="rgba(200,150,255,.04)" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="860" y1="520" x2="1300" y2="600" stroke="rgba(200,150,255,.04)" stroke-width="1" stroke-dasharray="5,5"/>
+  <!-- dots at intersections -->
+  <circle cx="200" cy="200" r="3" fill="rgba(255,100,200,.15)"/>
+  <circle cx="400" cy="200" r="3" fill="rgba(255,100,200,.15)"/>
+  <circle cx="300" cy="100" r="3" fill="rgba(255,100,200,.15)"/>
+  <circle cx="750" cy="150" r="3" fill="rgba(100,200,255,.15)"/>
+  <circle cx="860" cy="460" r="3" fill="rgba(255,200,100,.15)"/>
+  <circle cx="1350" cy="100" r="3" fill="rgba(255,200,100,.15)"/>
+  <circle cx="1400" cy="600" r="3" fill="rgba(100,200,255,.15)"/>
+</svg>

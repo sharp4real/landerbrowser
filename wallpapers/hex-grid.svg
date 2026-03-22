@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a16"/>
+      <stop offset="100%" stop-color="#12121e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- hex grid pattern -->
+  <!-- Row 1 -->
+  <polygon points="100,60 140,40 180,60 180,100 140,120 100,100" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="180,60 220,40 260,60 260,100 220,120 180,100" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="260,60 300,40 340,60 340,100 300,120 260,100" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="340,60 380,40 420,60 420,100 380,120 340,100" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="420,60 460,40 500,60 500,100 460,120 420,100" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="500,60 540,40 580,60 580,100 540,120 500,100" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="580,60 620,40 660,60 660,100 620,120 580,100" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="660,60 700,40 740,60 740,100 700,120 660,100" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="740,60 780,40 820,60 820,100 780,120 740,100" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="820,60 860,40 900,60 900,100 860,120 820,100" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="900,60 940,40 980,60 980,100 940,120 900,100" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="980,60 1020,40 1060,60 1060,100 1020,120 980,100" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="1060,60 1100,40 1140,60 1140,100 1100,120 1060,100" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="1140,60 1180,40 1220,60 1220,100 1180,120 1140,100" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="1220,60 1260,40 1300,60 1300,100 1260,120 1220,100" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="1300,60 1340,40 1380,60 1380,100 1340,120 1300,100" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="1380,60 1420,40 1460,60 1460,100 1420,120 1380,100" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="1460,60 1500,40 1540,60 1540,100 1500,120 1460,100" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="1540,60 1580,40 1620,60 1620,100 1580,120 1540,100" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="1620,60 1660,40 1700,60 1700,100 1660,120 1620,100" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="1700,60 1740,40 1780,60 1780,100 1740,120 1700,100" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <!-- Row 2 offset -->
+  <polygon points="140,120 180,100 220,120 220,160 180,180 140,160" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="300,120 340,100 380,120 380,160 340,180 300,160" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="460,120 500,100 540,120 540,160 500,180 460,160" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="620,120 660,100 700,120 700,160 660,180 620,160" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="780,120 820,100 860,120 860,160 820,180 780,160" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="940,120 980,100 1020,120 1020,160 980,180 940,160" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="1100,120 1140,100 1180,120 1180,160 1140,180 1100,160" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="1260,120 1300,100 1340,120 1340,160 1300,180 1260,160" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="1420,120 1460,100 1500,120 1500,160 1460,180 1420,160" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="1580,120 1620,100 1660,120 1660,160 1620,180 1580,160" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <!-- highlighted hexes -->
+  <polygon points="500,60 540,40 580,60 580,100 540,120 500,100" fill="rgba(0,200,255,.04)"/>
+  <polygon points="940,120 980,100 1020,120 1020,160 980,180 940,160" fill="rgba(0,200,255,.05)"/>
+  <polygon points="1300,60 1340,40 1380,60 1380,100 1340,120 1300,100" fill="rgba(0,200,255,.03)"/>
+  <!-- accent glow -->
+  <radialGradient id="g1" cx="50%" cy="50%" r="30%">
+    <stop offset="0%" stop-color="rgba(0,150,255,.06)"/>
+    <stop offset="100%" stop-color="transparent"/>
+  </radialGradient>
+  <rect width="1920" height="1080" fill="url(#g1)"/>
+  <!-- more hex rows scattered -->
+  <polygon points="100,300 140,280 180,300 180,340 140,360 100,340" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="300,300 340,280 380,300 380,340 340,360 300,340" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="500,300 540,280 580,300 580,340 540,360 500,340" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="700,300 740,280 780,300 780,340 740,360 700,340" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="900,300 940,280 980,300 980,340 940,360 900,340" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="1100,300 1140,280 1180,300 1180,340 1140,360 1100,340" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="1300,300 1340,280 1380,300 1380,340 1340,360 1300,340" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="1500,300 1540,280 1580,300 1580,340 1540,360 1500,340" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="1700,300 1740,280 1780,300 1780,340 1740,360 1700,340" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <!-- bottom rows -->
+  <polygon points="200,500 240,480 280,500 280,540 240,560 200,540" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="400,500 440,480 480,500 480,540 440,560 400,540" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="600,500 640,480 680,500 680,540 640,560 600,540" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="800,500 840,480 880,500 880,540 840,560 800,540" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+  <polygon points="1000,500 1040,480 1080,500 1080,540 1040,560 1000,540" fill="none" stroke="rgba(0,200,255,.05)" stroke-width="1"/>
+  <polygon points="1200,500 1240,480 1280,500 1280,540 1240,560 1200,540" fill="none" stroke="rgba(0,200,255,.07)" stroke-width="1"/>
+  <polygon points="1400,500 1440,480 1480,500 1480,540 1440,560 1400,540" fill="none" stroke="rgba(0,200,255,.06)" stroke-width="1"/>
+  <polygon points="1600,500 1640,480 1680,500 1680,540 1640,560 1600,540" fill="none" stroke="rgba(0,200,255,.08)" stroke-width="1"/>
+</svg>

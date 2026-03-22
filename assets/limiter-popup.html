@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Resource Limiter</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#282828;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);--t4:rgba(255,255,255,.1);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;--acc-f:rgba(255,255,255,.07);
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:300px;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes slideIn{from{opacity:0;transform:translateY(5px) scale(.98);}to{opacity:1;transform:none;}}
+.card{
+  background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);
+  overflow:hidden;display:flex;flex-direction:column;
+  animation:slideIn .2s cubic-bezier(.22,1,.36,1) both;
+}
+.card-hdr{
+  display:flex;align-items:center;gap:9px;padding:11px 14px;
+  background:var(--bg2);border-bottom:1px solid var(--ln);
+  -webkit-app-region:drag;cursor:grab;flex-shrink:0;
+}
+.card-hdr *{-webkit-app-region:no-drag;}
+.hdr-ico{
+  width:28px;height:28px;border-radius:8px;
+  background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);
+  display:flex;align-items:center;justify-content:center;color:var(--acc);
+}
+.hdr-title{flex:1;font-size:12px;font-weight:700;color:var(--t0);letter-spacing:-.01em;}
+.hdr-badge{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:rgba(var(--acc-raw),.1);color:var(--acc);border:1px solid rgba(var(--acc-raw),.2);}
+
+/* Sliders */
+.sliders{padding:14px 16px 6px;display:flex;flex-direction:column;gap:16px;}
+.slider-group{display:flex;flex-direction:column;}
+.slider-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.slider-label{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--t1);}
+.slider-label svg{color:var(--t3);}
+.slider-value{font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--acc);min-width:40px;text-align:right;transition:color .15s;}
+.slider-value.off{color:var(--t3);}
+
+.track-wrap{position:relative;height:20px;display:flex;align-items:center;}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:4px;border-radius:2px;
+  outline:none;cursor:pointer;
+  background:linear-gradient(to right, rgba(var(--acc-raw),.7) 0%, rgba(var(--acc-raw),.7) var(--pct,100%), var(--bg5) var(--pct,100%), var(--bg5) 100%);
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--acc);border:2.5px solid var(--bg1);
+  cursor:pointer;transition:transform .12s,box-shadow .12s;
+  box-shadow:0 0 0 0 rgba(var(--acc-raw),0);
+}
+input[type=range]::-webkit-slider-thumb:hover{
+  transform:scale(1.15);
+  box-shadow:0 0 0 4px rgba(var(--acc-raw),.15);
+}
+input[type=range]::-webkit-slider-thumb:active{
+  transform:scale(1.1);
+}
+
+.slider-ticks{display:flex;justify-content:space-between;margin-top:3px;padding:0 1px;}
+.tick{font-size:9px;color:var(--t4);}
+.slider-note{font-size:10px;color:var(--t3);margin-top:4px;line-height:1.45;}
+
+/* Status bar */
+.status-bar{
+  margin:8px 16px 14px;padding:9px 12px;border-radius:8px;
+  background:rgba(var(--acc-raw),.04);border:1px solid rgba(var(--acc-raw),.1);
+  display:flex;align-items:center;gap:8px;
+}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--t4);flex-shrink:0;transition:background .3s,box-shadow .3s;}
+.status-dot.on{background:rgba(var(--acc-raw),.9);box-shadow:0 0 6px rgba(var(--acc-raw),.4);}
+.status-text{font-size:10.5px;color:var(--t2);flex:1;line-height:1.35;}
+.reset-btn{
+  font-size:9.5px;font-weight:600;color:var(--t3);background:none;border:none;
+  cursor:pointer;padding:3px 7px;border-radius:5px;border:1px solid var(--ln);
+  font-family:var(--f);transition:all .12s;letter-spacing:.02em;
+}
+.reset-btn:hover{background:var(--bg4);color:var(--t1);border-color:var(--ln2);}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-hdr">
+    <div class="hdr-ico">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+        <rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+        <path d="M5.5 1v2M8.5 1v2M5.5 11v2M8.5 11v2M1 5.5h2M1 8.5h2M11 5.5h2M11 8.5h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="hdr-title">Resource Limiter</span>
+    <span class="hdr-badge" id="lim-badge">Off</span>
+  </div>
+
+  <div class="sliders">
+    <!-- CPU -->
+    <div class="slider-group">
+      <div class="slider-top">
+        <span class="slider-label">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 1v2M8.5 1v2M5.5 11v2M8.5 11v2M1 5.5h2M1 8.5h2M11 5.5h2M11 8.5h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          CPU Limit
+        </span>
+        <span class="slider-value" id="cpu-val">Unlimited</span>
+      </div>
+      <div class="track-wrap">
+        <input type="range" id="cpu-slider" min="0" max="100" step="5" value="100" style="--pct:100%">
+      </div>
+      <div class="slider-ticks">
+        <span class="tick">Off</span>
+        <span class="tick">25%</span>
+        <span class="tick">50%</span>
+        <span class="tick">75%</span>
+        <span class="tick">100%</span>
+      </div>
+      <div class="slider-note">Caps the browser process CPU priority. 100 = no limit.</div>
+    </div>
+
+    <!-- RAM -->
+    <div class="slider-group">
+      <div class="slider-top">
+        <span class="slider-label">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="1" y="4" width="12" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 4V3M7 4V3M10 4V3M4 10v1M7 10v1M10 10v1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          RAM Limit
+        </span>
+        <span class="slider-value off" id="ram-val">Unlimited</span>
+      </div>
+      <div class="track-wrap">
+        <input type="range" id="ram-slider" min="0" max="16" step="1" value="0" style="--pct:0%">
+      </div>
+      <div class="slider-ticks">
+        <span class="tick">Off</span>
+        <span class="tick" id="ram-mid"></span>
+        <span class="tick" id="ram-max">16 GB</span>
+      </div>
+      <div class="slider-note">Soft memory limit — browser frees RAM when usage exceeds this.</div>
+    </div>
+  </div>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div class="status-dot" id="status-dot"></div>
+    <span class="status-text" id="status-text">No limits active — browser runs at full speed.</span>
+    <button class="reset-btn" id="reset-btn">Reset</button>
+  </div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('popup:theme', (_, t) => {
+  if (!t) return;
+  const r = document.documentElement.style;
+  Object.entries(t).forEach(([k, v]) => { if (v && k !== 'f') r.setProperty('--' + k, v); });
+  if (t.accRaw || t['acc-raw']) r.setProperty('--acc-raw', t.accRaw || t['acc-raw']);
+  _updateTrackFills();
+});
+
+// ── Persistence ─────────────────────────────────────────────────────────────
+function _load(k, d) { try { const v = localStorage.getItem('lim2_'+k); return v !== null ? parseFloat(v) : d; } catch { return d; } }
+function _save(k, v) { try { localStorage.setItem('lim2_'+k, v); } catch {} }
+
+// ── Elements ─────────────────────────────────────────────────────────────────
+const cpuSlider = document.getElementById('cpu-slider');
+const cpuVal    = document.getElementById('cpu-val');
+const ramSlider = document.getElementById('ram-slider');
+const ramVal    = document.getElementById('ram-val');
+const ramMid    = document.getElementById('ram-mid');
+const ramMax    = document.getElementById('ram-max');
+const statusDot = document.getElementById('status-dot');
+const statusTxt = document.getElementById('status-text');
+const badge     = document.getElementById('lim-badge');
+const resetBtn  = document.getElementById('reset-btn');
+
+let _ramTotal = 0;
+
+function _updateTrackFills() {
+  if (cpuSlider) cpuSlider.style.setProperty('--pct', (cpuSlider.value / cpuSlider.max * 100) + '%');
+  if (ramSlider) ramSlider.style.setProperty('--pct', (_ramTotal > 0 ? ramSlider.value / ramSlider.max * 100 : 0) + '%');
+}
+
+function _updateStatus() {
+  const cpuLimited = parseInt(cpuSlider?.value || 100) < 100;
+  const ramLimited = parseFloat(ramSlider?.value || 0) > 0;
+  const active = cpuLimited || ramLimited;
+  if (statusDot) statusDot.classList.toggle('on', active);
+  if (badge) { badge.textContent = active ? 'Active' : 'Off'; }
+
+  const parts = [];
+  if (cpuLimited) parts.push('CPU at ' + cpuSlider.value + '%');
+  if (ramLimited) parts.push('RAM capped at ' + parseFloat(ramSlider.value).toFixed(1) + ' GB');
+  if (statusTxt) statusTxt.textContent = active ? parts.join(' · ') + '.' : 'No limits active — browser runs at full speed.';
+}
+
+// ── CPU ───────────────────────────────────────────────────────────────────────
+function _applyCpu(pct) {
+  pct = Math.max(0, Math.min(100, pct));
+  if (cpuSlider) cpuSlider.value = pct;
+  if (cpuVal) {
+    if (pct === 0 || pct === 100) { cpuVal.textContent = 'Unlimited'; cpuVal.className = 'slider-value off'; }
+    else { cpuVal.textContent = pct + '%'; cpuVal.className = 'slider-value'; }
+  }
+  const level = pct <= 33 ? 0 : pct <= 75 ? 1 : 2;
+  ipcRenderer.send('limiter:cpu', { level, pct: pct === 0 ? 100 : pct });
+  _updateTrackFills();
+  _updateStatus();
+}
+
+if (cpuSlider) {
+  _applyCpu(_load('cpu', 100));
+  cpuSlider.addEventListener('input', function() { _save('cpu', this.value); _applyCpu(parseInt(this.value)); });
+}
+
+// ── RAM ───────────────────────────────────────────────────────────────────────
+let _ramTimer = null;
+
+function _applyRam(gb) {
+  if (_ramTotal === 0) return;
+  gb = Math.max(0, Math.min(gb, _ramTotal));
+  if (ramSlider) ramSlider.value = gb;
+  if (ramVal) {
+    if (gb === 0) { ramVal.textContent = 'Unlimited'; ramVal.className = 'slider-value off'; }
+    else { ramVal.textContent = gb.toFixed(1) + ' GB'; ramVal.className = 'slider-value'; }
+  }
+  clearInterval(_ramTimer);
+  const limitMb = Math.round(gb * 1024);
+  ipcRenderer.send('limiter:ram', { limitMb });
+  if (limitMb > 0) _ramTimer = setInterval(() => ipcRenderer.send('limiter:ram', { limitMb }), 30000);
+  _updateTrackFills();
+  _updateStatus();
+}
+
+if (ramSlider) {
+  ipcRenderer.invoke('limiter:totalmem').then(bytes => {
+    _ramTotal = Math.ceil(bytes / (1024 * 1024 * 1024));
+    ramSlider.max = _ramTotal;
+    if (ramMid) ramMid.textContent = Math.round(_ramTotal / 2) + ' GB';
+    if (ramMax) ramMax.textContent = _ramTotal + ' GB';
+    const saved = Math.min(_load('ram', 0), _ramTotal);
+    _applyRam(saved);
+  }).catch(() => {
+    _ramTotal = 16;
+    ramSlider.max = 16;
+    if (ramMid) ramMid.textContent = '8 GB';
+    _applyRam(0);
+  });
+  ramSlider.addEventListener('input', function() { _save('ram', this.value); _applyRam(parseFloat(this.value)); });
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+if (resetBtn) {
+  resetBtn.addEventListener('click', () => {
+    _save('cpu', 100); _applyCpu(100);
+    _save('ram', 0);  _applyRam(0);
+  });
+}
+
+_updateStatus();
+</script>
+</body>
+</html>

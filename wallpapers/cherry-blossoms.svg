@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8d5e0"/>
+      <stop offset="40%" stop-color="#f5c6d0"/>
+      <stop offset="70%" stop-color="#fbb8c8"/>
+      <stop offset="100%" stop-color="#f9e0e8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- tree trunk -->
+  <rect x="300" y="500" width="14" height="200" rx="3" fill="#6b4226"/>
+  <rect x="800" y="520" width="12" height="180" rx="3" fill="#6b4226"/>
+  <rect x="1400" y="490" width="16" height="220" rx="3" fill="#6b4226"/>
+  <rect x="1650" y="530" width="11" height="170" rx="3" fill="#6b4226"/>
+  <!-- branches -->
+  <line x1="307" y1="560" x2="270" y2="530" stroke="#6b4226" stroke-width="4"/>
+  <line x1="307" y1="580" x2="340" y2="540" stroke="#6b4226" stroke-width="4"/>
+  <line x1="806" y1="570" x2="770" y2="540" stroke="#6b4226" stroke-width="3"/>
+  <line x1="806" y1="590" x2="845" y2="550" stroke="#6b4226" stroke-width="3"/>
+  <line x1="1408" y1="550" x2="1370" y2="510" stroke="#6b4226" stroke-width="4"/>
+  <line x1="1408" y1="570" x2="1450" y2="530" stroke="#6b4226" stroke-width="4"/>
+  <line x1="1655" y1="580" x2="1620" y2="550" stroke="#6b4226" stroke-width="3"/>
+  <!-- cherry blossom clusters -->
+  <circle cx="270" cy="520" r="28" fill="rgba(255,182,193,.8)"/>
+  <circle cx="260" cy="500" r="22" fill="rgba(255,150,170,.7)"/>
+  <circle cx="290" cy="510" r="18" fill="rgba(255,200,210,.75)"/>
+  <circle cx="340" cy="530" r="25" fill="rgba(255,170,185,.8)"/>
+  <circle cx="320" cy="510" r="20" fill="rgba(255,190,200,.7)"/>
+  <circle cx="300" cy="490" r="30" fill="rgba(255,160,180,.65)"/>
+  <circle cx="310" cy="470" r="24" fill="rgba(255,140,165,.6)"/>
+  <circle cx="770" cy="530" r="24" fill="rgba(255,182,193,.75)"/>
+  <circle cx="760" cy="510" r="20" fill="rgba(255,160,180,.7)"/>
+  <circle cx="845" cy="540" r="22" fill="rgba(255,170,185,.75)"/>
+  <circle cx="830" cy="520" r="18" fill="rgba(255,190,200,.65)"/>
+  <circle cx="800" cy="500" r="26" fill="rgba(255,150,170,.6)"/>
+  <circle cx="1370" cy="500" r="30" fill="rgba(255,182,193,.8)"/>
+  <circle cx="1360" cy="480" r="24" fill="rgba(255,150,170,.7)"/>
+  <circle cx="1400" cy="490" r="20" fill="rgba(255,200,210,.7)"/>
+  <circle cx="1450" cy="520" r="26" fill="rgba(255,170,185,.8)"/>
+  <circle cx="1430" cy="500" r="22" fill="rgba(255,140,165,.65)"/>
+  <circle cx="1410" cy="470" r="28" fill="rgba(255,160,180,.6)"/>
+  <circle cx="1620" cy="540" r="22" fill="rgba(255,182,193,.75)"/>
+  <circle cx="1640" cy="520" r="18" fill="rgba(255,160,180,.7)"/>
+  <circle cx="1660" cy="510" r="20" fill="rgba(255,190,200,.65)"/>
+  <!-- falling petals -->
+  <ellipse cx="150" cy="300" rx="5" ry="3" fill="rgba(255,180,195,.6)" transform="rotate(30 150 300)"/>
+  <ellipse cx="500" cy="200" rx="4" ry="2.5" fill="rgba(255,170,185,.5)" transform="rotate(-20 500 200)"/>
+  <ellipse cx="700" cy="350" rx="5" ry="3" fill="rgba(255,190,200,.55)" transform="rotate(45 700 350)"/>
+  <ellipse cx="1000" cy="250" rx="4" ry="2.5" fill="rgba(255,160,180,.5)" transform="rotate(-35 1000 250)"/>
+  <ellipse cx="1200" cy="400" rx="5" ry="3" fill="rgba(255,180,195,.6)" transform="rotate(15 1200 400)"/>
+  <ellipse cx="1500" cy="300" rx="4" ry="2.5" fill="rgba(255,170,185,.55)" transform="rotate(-45 1500 300)"/>
+  <ellipse cx="1800" cy="350" rx="5" ry="3" fill="rgba(255,150,170,.5)" transform="rotate(25 1800 350)"/>
+  <ellipse cx="400" cy="450" rx="4" ry="2.5" fill="rgba(255,190,200,.5)" transform="rotate(-15 400 450)"/>
+  <ellipse cx="1100" cy="150" rx="5" ry="3" fill="rgba(255,180,195,.45)" transform="rotate(40 1100 150)"/>
+  <!-- ground -->
+  <rect x="0" y="700" width="1920" height="380" fill="#c8e6c0"/>
+  <ellipse cx="960" cy="710" rx="1100" ry="40" fill="#b5d9a8"/>
+</svg>

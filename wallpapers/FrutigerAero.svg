@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Background gradient – deep Windows 7 aurora blue -->
+    <linearGradient id="bg" x1="0" y1="0" x2=".3" y2="1">
+      <stop offset="0%" stop-color="#0a3d6b"/>
+      <stop offset="35%" stop-color="#0d5ea3"/>
+      <stop offset="65%" stop-color="#1a8fe0"/>
+      <stop offset="100%" stop-color="#62c4f7"/>
+    </linearGradient>
+    <!-- Warm light accent (top-right glow) -->
+    <radialGradient id="warmGlow" cx="80%" cy="15%" r="45%">
+      <stop offset="0%" stop-color="#ffe082" stop-opacity=".12"/>
+      <stop offset="100%" stop-color="#ffe082" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Cool centre glow -->
+    <radialGradient id="centreGlow" cx="45%" cy="55%" r="50%">
+      <stop offset="0%" stop-color="#7ed8ff" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="#7ed8ff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Glossy bubble template gradient (reused via transform) -->
+    <radialGradient id="bub" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="40%" stop-color="#b3e5fc" stop-opacity=".18"/>
+      <stop offset="75%" stop-color="#4fc3f7" stop-opacity=".10"/>
+      <stop offset="100%" stop-color="#0288d1" stop-opacity=".06"/>
+    </radialGradient>
+    <!-- Bubble rim highlight -->
+    <radialGradient id="bubRim" cx="50%" cy="50%" r="50%">
+      <stop offset="88%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="95%" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Bubble inner reflection arc -->
+    <radialGradient id="bubRef" cx="60%" cy="70%" r="35%">
+      <stop offset="0%" stop-color="#fff" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Filters -->
+    <filter id="gblur"><feGaussianBlur stdDeviation="28"/></filter>
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#042a4a" flood-opacity=".25"/>
+    </filter>
+  </defs>
+
+  <!-- Background fill -->
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#warmGlow)"/>
+  <rect width="1920" height="1080" fill="url(#centreGlow)"/>
+
+  <!-- Soft aurora streaks -->
+  <g opacity=".07" filter="url(#gblur)">
+    <ellipse cx="500"  cy="350" rx="600" ry="180" fill="#4dd0e1"/>
+    <ellipse cx="1400" cy="600" rx="500" ry="200" fill="#81d4fa"/>
+    <ellipse cx="960"  cy="150" rx="700" ry="120" fill="#b3e5fc"/>
+  </g>
+
+  <!-- Light rays (subtle diagonal beams) -->
+  <g opacity=".04" filter="url(#gblur)">
+    <polygon points="1920,0 1300,0 1700,1080 1920,1080" fill="#fff"/>
+    <polygon points="800,0 400,0 700,1080 1000,1080" fill="#fff"/>
+  </g>
+
+  <!-- ═══ BUBBLES ═══ -->
+
+  <!-- Large bubble 1 – centre-right -->
+  <g filter="url(#softShadow)">
+    <circle cx="1250" cy="420" r="130" fill="url(#bub)" opacity=".75"/>
+    <circle cx="1250" cy="420" r="130" fill="url(#bubRim)"/>
+    <circle cx="1250" cy="420" r="130" fill="url(#bubRef)"/>
+    <!-- specular highlight -->
+    <ellipse cx="1215" cy="365" rx="32" ry="18" fill="#fff" opacity=".45" transform="rotate(-25,1215,365)"/>
+    <ellipse cx="1225" cy="380" rx="14" ry="8" fill="#fff" opacity=".22" transform="rotate(-25,1225,380)"/>
+  </g>
+
+  <!-- Large bubble 2 – left -->
+  <g filter="url(#softShadow)">
+    <circle cx="380" cy="520" r="110" fill="url(#bub)" opacity=".65"/>
+    <circle cx="380" cy="520" r="110" fill="url(#bubRim)"/>
+    <circle cx="380" cy="520" r="110" fill="url(#bubRef)"/>
+    <ellipse cx="350" cy="475" rx="28" ry="15" fill="#fff" opacity=".42" transform="rotate(-20,350,475)"/>
+    <ellipse cx="358" cy="488" rx="12" ry="7" fill="#fff" opacity=".20" transform="rotate(-20,358,488)"/>
+  </g>
+
+  <!-- Medium bubble 3 – top centre -->
+  <g filter="url(#softShadow)">
+    <circle cx="820" cy="200" r="85" fill="url(#bub)" opacity=".7"/>
+    <circle cx="820" cy="200" r="85" fill="url(#bubRim)"/>
+    <circle cx="820" cy="200" r="85" fill="url(#bubRef)"/>
+    <ellipse cx="797" cy="165" rx="22" ry="12" fill="#fff" opacity=".40" transform="rotate(-30,797,165)"/>
+  </g>
+
+  <!-- Medium bubble 4 – bottom right -->
+  <g filter="url(#softShadow)">
+    <circle cx="1550" cy="760" r="95" fill="url(#bub)" opacity=".6"/>
+    <circle cx="1550" cy="760" r="95" fill="url(#bubRim)"/>
+    <circle cx="1550" cy="760" r="95" fill="url(#bubRef)"/>
+    <ellipse cx="1522" cy="720" rx="24" ry="13" fill="#fff" opacity=".38" transform="rotate(-25,1522,720)"/>
+  </g>
+
+  <!-- Medium bubble 5 – lower left -->
+  <g filter="url(#softShadow)">
+    <circle cx="550" cy="830" r="75" fill="url(#bub)" opacity=".55"/>
+    <circle cx="550" cy="830" r="75" fill="url(#bubRim)"/>
+    <circle cx="550" cy="830" r="75" fill="url(#bubRef)"/>
+    <ellipse cx="530" cy="798" rx="18" ry="10" fill="#fff" opacity=".35" transform="rotate(-22,530,798)"/>
+  </g>
+
+  <!-- Small bubble 6 – upper left -->
+  <g>
+    <circle cx="180" cy="220" r="45" fill="url(#bub)" opacity=".6"/>
+    <circle cx="180" cy="220" r="45" fill="url(#bubRim)"/>
+    <ellipse cx="168" cy="204" rx="11" ry="7" fill="#fff" opacity=".38" transform="rotate(-28,168,204)"/>
+  </g>
+
+  <!-- Small bubble 7 – right edge -->
+  <g>
+    <circle cx="1780" cy="350" r="50" fill="url(#bub)" opacity=".55"/>
+    <circle cx="1780" cy="350" r="50" fill="url(#bubRim)"/>
+    <ellipse cx="1765" cy="332" rx="12" ry="7" fill="#fff" opacity=".36" transform="rotate(-30,1765,332)"/>
+  </g>
+
+  <!-- Small bubble 8 – bottom centre -->
+  <g>
+    <circle cx="990" cy="900" r="55" fill="url(#bub)" opacity=".5"/>
+    <circle cx="990" cy="900" r="55" fill="url(#bubRim)"/>
+    <ellipse cx="975" cy="880" rx="14" ry="8" fill="#fff" opacity=".34" transform="rotate(-25,975,880)"/>
+  </g>
+
+  <!-- Tiny bubble 9 -->
+  <circle cx="680" cy="640" r="28" fill="url(#bub)" opacity=".45"/>
+  <ellipse cx="672" cy="628" rx="7" ry="4" fill="#fff" opacity=".32" transform="rotate(-20,672,628)"/>
+
+  <!-- Tiny bubble 10 -->
+  <circle cx="1380" cy="180" r="22" fill="url(#bub)" opacity=".5"/>
+  <ellipse cx="1374" cy="170" rx="5" ry="3" fill="#fff" opacity=".35"/>
+
+  <!-- Tiny bubble 11 -->
+  <circle cx="300" cy="380" r="18" fill="url(#bub)" opacity=".4"/>
+  <ellipse cx="295" cy="373" rx="4" ry="3" fill="#fff" opacity=".30"/>
+
+  <!-- Tiny bubble 12 -->
+  <circle cx="1650" cy="550" r="20" fill="url(#bub)" opacity=".42"/>
+  <ellipse cx="1644" cy="542" rx="5" ry="3" fill="#fff" opacity=".28"/>
+
+  <!-- Tiny bubble 13 -->
+  <circle cx="100" cy="700" r="15" fill="url(#bub)" opacity=".38"/>
+
+  <!-- Tiny bubble 14 -->
+  <circle cx="1100" cy="580" r="16" fill="url(#bub)" opacity=".36"/>
+
+  <!-- Tiny bubble 15 – far top -->
+  <circle cx="1500" cy="100" r="12" fill="url(#bub)" opacity=".35"/>
+
+  <!-- Tiny bubble 16 -->
+  <circle cx="450" cy="130" r="14" fill="url(#bub)" opacity=".33"/>
+
+  <!-- Sparkle dots -->
+  <g fill="#fff" opacity=".35">
+    <circle cx="760"  cy="450" r="2"/>
+    <circle cx="1020" cy="310" r="1.5"/>
+    <circle cx="1420" cy="680" r="2"/>
+    <circle cx="240"  cy="600" r="1.5"/>
+    <circle cx="1160" cy="150" r="1.8"/>
+    <circle cx="630"  cy="920" r="1.5"/>
+    <circle cx="1700" cy="900" r="1.3"/>
+    <circle cx="880"  cy="720" r="1.6"/>
+  </g>
+</svg>

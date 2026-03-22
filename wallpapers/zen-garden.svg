@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0f0e8"/>
+      <stop offset="50%" stop-color="#c8e8d8"/>
+      <stop offset="100%" stop-color="#a0d0b8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- lily pads -->
+  <ellipse cx="300" cy="600" rx="80" ry="40" fill="rgba(60,120,60,.25)"/>
+  <ellipse cx="700" cy="500" rx="60" ry="30" fill="rgba(50,110,50,.20)"/>
+  <ellipse cx="1100" cy="650" rx="90" ry="45" fill="rgba(60,120,60,.22)"/>
+  <ellipse cx="1500" cy="550" rx="70" ry="35" fill="rgba(50,110,50,.18)"/>
+  <ellipse cx="500" cy="800" rx="75" ry="38" fill="rgba(60,120,60,.20)"/>
+  <ellipse cx="900" cy="750" rx="65" ry="32" fill="rgba(50,110,50,.18)"/>
+  <ellipse cx="1300" cy="850" rx="85" ry="42" fill="rgba(60,120,60,.22)"/>
+  <ellipse cx="1700" cy="700" rx="70" ry="35" fill="rgba(50,110,50,.20)"/>
+  <!-- lotus flowers -->
+  <ellipse cx="300" cy="580" rx="12" ry="8" fill="rgba(255,180,200,.5)" transform="rotate(-30 300 580)"/>
+  <ellipse cx="300" cy="580" rx="12" ry="8" fill="rgba(255,180,200,.45)" transform="rotate(30 300 580)"/>
+  <ellipse cx="300" cy="580" rx="12" ry="8" fill="rgba(255,180,200,.4)" transform="rotate(90 300 580)"/>
+  <circle cx="300" cy="580" r="4" fill="rgba(255,220,100,.5)"/>
+  <ellipse cx="1100" cy="630" rx="14" ry="9" fill="rgba(255,170,190,.45)" transform="rotate(-30 1100 630)"/>
+  <ellipse cx="1100" cy="630" rx="14" ry="9" fill="rgba(255,170,190,.4)" transform="rotate(30 1100 630)"/>
+  <ellipse cx="1100" cy="630" rx="14" ry="9" fill="rgba(255,170,190,.35)" transform="rotate(90 1100 630)"/>
+  <circle cx="1100" cy="630" r="5" fill="rgba(255,220,100,.45)"/>
+  <!-- water ripples -->
+  <circle cx="600" cy="400" r="30" fill="none" stroke="rgba(100,160,120,.08)" stroke-width="1"/>
+  <circle cx="600" cy="400" r="50" fill="none" stroke="rgba(100,160,120,.05)" stroke-width="1"/>
+  <circle cx="1400" cy="450" r="25" fill="none" stroke="rgba(100,160,120,.07)" stroke-width="1"/>
+  <circle cx="1400" cy="450" r="45" fill="none" stroke="rgba(100,160,120,.04)" stroke-width="1"/>
+  <!-- koi fish -->
+  <ellipse cx="800" cy="400" rx="20" ry="8" fill="rgba(255,120,50,.20)"/>
+  <polygon points="780,400 768,393 768,407" fill="rgba(255,120,50,.18)"/>
+  <circle cx="815" cy="398" r="1.5" fill="rgba(0,0,0,.15)"/>
+  <ellipse cx="1200" cy="500" rx="18" ry="7" fill="rgba(255,255,200,.18)"/>
+  <polygon points="1182,500 1172,494 1172,506" fill="rgba(255,255,200,.15)"/>
+  <circle cx="1214" cy="498" r="1.5" fill="rgba(0,0,0,.12)"/>
+</svg>

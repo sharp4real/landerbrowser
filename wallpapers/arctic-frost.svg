@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#061020"/>
+      <stop offset="30%" stop-color="#142c50"/>
+      <stop offset="55%" stop-color="#1c3c68"/>
+      <stop offset="100%" stop-color="#081830"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- ice mountains -->
+  <polygon points="0,600 200,400 400,500 600,350 800,450 1000,380 1200,460 1400,360 1600,430 1800,380 1920,450 1920,700 0,700" fill="#142c50" opacity=".6"/>
+  <!-- snow on mountains -->
+  <polygon points="200,400 240,430 160,430" fill="rgba(200,230,255,.2)"/>
+  <polygon points="600,350 650,385 550,385" fill="rgba(200,230,255,.25)"/>
+  <polygon points="1000,380 1050,415 950,415" fill="rgba(200,230,255,.2)"/>
+  <polygon points="1400,360 1450,395 1350,395" fill="rgba(200,230,255,.22)"/>
+  <polygon points="1800,380 1845,410 1755,410" fill="rgba(200,230,255,.18)"/>
+  <!-- ice field / frozen lake -->
+  <rect y="700" width="1920" height="380" fill="#0c1c38"/>
+  <!-- ice cracks -->
+  <path d="M200 750 L400 780 L500 760 L650 800" stroke="rgba(150,220,255,.08)" fill="none" stroke-width="1.5"/>
+  <path d="M800 730 L950 770 L1100 740 L1200 780" stroke="rgba(150,220,255,.06)" fill="none" stroke-width="1"/>
+  <path d="M1300 760 L1500 730 L1650 770 L1800 750" stroke="rgba(150,220,255,.07)" fill="none" stroke-width="1"/>
+  <!-- ice crystals / snow sparkles -->
+  <circle cx="300" cy="500" r="2" fill="rgba(200,240,255,.35)"/>
+  <circle cx="600" cy="450" r="1.5" fill="rgba(200,240,255,.3)"/>
+  <circle cx="900" cy="480" r="2" fill="rgba(200,240,255,.35)"/>
+  <circle cx="1200" cy="440" r="1.5" fill="rgba(200,240,255,.3)"/>
+  <circle cx="1500" cy="470" r="2" fill="rgba(200,240,255,.3)"/>
+  <circle cx="1800" cy="450" r="1.5" fill="rgba(200,240,255,.25)"/>
+  <!-- aurora-like glow in sky -->
+  <ellipse cx="960" cy="180" rx="600" ry="80" fill="rgba(100,200,255,.05)"/>
+  <ellipse cx="700" cy="150" rx="300" ry="40" fill="rgba(80,220,240,.04)"/>
+  <!-- stars -->
+  <circle cx="150" cy="60" r="1.5" fill="rgba(255,255,255,.5)"/>
+  <circle cx="400" cy="100" r="1" fill="rgba(255,255,255,.35)"/>
+  <circle cx="700" cy="50" r="1.3" fill="rgba(255,255,255,.45)"/>
+  <circle cx="1000" cy="80" r="1" fill="rgba(255,255,255,.35)"/>
+  <circle cx="1300" cy="60" r="1.5" fill="rgba(255,255,255,.5)"/>
+  <circle cx="1600" cy="100" r="1" fill="rgba(255,255,255,.3)"/>
+  <circle cx="1800" cy="50" r="1.3" fill="rgba(255,255,255,.4)"/>
+  <!-- foreground snow -->
+  <path d="M0 900 Q200 880 400 900 Q600 920 800 900 Q1000 880 1200 900 Q1400 920 1600 900 Q1800 880 1920 900 L1920 1080 0 1080" fill="rgba(180,210,235,.08)"/>
+</svg>

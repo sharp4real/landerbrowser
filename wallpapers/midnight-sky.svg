@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#02050e"/>
+      <stop offset="50%" stop-color="#081430"/>
+      <stop offset="100%" stop-color="#030818"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- moon -->
+  <circle cx="1440" cy="180" r="50" fill="rgba(240,245,255,.55)"/>
+  <circle cx="1440" cy="180" r="90" fill="rgba(200,215,250,.06)"/>
+  <!-- clouds -->
+  <ellipse cx="400" cy="300" rx="250" ry="30" fill="rgba(30,50,100,.12)"/>
+  <ellipse cx="1200" cy="250" rx="200" ry="25" fill="rgba(25,45,90,.1)"/>
+  <ellipse cx="800" cy="400" rx="180" ry="20" fill="rgba(30,50,100,.08)"/>
+  <!-- landscape hills -->
+  <polygon points="0,700 200,620 400,660 650,580 900,630 1100,570 1400,620 1600,560 1920,620 1920,1080 0,1080" fill="#060e22"/>
+  <!-- trees on hills -->
+  <polygon points="300,640 315,580 330,640" fill="#040a18"/>
+  <polygon points="350,650 368,570 386,650" fill="#040a18"/>
+  <polygon points="700,600 718,530 736,600" fill="#040a18"/>
+  <polygon points="750,610 765,550 780,610" fill="#040a18"/>
+  <polygon points="1100,590 1118,520 1136,590" fill="#040a18"/>
+  <polygon points="1500,600 1520,530 1540,600" fill="#040a18"/>
+  <polygon points="1600,580 1615,520 1630,580" fill="#040a18"/>
+  <!-- lots of stars -->
+  <circle cx="80" cy="40" r="1.8" fill="rgba(255,255,255,.6)"/>
+  <circle cx="200" cy="120" r="1" fill="rgba(255,255,255,.4)"/>
+  <circle cx="350" cy="60" r="1.5" fill="rgba(255,255,255,.5)"/>
+  <circle cx="500" cy="150" r=".8" fill="rgba(255,255,255,.3)"/>
+  <circle cx="650" cy="80" r="1.3" fill="rgba(255,255,255,.5)"/>
+  <circle cx="800" cy="120" r="1" fill="rgba(255,255,255,.35)"/>
+  <circle cx="960" cy="50" r="2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="1100" cy="130" r=".8" fill="rgba(255,255,255,.3)"/>
+  <circle cx="1250" cy="70" r="1.5" fill="rgba(255,255,255,.5)"/>
+  <circle cx="1600" cy="100" r="1" fill="rgba(255,255,255,.4)"/>
+  <circle cx="1750" cy="50" r="1.3" fill="rgba(255,255,255,.45)"/>
+  <circle cx="1850" cy="130" r=".8" fill="rgba(255,255,255,.3)"/>
+  <circle cx="150" cy="220" r=".6" fill="rgba(255,255,255,.25)"/>
+  <circle cx="450" cy="240" r=".7" fill="rgba(255,255,255,.2)"/>
+  <circle cx="700" cy="200" r=".8" fill="rgba(255,255,255,.25)"/>
+  <circle cx="1000" cy="220" r=".6" fill="rgba(255,255,255,.2)"/>
+  <circle cx="1350" cy="200" r=".7" fill="rgba(255,255,255,.22)"/>
+  <circle cx="1700" cy="220" r=".6" fill="rgba(255,255,255,.2)"/>
+</svg>

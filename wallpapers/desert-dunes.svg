@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#100810"/>
+      <stop offset="20%" stop-color="#582818"/>
+      <stop offset="45%" stop-color="#c07020"/>
+      <stop offset="65%" stop-color="#d88828"/>
+      <stop offset="85%" stop-color="#b06818"/>
+      <stop offset="100%" stop-color="#281008"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- sun -->
+  <circle cx="960" cy="380" r="150" fill="rgba(255,200,100,.2)"/>
+  <circle cx="960" cy="380" r="80" fill="rgba(255,220,120,.15)"/>
+  <!-- sand dune ridges -->
+  <path d="M0 550 Q200 500 400 530 Q600 560 800 510 Q1000 460 1200 500 Q1400 540 1600 490 Q1800 440 1920 480 L1920 700 Q1800 660 1600 690 Q1400 720 1200 680 Q1000 640 800 670 Q600 700 400 660 Q200 620 0 660Z" fill="#905020" opacity=".5"/>
+  <path d="M0 650 Q300 590 600 640 Q900 690 1200 620 Q1500 550 1920 610 L1920 800 Q1500 750 1200 800 Q900 850 600 790 Q300 730 0 780Z" fill="#804018" opacity=".7"/>
+  <path d="M0 760 Q250 710 500 740 Q750 770 1000 720 Q1250 670 1500 710 Q1750 750 1920 730 L1920 1080 0 1080Z" fill="#603010" opacity=".85"/>
+  <!-- foreground dune -->
+  <path d="M0 880 Q200 840 400 860 Q600 880 800 850 Q1000 820 1200 850 Q1400 880 1600 860 Q1800 840 1920 860 L1920 1080 0 1080Z" fill="#401808"/>
+  <!-- sand ripple lines -->
+  <path d="M100 900 Q300 890 500 900 Q700 910 900 900" stroke="rgba(200,140,60,.1)" fill="none" stroke-width="1"/>
+  <path d="M1000 920 Q1200 910 1400 920 Q1600 930 1800 920" stroke="rgba(200,140,60,.08)" fill="none" stroke-width="1"/>
+  <!-- heat haze shimmer -->
+  <ellipse cx="960" cy="500" rx="800" ry="30" fill="rgba(255,200,100,.04)"/>
+</svg>

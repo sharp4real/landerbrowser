@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#87ceeb"/>
+      <stop offset="40%" stop-color="#a8d8f0"/>
+      <stop offset="100%" stop-color="#c8e8f8"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="75%" cy="15%" r="30%">
+      <stop offset="0%" stop-color="#fff8e0" stop-opacity=".6"/>
+      <stop offset="60%" stop-color="#fff8e0" stop-opacity=".1"/>
+      <stop offset="100%" stop-color="#fff8e0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0f5fa"/>
+      <stop offset="30%" stop-color="#d8e4f0"/>
+      <stop offset="60%" stop-color="#8898a8"/>
+      <stop offset="100%" stop-color="#607080"/>
+    </linearGradient>
+    <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8eef5"/>
+      <stop offset="25%" stop-color="#c0d0e0"/>
+      <stop offset="55%" stop-color="#7088a0"/>
+      <stop offset="100%" stop-color="#506878"/>
+    </linearGradient>
+    <linearGradient id="mtn3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#98a8b8"/>
+      <stop offset="100%" stop-color="#405060"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a8aaa"/>
+      <stop offset="50%" stop-color="#4a7898"/>
+      <stop offset="100%" stop-color="#3a6888"/>
+    </linearGradient>
+    <linearGradient id="pine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d5a3a"/>
+      <stop offset="100%" stop-color="#1a3828"/>
+    </linearGradient>
+    <filter id="haze"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="mist"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <rect width="1920" height="1080" fill="url(#sun)"/>
+  <!-- Distant clouds -->
+  <g fill="#fff" opacity=".6" filter="url(#mist)">
+    <ellipse cx="250" cy="160" rx="150" ry="45"/>
+    <ellipse cx="330" cy="150" rx="100" ry="38"/>
+    <ellipse cx="800" cy="100" rx="180" ry="50"/>
+    <ellipse cx="900" cy="90" rx="120" ry="42"/>
+    <ellipse cx="1500" cy="180" rx="130" ry="42"/>
+    <ellipse cx="1570" cy="170" rx="90" ry="35"/>
+  </g>
+  <!-- Far mountain range (hazy blue) -->
+  <g filter="url(#haze)" opacity=".5">
+    <polygon points="0,520 150,340 350,430 500,300 700,400 900,280 1100,370 1300,290 1500,380 1700,260 1920,350 1920,600 0,600" fill="#8898a8"/>
+  </g>
+  <!-- Main mountain range -->
+  <polygon points="0,580 100,420 250,500 400,350 600,480 800,320 950,430 1150,340 1350,450 1500,330 1700,440 1920,350 1920,680 0,680" fill="url(#mtn1)"/>
+  <!-- Snow detail on main peaks -->
+  <g fill="#f0f5fa" opacity=".8">
+    <polygon points="400,350 460,410 340,410"/>
+    <polygon points="800,320 870,395 730,395"/>
+    <polygon points="1150,340 1220,400 1080,400"/>
+    <polygon points="1500,330 1570,400 1430,400"/>
+  </g>
+  <!-- Secondary mountain range -->
+  <polygon points="0,640 200,500 380,590 550,460 750,570 950,440 1100,530 1300,450 1500,550 1700,430 1920,520 1920,740 0,740" fill="url(#mtn2)"/>
+  <!-- Snow on secondary peaks -->
+  <g fill="#e8eef5" opacity=".7">
+    <polygon points="550,460 610,520 490,520"/>
+    <polygon points="950,440 1010,505 890,505"/>
+    <polygon points="1700,430 1760,495 1640,495"/>
+  </g>
+  <!-- Foreground ridge with pine treeline -->
+  <polygon points="0,700 150,620 300,670 500,590 700,660 900,580 1050,640 1250,570 1450,640 1650,580 1920,630 1920,780 0,780" fill="url(#mtn3)"/>
+  <!-- Pine trees on foreground -->
+  <g fill="url(#pine)">
+    <!-- Left cluster -->
+    <polygon points="60,700 68,650 76,700"/>
+    <polygon points="80,700 90,635 100,700"/>
+    <polygon points="105,700 112,660 119,700"/>
+    <polygon points="130,700 140,640 150,700"/>
+    <polygon points="160,700 166,665 172,700"/>
+    <!-- Center cluster -->
+    <polygon points="850,590 860,530 870,590"/>
+    <polygon points="880,590 892,520 904,590"/>
+    <polygon points="910,590 918,545 926,590"/>
+    <polygon points="935,590 942,555 949,590"/>
+    <!-- Right cluster -->
+    <polygon points="1580,590 1590,530 1600,590"/>
+    <polygon points="1610,590 1622,525 1634,590"/>
+    <polygon points="1640,590 1648,550 1656,590"/>
+    <polygon points="1665,590 1672,560 1679,590"/>
+    <polygon points="1690,590 1700,535 1710,590"/>
+  </g>
+  <!-- Lake -->
+  <ellipse cx="960" cy="900" rx="800" ry="250" fill="url(#lake)"/>
+  <!-- Lake reflection of mountains -->
+  <g opacity=".2" transform="translate(0,1560) scale(1,-1)">
+    <polygon points="0,580 100,420 250,500 400,350 600,480 800,320 950,430 1150,340 1350,450 1500,330 1700,440 1920,350 1920,680 0,680" fill="url(#mtn1)"/>
+  </g>
+  <!-- Lake shimmer -->
+  <g stroke="#fff" stroke-opacity=".15" fill="none" stroke-width="1">
+    <line x1="400" y1="850" x2="500" y2="852"/>
+    <line x1="700" y1="880" x2="820" y2="882"/>
+    <line x1="1000" y1="860" x2="1130" y2="862"/>
+    <line x1="1300" y1="900" x2="1400" y2="901"/>
+    <line x1="550" y1="920" x2="660" y2="921"/>
+    <line x1="1100" y1="940" x2="1220" y2="941"/>
+  </g>
+  <!-- Shoreline -->
+  <g fill="#3a5848" opacity=".6">
+    <ellipse cx="300" cy="780" rx="150" ry="15"/>
+    <ellipse cx="1600" cy="790" rx="180" ry="18"/>
+  </g>
+  <!-- Foreground grass -->
+  <rect x="0" y="1000" width="1920" height="80" fill="#2d4a38" opacity=".4"/>
+  <!-- Mist over lake -->
+  <g fill="#c8e8f8" opacity=".12" filter="url(#mist)">
+    <ellipse cx="500" cy="830" rx="250" ry="40"/>
+    <ellipse cx="1400" cy="850" rx="200" ry="35"/>
+  </g>
+</svg>

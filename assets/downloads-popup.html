@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Downloads</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080808;--bg1:#0c0c0c;--bg2:#111111;--bg3:#181818;--bg4:#202020;--bg5:#282828;
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.10);
+  --t0:rgba(255,255,255,.92);--t1:rgba(255,255,255,.65);--t2:rgba(255,255,255,.40);--t3:rgba(255,255,255,.22);
+  --acc:rgba(255,255,255,.85);--acc-raw:255,255,255;--acc-f:rgba(255,255,255,.07);
+  --ylw:#fbbf24;--red:#f87171;--grn:#22c55e;
+  --f:'Geist',ui-sans-serif,system-ui,sans-serif;
+}
+html,body{width:320px;background:transparent;font-family:var(--f);font-size:13px;user-select:none;overflow:hidden;color:var(--t0);}
+body{padding:8px;}
+@keyframes popupSlideIn{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+.card{background:var(--bg1);border-radius:14px;border:1px solid var(--ln2);overflow:hidden;box-shadow:none;display:flex;flex-direction:column;animation:popupSlideIn .22s cubic-bezier(.22,1,.36,1) both;backdrop-filter:blur(2px);}
+.card-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;background:var(--bg2);border-bottom:1px solid var(--ln);-webkit-app-region:drag;cursor:grab;flex-shrink:0;}
+.card-hdr *{-webkit-app-region:no-drag;}
+.card-hdr-ico{width:28px;height:28px;border-radius:8px;background:rgba(var(--acc-raw),.08);border:1px solid rgba(var(--acc-raw),.15);display:flex;align-items:center;justify-content:center;color:var(--acc);flex-shrink:0;transition:background .15s;}
+.card-title{flex:1;font-size:12px;font-weight:700;color:var(--t0);letter-spacing:-.01em;}
+
+.dl-list{overflow-y:auto;max-height:350px;padding:4px 0;}
+.dl-list::-webkit-scrollbar{width:3px;}
+.dl-list::-webkit-scrollbar-thumb{background:var(--ln2);border-radius:3px;}
+.dl-list::-webkit-scrollbar-track{background:transparent;}
+
+.dl-section-hdr{font-size:9px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--t3);padding:8px 14px 3px;}
+.dl-item{padding:7px 12px;border-bottom:1px solid var(--ln);transition:background .1s;}
+.dl-item:last-child{border-bottom:none;}
+.dl-item:hover{background:var(--acc-f);}
+.dl-row1{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.dl-icon{width:20px;height:20px;border-radius:5px;background:var(--bg4);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--t3);}
+.dl-name{flex:1;font-size:11.5px;font-weight:600;color:var(--t0);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dl-pct{font-size:10px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums;flex-shrink:0;}
+.dl-pct.done{color:var(--grn);}
+.dl-pct.err{color:var(--red);}
+.dl-pct.cancel{color:var(--t3);}
+.dl-bar-wrap{height:3px;border-radius:2px;background:var(--bg5);overflow:hidden;margin-bottom:5px;}
+.dl-bar{height:100%;border-radius:2px;background:var(--acc);transition:width .3s;position:relative;overflow:hidden;}
+.dl-bar.shimmer::after{content:'';position:absolute;top:0;left:-200%;width:200%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:dlShim 1.4s infinite;}
+@keyframes dlShim{from{left:-200%}to{left:200%}}
+.dl-bar.green{background:var(--grn);}
+.dl-meta{display:flex;align-items:center;justify-content:space-between;}
+.dl-info{font-size:10px;color:var(--t3);display:flex;gap:5px;align-items:center;}
+.dl-info span{display:flex;align-items:center;gap:2px;}
+.dl-acts{display:flex;gap:4px;}
+.dl-act{background:transparent;border:1px solid var(--ln);border-radius:5px;color:var(--t2);cursor:pointer;padding:2px 7px;font:10px var(--f);transition:all .12s;}
+.dl-act:hover{border-color:rgba(var(--acc-raw),.3);color:var(--acc);background:var(--acc-f);}
+.dl-act.danger:hover{border-color:rgba(248,113,113,.3);color:var(--red);background:rgba(248,113,113,.07);}
+
+.dl-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--t3);font-size:11px;text-align:center;padding:28px 20px;}
+.dl-empty svg{opacity:.4;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-hdr">
+    <div class="card-hdr-ico">
+      <svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 5.5L6 8l2.5-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 9.5h9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <span class="card-title">Downloads</span>
+  </div>
+  <div class="dl-list" id="dl-list"></div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+
+let downloads = [];
+
+const list = document.getElementById('dl-list');
+
+function _ext(name) {
+  const m = (name||'').match(/\.([^.]+)$/);
+  return m ? m[1].toUpperCase().slice(0,4) : 'BIN';
+}function _fmt(bytes) {
+  if (!bytes || bytes <= 0) return '';
+  if (bytes >= 1e9) return (bytes/1e9).toFixed(1) + ' GB';
+  if (bytes >= 1e6) return (bytes/1e6).toFixed(1) + ' MB';
+  if (bytes >= 1e3) return (bytes/1e3).toFixed(0) + ' KB';
+  return bytes + ' B';
+}
+
+function _fmtSpeed(bps) {
+  if (!bps || bps <= 0) return '';
+  if (bps >= 1e6) return (bps/1e6).toFixed(1) + ' MB/s';
+  if (bps >= 1e3) return (bps/1e3).toFixed(0) + ' KB/s';
+  return bps + ' B/s';
+}
+
+function _fmtEta(s) {
+  if (!s || s <= 0 || s > 86400) return '';
+  if (s < 60) return s + 's';
+  if (s < 3600) return Math.floor(s/60) + 'm ' + (s%60) + 's';
+  return Math.floor(s/3600) + 'h ' + Math.floor((s%3600)/60) + 'm';
+}
+
+
+function _itemHtml(dl) {
+  const name = dl.filename || 'download';
+  const ext = _ext(name);
+  const st = dl.state;
+  const total = dl.size || 0;
+  const recv = dl.received || 0;
+
+  let pctText = '', barW = 0, barClass = 'dl-bar';
+  if (st === 'progressing') {
+    const p = total > 0 ? Math.round(recv * 100 / total) : 0;
+    pctText = p + '%'; barW = p; barClass += ' shimmer';
+  } else if (st === 'completed') {
+    pctText = 'Done'; barW = 100; barClass += ' green';
+  } else if (st === 'interrupted') {
+    pctText = 'Failed'; barW = total > 0 ? Math.round(recv * 100 / total) : 0;
+  } else if (st === 'cancelled') {
+    pctText = 'Cancelled'; barW = total > 0 ? Math.round(recv * 100 / total) : 0;
+  } else if (st === 'paused') {
+    pctText = 'Paused'; barW = total > 0 ? Math.round(recv * 100 / total) : 0;
+  }
+
+  const pctClass = 'dl-pct' + (st==='completed'?' done':st==='interrupted'?' err':st==='cancelled'?' cancel':'');
+  const showBar = ['progressing','paused','interrupted','cancelled'].includes(st) || barW > 0;
+
+  let info = '';
+  if (st === 'progressing') {
+    const spd = _fmtSpeed(dl.speed);
+    const eta = dl.speed > 0 && total > recv ? _fmtEta(Math.ceil((total - recv) / dl.speed)) : '';
+    info = `<span>${_fmt(recv)} / ${_fmt(total)}</span>${spd?`<span>↓ ${spd}</span>`:''}${eta?`<span>${eta}</span>`:''}`;
+  } else if (st === 'completed') {
+    info = `<span>${_fmt(total)}</span>`;
+  } else {
+    info = `<span>${_fmt(recv)}</span>`;
+  }
+
+  const _esc = s => s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let acts = '';
+  if (st === 'completed') {
+    acts = `<button class="dl-act" data-action="open" data-path="${_esc(dl.path||'')}" title="Open file">Open</button>
+            <button class="dl-act" data-action="reveal" data-path="${_esc(dl.path||'')}" title="Show in folder">Folder</button>`;
+  } else if (st === 'progressing') {
+    acts = `<button class="dl-act" data-action="pause" data-id="${dl.id}">Pause</button>
+            <button class="dl-act danger" data-action="cancel" data-id="${dl.id}">Cancel</button>`;
+  } else if (st === 'paused') {
+    acts = `<button class="dl-act" data-action="resume" data-id="${dl.id}">Resume</button>
+            <button class="dl-act danger" data-action="cancel" data-id="${dl.id}">Cancel</button>`;
+  } else if (st === 'interrupted') {
+    acts = `<button class="dl-act" data-action="reveal" data-path="${_esc(dl.path||'')}" title="Show in folder">Folder</button>`;
+  }
+
+  return `<div class="dl-item">
+    <div class="dl-row1">
+      <div class="dl-icon"><span style="font-size:7px;font-weight:800;color:var(--t2)">${ext}</span></div>
+      <div class="dl-name" title="${name.replace(/"/g,'&quot;')}">${name.replace(/</g,'&lt;')}</div>
+      <span class="${pctClass}">${pctText}</span>
+    </div>
+    ${showBar ? `<div class="dl-bar-wrap"><div class="${barClass}" style="width:${barW}%"></div></div>` : ''}
+    <div class="dl-meta">
+      <div class="dl-info">${info}</div>
+      <div class="dl-acts">${acts}</div>
+    </div>
+  </div>`;
+}
+
+// Resize window to match content after each render
+let _resizeTimer = null;
+function _debouncedResize() {
+  if (_resizeTimer) return;
+  _resizeTimer = setTimeout(() => {
+    _resizeTimer = null;
+    ipcRenderer.send('dl:resize', Math.min(460, Math.max(100, document.body.scrollHeight)));
+  }, 80);
+}
+
+let _renderRAF = null;
+function render() {
+  if (!downloads.length) {
+    list.innerHTML = '<div class="dl-empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3v14M6 11l6 6 6-6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 19h18" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span>No downloads yet</span></div>';
+  } else {
+    const active = downloads.filter(d => d.state === 'progressing' || d.state === 'paused');
+    const done   = downloads.filter(d => d.state !== 'progressing' && d.state !== 'paused');
+    let html = '';
+    if (active.length) { html += '<div class="dl-section-hdr">Active</div>' + active.map(_itemHtml).join(''); }
+    if (done.length)   { html += '<div class="dl-section-hdr">Completed</div>' + done.map(_itemHtml).join(''); }
+    list.innerHTML = html;
+  }
+  _debouncedResize();
+}
+
+ipcRenderer.on('dl:list', (_, items) => {
+  if (!Array.isArray(items)) return;
+  downloads = items;
+  // Batch DOM updates using requestAnimationFrame
+  if (_renderRAF) cancelAnimationFrame(_renderRAF);
+  _renderRAF = requestAnimationFrame(() => { _renderRAF = null; render(); });
+});
+
+ipcRenderer.on('dl:theme', (_, theme) => {
+  if (!theme) return;
+  const root = document.documentElement;
+  Object.entries(theme).forEach(([k, v]) => { if (k !== 'f') root.style.setProperty('--' + k, v); });
+  root.style.setProperty('--acc-f', 'rgba(' + (theme['acc-raw'] || '255,255,255') + ',.07)');
+});
+
+// Live theme updates from main process
+ipcRenderer.on('popup:theme', (_, theme) => {
+  if (!theme) return;
+  const root = document.documentElement;
+  Object.entries(theme).forEach(([k, v]) => { if (v && k !== 'f') root.style.setProperty('--' + k, v); });
+  if (theme.accRaw || theme['acc-raw']) root.style.setProperty('--acc-raw', theme.accRaw || theme['acc-raw']);
+  root.style.setProperty('--acc-f', 'rgba(' + (theme['acc-raw'] || theme.accRaw || '255,255,255') + ',.07)');
+});
+
+// Event delegation for download action buttons (avoids inline onclick / XSS)
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.dl-act[data-action]');
+  if (!btn) return;
+  const action = btn.dataset.action;
+  const p = btn.dataset.path;
+  const id = parseInt(btn.dataset.id, 10);
+  if (action === 'open' && p)   ipcRenderer.send('downloads:open', p);
+  if (action === 'reveal' && p) ipcRenderer.send('downloads:reveal', p);
+  if (action === 'pause' && !isNaN(id))  ipcRenderer.send('downloads:pause', id);
+  if (action === 'resume' && !isNaN(id)) ipcRenderer.send('downloads:resume', id);
+  if (action === 'cancel' && !isNaN(id)) ipcRenderer.send('downloads:cancel', id);
+});
+</script>
+</body>
+</html>

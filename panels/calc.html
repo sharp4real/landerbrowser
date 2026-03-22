@@ -1,0 +1,42 @@
+<div class="panel-head">
+  <span class="panel-title">Calculator</span>
+  <div style="display:flex;gap:4px;align-items:center">
+    <button id="calc-shift-btn" title="Inverse / alternate functions">SHF</button>
+    <button id="calc-mode-toggle">SCI</button>
+  </div>
+</div>
+<div id="calc-display">
+  <div id="calc-expr"></div>
+  <div id="calc-val">0</div>
+</div>
+<div id="calc-sci-btns">
+  <button class="cb sci-fn" data-calc="sin" data-calc-shift="asin"><span class="sci-label">sin</span><span class="sci-alt-label">sin⁻¹</span></button>
+  <button class="cb sci-fn" data-calc="cos" data-calc-shift="acos"><span class="sci-label">cos</span><span class="sci-alt-label">cos⁻¹</span></button>
+  <button class="cb sci-fn" data-calc="tan" data-calc-shift="atan"><span class="sci-label">tan</span><span class="sci-alt-label">tan⁻¹</span></button>
+  <button class="cb sci-fn" data-calc="π" data-calc-shift="τ"><span class="sci-label">π</span><span class="sci-alt-label">τ</span></button>
+  <button class="cb sci-fn" data-calc="√" data-calc-shift="∛"><span class="sci-label">√</span><span class="sci-alt-label">∛</span></button>
+  <button class="cb sci-fn" data-calc="x²" data-calc-shift="x³"><span class="sci-label">x²</span><span class="sci-alt-label">x³</span></button>
+  <button class="cb sci-fn" data-calc="log" data-calc-shift="ln"><span class="sci-label">log</span><span class="sci-alt-label">ln</span></button>
+  <button class="cb sci-fn" data-calc="e" data-calc-shift="eˣ"><span class="sci-label">e</span><span class="sci-alt-label">eˣ</span></button>
+</div>
+<div id="calc-btns">
+  <button class="cb fn" data-calc="C">C</button>
+  <button class="cb fn" data-calc="⌫">⌫</button>
+  <button class="cb fn" data-calc="%">%</button>
+  <button class="cb op" data-calc="÷">÷</button>
+  <button class="cb" data-calc="7">7</button>
+  <button class="cb" data-calc="8">8</button>
+  <button class="cb" data-calc="9">9</button>
+  <button class="cb op" data-calc="×">×</button>
+  <button class="cb" data-calc="4">4</button>
+  <button class="cb" data-calc="5">5</button>
+  <button class="cb" data-calc="6">6</button>
+  <button class="cb op" data-calc="−">−</button>
+  <button class="cb" data-calc="1">1</button>
+  <button class="cb" data-calc="2">2</button>
+  <button class="cb" data-calc="3">3</button>
+  <button class="cb op" data-calc="+">+</button>
+  <button class="cb wide" data-calc="0">0</button>
+  <button class="cb" data-calc=".">.</button>
+  <button class="cb eq" data-calc="=">=</button>
+</div>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#040818"/>
+      <stop offset="100%" stop-color="#020410"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <path d="M0 800 Q300 750 600 780 T1200 770 T1920 790 V1080 H0Z" fill="#0a1430"/>
+  <rect x="200" y="400" width="120" height="400" fill="#0c1838" rx="2"/>
+  <rect x="210" y="450" width="20" height="25" fill="rgba(255,220,100,.4)" rx="1"/>
+  <rect x="250" y="420" width="20" height="25" fill="rgba(100,200,255,.3)" rx="1"/>
+  <rect x="290" y="460" width="20" height="25" fill="rgba(255,220,100,.35)" rx="1"/>
+  <rect x="210" y="500" width="20" height="25" fill="rgba(100,200,255,.25)" rx="1"/>
+  <rect x="250" y="510" width="20" height="25" fill="rgba(255,220,100,.4)" rx="1"/>
+  <rect x="500" y="300" width="160" height="500" fill="#101c40" rx="2"/>
+  <rect x="515" y="340" width="25" height="30" fill="rgba(255,220,100,.45)" rx="1"/>
+  <rect x="560" y="360" width="25" height="30" fill="rgba(100,180,255,.35)" rx="1"/>
+  <rect x="605" y="330" width="25" height="30" fill="rgba(255,200,80,.3)" rx="1"/>
+  <rect x="515" y="400" width="25" height="30" fill="rgba(255,220,100,.3)" rx="1"/>
+  <rect x="605" y="410" width="25" height="30" fill="rgba(100,200,255,.4)" rx="1"/>
+  <rect x="900" y="250" width="200" height="550" fill="#121e48" rx="2"/>
+  <rect x="920" y="290" width="28" height="35" fill="rgba(255,220,100,.5)" rx="1"/>
+  <rect x="970" y="310" width="28" height="35" fill="rgba(100,200,255,.4)" rx="1"/>
+  <rect x="1020" y="280" width="28" height="35" fill="rgba(255,200,80,.35)" rx="1"/>
+  <rect x="1300" y="350" width="150" height="450" fill="#0e1a3c" rx="2"/>
+  <rect x="1315" y="390" width="22" height="28" fill="rgba(255,220,100,.4)" rx="1"/>
+  <rect x="1355" y="380" width="22" height="28" fill="rgba(100,180,255,.35)" rx="1"/>
+  <rect x="1395" y="400" width="22" height="28" fill="rgba(255,200,80,.3)" rx="1"/>
+  <rect x="1650" y="420" width="120" height="380" fill="#0c1838" rx="2"/>
+  <rect x="1665" y="460" width="20" height="25" fill="rgba(255,220,100,.35)" rx="1"/>
+  <rect x="1705" y="450" width="20" height="25" fill="rgba(100,200,255,.3)" rx="1"/>
+  <circle cx="960" cy="60" r="2" fill="rgba(255,255,255,.6)"/>
+  <circle cx="400" cy="120" r="1.5" fill="rgba(255,255,255,.4)"/>
+  <circle cx="1500" cy="100" r="1" fill="rgba(255,255,255,.5)"/>
+</svg>

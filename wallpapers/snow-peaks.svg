@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8e0f0"/>
+      <stop offset="100%" stop-color="#c0d8f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <!-- mountain layers -->
+  <polygon points="0,600 300,280 600,500 900,200 1200,450 1500,250 1700,400 1920,300 1920,600" fill="#d0d8e8"/>
+  <polygon points="0,650 200,400 500,550 750,350 1000,500 1300,320 1600,480 1920,350 1920,650" fill="#b8c8e0"/>
+  <polygon points="0,700 350,500 650,600 900,450 1150,580 1400,420 1700,550 1920,450 1920,700" fill="#a0b8d0"/>
+  <!-- snow caps -->
+  <polygon points="900,200 870,260 930,260" fill="rgba(255,255,255,.6)"/>
+  <polygon points="1500,250 1470,310 1530,310" fill="rgba(255,255,255,.55)"/>
+  <polygon points="300,280 270,340 330,340" fill="rgba(255,255,255,.5)"/>
+  <!-- foreground -->
+  <rect x="0" y="700" width="1920" height="380" fill="#8aa8c0"/>
+  <!-- pine trees -->
+  <polygon points="100,700 115,600 130,700" fill="#5a7888"/>
+  <polygon points="250,700 270,580 290,700" fill="#506870"/>
+  <polygon points="450,700 465,610 480,700" fill="#5a7888"/>
+  <polygon points="600,700 620,560 640,700" fill="#506870"/>
+  <polygon points="800,700 815,620 830,700" fill="#5a7888"/>
+  <polygon points="1050,700 1070,570 1090,700" fill="#506870"/>
+  <polygon points="1250,700 1265,610 1280,700" fill="#5a7888"/>
+  <polygon points="1450,700 1470,580 1490,700" fill="#506870"/>
+  <polygon points="1650,700 1665,600 1680,700" fill="#5a7888"/>
+  <polygon points="1850,700 1870,590 1890,700" fill="#506870"/>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#100806"/>
+      <stop offset="40%" stop-color="#3c1c0a"/>
+      <stop offset="70%" stop-color="#6a3818"/>
+      <stop offset="100%" stop-color="#180a04"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="82%" r="25%">
+      <stop offset="0%" stop-color="rgba(255,160,40,.4)"/>
+      <stop offset="50%" stop-color="rgba(255,80,10,.2)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <!-- ember/coal bed -->
+  <ellipse cx="960" cy="920" rx="600" ry="80" fill="rgba(255,100,0,.15)"/>
+  <ellipse cx="960" cy="920" rx="400" ry="50" fill="rgba(255,150,30,.12)"/>
+  <!-- ember particles rising -->
+  <circle cx="850" cy="750" r="3" fill="rgba(255,180,50,.5)"/>
+  <circle cx="920" cy="680" r="2" fill="rgba(255,140,30,.4)"/>
+  <circle cx="1000" cy="720" r="2.5" fill="rgba(255,160,40,.45)"/>
+  <circle cx="1080" cy="650" r="1.5" fill="rgba(255,120,20,.35)"/>
+  <circle cx="870" cy="600" r="2" fill="rgba(255,100,10,.3)"/>
+  <circle cx="960" cy="550" r="1.5" fill="rgba(255,140,30,.25)"/>
+  <circle cx="1050" cy="580" r="1.8" fill="rgba(255,120,20,.28)"/>
+  <circle cx="900" cy="500" r="1.2" fill="rgba(255,100,10,.2)"/>
+  <circle cx="1020" cy="470" r="1" fill="rgba(255,80,0,.15)"/>
+  <circle cx="940" cy="420" r=".8" fill="rgba(255,100,10,.12)"/>
+  <!-- charred logs -->
+  <rect x="700" y="880" width="200" height="25" rx="8" fill="#2a0c04" transform="rotate(-5 800 892)"/>
+  <rect x="900" y="890" width="220" height="22" rx="8" fill="#301008" transform="rotate(8 1010 901)"/>
+  <rect x="820" y="870" width="180" height="20" rx="8" fill="#280a02" transform="rotate(-12 910 880)"/>
+  <!-- glow cracks in logs -->
+  <line x1="750" y1="890" x2="850" y2="888" stroke="rgba(255,120,20,.4)" stroke-width="2"/>
+  <line x1="940" y1="898" x2="1060" y2="895" stroke="rgba(255,100,10,.35)" stroke-width="2"/>
+  <!-- smoke wisps -->
+  <path d="M960 800 Q940 700 960 600 Q980 500 960 400" stroke="rgba(200,180,160,.06)" fill="none" stroke-width="20"/>
+  <path d="M920 780 Q900 680 920 580 Q940 480 920 380" stroke="rgba(180,160,140,.04)" fill="none" stroke-width="15"/>
+</svg>

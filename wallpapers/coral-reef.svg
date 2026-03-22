@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#001830"/>
+      <stop offset="100%" stop-color="#002848"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="30%" cy="60%" r="20%">
+      <stop offset="0%" stop-color="rgba(255,100,50,.15)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="70%" cy="40%" r="25%">
+      <stop offset="0%" stop-color="rgba(0,200,255,.12)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#glow1)"/>
+  <rect width="1920" height="1080" fill="url(#glow2)"/>
+  <!-- coral shapes -->
+  <path d="M200,900 Q220,700 180,600 Q160,550 200,500 Q240,550 220,600 Q200,700 240,900Z" fill="rgba(255,100,80,.25)"/>
+  <path d="M250,900 Q260,780 240,700 Q230,660 260,620 Q290,660 270,700 Q260,780 280,900Z" fill="rgba(255,80,60,.20)"/>
+  <circle cx="200" cy="490" r="15" fill="rgba(255,120,80,.20)"/>
+  <circle cx="260" cy="610" r="12" fill="rgba(255,100,70,.18)"/>
+  <!-- coral 2 -->
+  <path d="M1500,900 Q1520,750 1480,650 Q1460,600 1500,550 Q1540,600 1520,650 Q1500,750 1540,900Z" fill="rgba(255,80,120,.22)"/>
+  <path d="M1560,900 Q1570,800 1550,720 Q1540,680 1570,640 Q1600,680 1580,720 Q1570,800 1590,900Z" fill="rgba(255,60,100,.18)"/>
+  <circle cx="1500" cy="540" r="14" fill="rgba(255,90,110,.18)"/>
+  <!-- seaweed -->
+  <path d="M800,900 Q780,750 810,650 Q830,600 800,550" fill="none" stroke="rgba(0,180,100,.15)" stroke-width="8"/>
+  <path d="M850,900 Q870,780 840,680 Q820,630 850,580" fill="none" stroke="rgba(0,160,80,.12)" stroke-width="6"/>
+  <path d="M1100,900 Q1080,800 1110,700 Q1130,650 1100,600" fill="none" stroke="rgba(0,180,100,.13)" stroke-width="7"/>
+  <!-- fish -->
+  <ellipse cx="600" cy="400" rx="25" ry="12" fill="rgba(255,200,50,.20)"/>
+  <polygon points="575,400 560,388 560,412" fill="rgba(255,200,50,.18)"/>
+  <circle cx="615" cy="397" r="2" fill="rgba(255,255,255,.25)"/>
+  <ellipse cx="1300" cy="500" rx="20" ry="10" fill="rgba(100,200,255,.18)"/>
+  <polygon points="1280,500 1268,490 1268,510" fill="rgba(100,200,255,.15)"/>
+  <circle cx="1312" cy="497" r="2" fill="rgba(255,255,255,.22)"/>
+  <!-- bubbles -->
+  <circle cx="400" cy="300" r="6" fill="none" stroke="rgba(200,230,255,.10)" stroke-width="1"/>
+  <circle cx="420" cy="260" r="4" fill="none" stroke="rgba(200,230,255,.08)" stroke-width="1"/>
+  <circle cx="900" cy="350" r="5" fill="none" stroke="rgba(200,230,255,.09)" stroke-width="1"/>
+  <circle cx="1400" cy="280" r="7" fill="none" stroke="rgba(200,230,255,.10)" stroke-width="1"/>
+  <circle cx="1420" cy="240" r="4" fill="none" stroke="rgba(200,230,255,.08)" stroke-width="1"/>
+  <circle cx="700" cy="600" r="5" fill="none" stroke="rgba(200,230,255,.09)" stroke-width="1"/>
+  <!-- sea floor -->
+  <ellipse cx="960" cy="950" rx="1100" ry="180" fill="rgba(0,20,40,.5)"/>
+</svg>

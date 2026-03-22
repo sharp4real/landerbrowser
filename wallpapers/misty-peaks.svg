@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1420"/>
+      <stop offset="30%" stop-color="#1c3048"/>
+      <stop offset="50%" stop-color="#283e58"/>
+      <stop offset="100%" stop-color="#0a1018"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- mist layers -->
+  <ellipse cx="960" cy="520" rx="960" ry="120" fill="rgba(180,200,230,.06)"/>
+  <ellipse cx="700" cy="580" rx="700" ry="80" fill="rgba(160,180,210,.05)"/>
+  <ellipse cx="1300" cy="600" rx="600" ry="60" fill="rgba(140,170,200,.04)"/>
+  <!-- far mountain range -->
+  <polygon points="0,500 150,380 300,430 500,340 700,400 900,350 1100,390 1300,320 1500,370 1700,330 1920,400 1920,600 0,600" fill="#1c2c42" opacity=".7"/>
+  <!-- mid mountains -->
+  <polygon points="0,560 200,440 400,500 600,420 800,470 1000,400 1200,460 1400,380 1600,440 1800,390 1920,450 1920,700 0,700" fill="#141e30" opacity=".85"/>
+  <!-- near mountains -->
+  <polygon points="0,650 250,530 500,600 700,520 960,570 1200,500 1400,560 1600,510 1800,550 1920,520 1920,800 0,800" fill="#0c1620"/>
+  <!-- mist between mountains -->
+  <ellipse cx="500" cy="650" rx="400" ry="30" fill="rgba(160,180,210,.08)"/>
+  <ellipse cx="1400" cy="680" rx="350" ry="25" fill="rgba(140,170,200,.06)"/>
+  <!-- foreground dark ridge -->
+  <polygon points="0,780 200,720 450,750 700,700 960,730 1200,690 1450,720 1700,700 1920,730 1920,1080 0,1080" fill="#080e18"/>
+  <!-- clouds -->
+  <ellipse cx="300" cy="280" rx="180" ry="25" fill="rgba(180,200,230,.07)"/>
+  <ellipse cx="1500" cy="240" rx="200" ry="20" fill="rgba(160,180,210,.06)"/>
+</svg>

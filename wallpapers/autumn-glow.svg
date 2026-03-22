@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#120804"/>
+      <stop offset="25%" stop-color="#4c2010"/>
+      <stop offset="50%" stop-color="#b85820"/>
+      <stop offset="75%" stop-color="#d07828"/>
+      <stop offset="100%" stop-color="#501c08"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- warm sun glow -->
+  <circle cx="1400" cy="300" r="180" fill="rgba(255,200,100,.12)"/>
+  <circle cx="1400" cy="300" r="100" fill="rgba(255,220,140,.08)"/>
+  <!-- rolling hills with autumn colors -->
+  <polygon points="0,600 300,520 600,560 900,500 1200,540 1500,490 1800,530 1920,510 1920,700 0,700" fill="#803818"/>
+  <polygon points="0,680 250,620 500,650 750,600 1000,640 1250,590 1500,630 1750,600 1920,620 1920,800 0,800" fill="#6a2c10"/>
+  <!-- autumn trees on hills -->
+  <circle cx="200" cy="535" r="30" fill="rgba(220,100,20,.7)"/>
+  <circle cx="320" cy="550" r="25" fill="rgba(240,150,30,.6)"/>
+  <circle cx="500" cy="565" r="28" fill="rgba(200,60,15,.65)"/>
+  <circle cx="700" cy="520" r="32" fill="rgba(230,120,25,.7)"/>
+  <circle cx="900" cy="510" r="26" fill="rgba(240,160,40,.6)"/>
+  <circle cx="1100" cy="540" r="30" fill="rgba(200,80,15,.65)"/>
+  <circle cx="1300" cy="510" r="28" fill="rgba(220,140,30,.6)"/>
+  <circle cx="1500" cy="500" r="32" fill="rgba(240,100,20,.7)"/>
+  <circle cx="1700" cy="530" r="25" fill="rgba(200,60,15,.6)"/>
+  <!-- tree trunks -->
+  <rect x="197" y="550" width="6" height="50" fill="#3a1808"/>
+  <rect x="317" y="560" width="5" height="40" fill="#3a1808"/>
+  <rect x="497" y="575" width="6" height="45" fill="#3a1808"/>
+  <rect x="697" y="535" width="6" height="50" fill="#3a1808"/>
+  <rect x="897" y="522" width="5" height="45" fill="#3a1808"/>
+  <rect x="1097" y="555" width="6" height="45" fill="#3a1808"/>
+  <rect x="1297" y="525" width="5" height="40" fill="#3a1808"/>
+  <rect x="1497" y="515" width="6" height="50" fill="#3a1808"/>
+  <rect x="1697" y="545" width="5" height="40" fill="#3a1808"/>
+  <!-- foreground -->
+  <polygon points="0,800 300,750 600,780 900,740 1200,760 1500,735 1800,760 1920,745 1920,1080 0,1080" fill="#2a0c04"/>
+  <!-- falling leaves -->
+  <ellipse cx="400" cy="400" rx="4" ry="2" fill="rgba(240,120,20,.5)" transform="rotate(30 400 400)"/>
+  <ellipse cx="800" cy="350" rx="3" ry="1.5" fill="rgba(220,80,15,.4)" transform="rotate(-20 800 350)"/>
+  <ellipse cx="1200" cy="380" rx="4" ry="2" fill="rgba(240,160,30,.45)" transform="rotate(45 1200 380)"/>
+  <ellipse cx="1600" cy="420" rx="3" ry="1.5" fill="rgba(200,60,10,.4)" transform="rotate(-35 1600 420)"/>
+</svg>

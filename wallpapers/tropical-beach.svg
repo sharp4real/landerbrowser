@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a4a8a"/>
+      <stop offset="40%" stop-color="#1890c0"/>
+      <stop offset="60%" stop-color="#40b8d8"/>
+      <stop offset="80%" stop-color="#80d0e0"/>
+      <stop offset="100%" stop-color="#b0e8f0"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0090b8"/>
+      <stop offset="30%" stop-color="#0078a0"/>
+      <stop offset="100%" stop-color="#005878"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <rect y="580" width="1920" height="500" fill="url(#sea)"/>
+  <ellipse cx="1500" cy="140" rx="80" ry="80" fill="rgba(255,220,120,.85)"/>
+  <ellipse cx="1500" cy="140" rx="140" ry="140" fill="rgba(255,200,80,.08)"/>
+  <rect y="750" width="1920" height="330" fill="#e8d4a0" rx="0"/>
+  <path d="M0 760 Q480 740 960 760 T1920 750" fill="#dcc890" stroke="none"/>
+  <path d="M0 600 Q300 588 600 600 T1200 598 T1920 600" stroke="rgba(255,255,255,.15)" fill="none" stroke-width="2"/>
+  <path d="M0 620 Q350 612 700 620 T1400 618 T1920 620" stroke="rgba(255,255,255,.10)" fill="none" stroke-width="1.5"/>
+  <line x1="400" y1="760" x2="380" y2="420" stroke="#5a3820" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="340" cy="400" rx="80" ry="40" fill="rgba(30,120,40,.7)"/>
+  <ellipse cx="420" cy="420" rx="70" ry="35" fill="rgba(40,140,50,.6)"/>
+  <ellipse cx="370" cy="380" rx="60" ry="30" fill="rgba(50,150,60,.5)"/>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#080810"/>
+      <stop offset="100%" stop-color="#101020"/>
+    </linearGradient>
+    <linearGradient id="w1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(0,200,255,.6)"/>
+      <stop offset="100%" stop-color="rgba(0,120,255,.1)"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect x="100" y="800" width="60" height="280" fill="url(#w1)" rx="2"/>
+  <rect x="200" y="600" width="60" height="480" fill="url(#w1)" rx="2"/>
+  <rect x="300" y="700" width="60" height="380" fill="url(#w1)" rx="2"/>
+  <rect x="430" y="500" width="80" height="580" fill="url(#w1)" rx="2" opacity=".9"/>
+  <rect x="560" y="400" width="80" height="680" fill="url(#w1)" rx="2" opacity=".85"/>
+  <rect x="690" y="300" width="80" height="780" fill="url(#w1)" rx="2" opacity=".9"/>
+  <rect x="820" y="200" width="80" height="880" fill="url(#w1)" rx="2"/>
+  <rect x="950" y="150" width="80" height="930" fill="url(#w1)" rx="2"/>
+  <rect x="1080" y="250" width="80" height="830" fill="url(#w1)" rx="2" opacity=".9"/>
+  <rect x="1210" y="350" width="80" height="730" fill="url(#w1)" rx="2" opacity=".85"/>
+  <rect x="1340" y="500" width="80" height="580" fill="url(#w1)" rx="2" opacity=".8"/>
+  <rect x="1470" y="600" width="60" height="480" fill="url(#w1)" rx="2" opacity=".75"/>
+  <rect x="1580" y="700" width="60" height="380" fill="url(#w1)" rx="2" opacity=".7"/>
+  <rect x="1700" y="800" width="60" height="280" fill="url(#w1)" rx="2" opacity=".65"/>
+  <rect x="1800" y="850" width="60" height="230" fill="url(#w1)" rx="2" opacity=".6"/>
+  <line x1="0" y1="1079" x2="1920" y2="1079" stroke="rgba(0,200,255,.3)" stroke-width="2"/>
+</svg>

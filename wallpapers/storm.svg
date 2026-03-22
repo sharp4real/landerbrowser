@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1018"/>
+      <stop offset="30%" stop-color="#222e42"/>
+      <stop offset="55%" stop-color="#283848"/>
+      <stop offset="100%" stop-color="#0c1018"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- storm clouds -->
+  <ellipse cx="400" cy="200" rx="350" ry="80" fill="rgba(100,120,160,.15)"/>
+  <ellipse cx="900" cy="150" rx="400" ry="100" fill="rgba(80,100,140,.12)"/>
+  <ellipse cx="1400" cy="180" rx="350" ry="90" fill="rgba(90,110,150,.13)"/>
+  <ellipse cx="600" cy="280" rx="300" ry="60" fill="rgba(70,90,130,.1)"/>
+  <ellipse cx="1200" cy="260" rx="320" ry="70" fill="rgba(80,100,140,.1)"/>
+  <!-- lightning bolt -->
+  <path d="M1180 200 L1160 320 L1190 310 L1150 450 L1180 440 L1140 580" stroke="rgba(240,250,255,.5)" fill="none" stroke-width="3"/>
+  <path d="M1180 200 L1160 320 L1190 310 L1150 450 L1180 440 L1140 580" stroke="rgba(200,220,255,.15)" fill="none" stroke-width="12"/>
+  <!-- rain streaks -->
+  <line x1="200" y1="300" x2="195" y2="380" stroke="rgba(160,180,220,.06)" stroke-width="1"/>
+  <line x1="400" y1="280" x2="395" y2="360" stroke="rgba(160,180,220,.05)" stroke-width="1"/>
+  <line x1="600" y1="320" x2="595" y2="400" stroke="rgba(160,180,220,.06)" stroke-width="1"/>
+  <line x1="800" y1="260" x2="795" y2="340" stroke="rgba(160,180,220,.05)" stroke-width="1"/>
+  <line x1="1000" y1="300" x2="995" y2="380" stroke="rgba(160,180,220,.06)" stroke-width="1"/>
+  <line x1="1400" y1="280" x2="1395" y2="360" stroke="rgba(160,180,220,.05)" stroke-width="1"/>
+  <line x1="1600" y1="320" x2="1595" y2="400" stroke="rgba(160,180,220,.04)" stroke-width="1"/>
+  <line x1="1800" y1="290" x2="1795" y2="370" stroke="rgba(160,180,220,.05)" stroke-width="1"/>
+  <!-- landscape -->
+  <polygon points="0,650 300,580 600,620 900,570 1200,600 1500,560 1920,610 1920,1080 0,1080" fill="#141c28"/>
+  <polygon points="0,720 250,680 500,700 750,670 1000,690 1250,660 1500,680 1750,660 1920,680 1920,1080 0,1080" fill="#0c1018"/>
+  <!-- puddle reflections -->
+  <ellipse cx="500" cy="800" rx="100" ry="8" fill="rgba(160,180,220,.04)"/>
+  <ellipse cx="1200" cy="850" rx="120" ry="10" fill="rgba(160,180,220,.03)"/>
+</svg>

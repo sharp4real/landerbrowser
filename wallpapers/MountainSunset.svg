@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0e27"/>
+      <stop offset="25%" stop-color="#1a1040"/>
+      <stop offset="50%" stop-color="#3d1f5c"/>
+      <stop offset="70%" stop-color="#c44e3c"/>
+      <stop offset="85%" stop-color="#e8934a"/>
+      <stop offset="100%" stop-color="#f5c96a"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="72%" r="18%">
+      <stop offset="0%" stop-color="#fff5e0" stop-opacity=".9"/>
+      <stop offset="40%" stop-color="#f5c96a" stop-opacity=".4"/>
+      <stop offset="100%" stop-color="#f5c96a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1830"/>
+      <stop offset="100%" stop-color="#0d0b18"/>
+    </linearGradient>
+    <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1f3d"/>
+      <stop offset="100%" stop-color="#150f25"/>
+    </linearGradient>
+    <linearGradient id="mtn3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d2850"/>
+      <stop offset="60%" stop-color="#1e1430"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8ddf5" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#e8ddf5" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c44e3c" stop-opacity=".3"/>
+      <stop offset="50%" stop-color="#1a1040" stop-opacity=".6"/>
+      <stop offset="100%" stop-color="#0a0e27" stop-opacity=".8"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="haze"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- Sun glow -->
+  <rect width="1920" height="1080" fill="url(#sun)"/>
+  <!-- Stars -->
+  <circle cx="200" cy="80" r="1.2" fill="#fff" opacity=".6"/>
+  <circle cx="420" cy="50" r="1" fill="#fff" opacity=".5"/>
+  <circle cx="680" cy="120" r="1.4" fill="#fff" opacity=".45"/>
+  <circle cx="150" cy="200" r="1" fill="#fff" opacity=".4"/>
+  <circle cx="1600" cy="60" r="1.3" fill="#fff" opacity=".55"/>
+  <circle cx="1750" cy="140" r="1" fill="#fff" opacity=".35"/>
+  <circle cx="1400" cy="90" r="1.1" fill="#fff" opacity=".5"/>
+  <circle cx="1100" cy="45" r="1.5" fill="#fff" opacity=".4"/>
+  <circle cx="900" cy="160" r="1" fill="#fff" opacity=".3"/>
+  <circle cx="500" cy="180" r=".8" fill="#fff" opacity=".35"/>
+  <!-- Far mountains (hazy) -->
+  <g filter="url(#haze)" opacity=".7">
+    <polygon points="0,650 180,420 400,550 550,380 750,520 960,350 1100,480 1300,400 1500,520 1700,380 1920,500 1920,750 0,750" fill="url(#mtn1)"/>
+  </g>
+  <!-- Mid mountains -->
+  <polygon points="0,700 120,500 320,600 480,440 700,580 900,420 1050,530 1250,460 1400,570 1600,430 1800,550 1920,480 1920,800 0,800" fill="url(#mtn2)"/>
+  <!-- Snow caps on mid mountains -->
+  <polygon points="480,440 520,470 440,470" fill="url(#snow)"/>
+  <polygon points="900,420 950,460 850,460" fill="url(#snow)"/>
+  <polygon points="1600,430 1650,470 1550,470" fill="url(#snow)"/>
+  <!-- Near mountains -->
+  <polygon points="0,750 250,560 450,680 650,520 850,650 1050,540 1200,620 1450,530 1650,640 1920,550 1920,850 0,850" fill="url(#mtn3)"/>
+  <!-- Snow on near peaks -->
+  <polygon points="650,520 700,560 600,560" fill="url(#snow)"/>
+  <polygon points="1050,540 1100,580 1000,580" fill="url(#snow)"/>
+  <polygon points="1450,530 1500,570 1400,570" fill="url(#snow)"/>
+  <!-- Foreground ridge -->
+  <polygon points="0,820 100,750 300,800 500,730 700,790 900,720 1100,780 1300,710 1500,770 1700,700 1920,760 1920,1080 0,1080" fill="#0a0818"/>
+  <!-- Lake reflection -->
+  <rect x="0" y="850" width="1920" height="230" fill="url(#lake)" opacity=".5"/>
+  <!-- Treeline silhouettes -->
+  <g fill="#080612" opacity=".9">
+    <polygon points="50,820 55,790 60,820"/>
+    <polygon points="70,820 77,780 84,820"/>
+    <polygon points="100,820 108,775 116,820"/>
+    <polygon points="130,820 136,795 142,820"/>
+    <polygon points="1780,760 1788,720 1796,760"/>
+    <polygon points="1810,760 1818,730 1826,760"/>
+    <polygon points="1840,760 1850,715 1860,760"/>
+    <polygon points="1870,760 1876,740 1882,760"/>
+  </g>
+  <!-- Atmospheric haze line -->
+  <line x1="0" y1="750" x2="1920" y2="750" stroke="#c44e3c" stroke-opacity=".08" stroke-width="3" filter="url(#glow)"/>
+</svg>

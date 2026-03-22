@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6bb8e8"/>
+      <stop offset="60%" stop-color="#a8d8f0"/>
+      <stop offset="100%" stop-color="#d4ecf8"/>
+    </linearGradient>
+    <radialGradient id="sunG" cx="70%" cy="20%" r="35%">
+      <stop offset="0%" stop-color="#fff9e8" stop-opacity=".6"/>
+      <stop offset="100%" stop-color="#fff9e8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5da83a"/>
+      <stop offset="40%" stop-color="#4a9030"/>
+      <stop offset="100%" stop-color="#3a7828"/>
+    </linearGradient>
+    <linearGradient id="patch1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7bc85a"/>
+      <stop offset="100%" stop-color="#5da83a"/>
+    </linearGradient>
+    <linearGradient id="patch2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8dd468"/>
+      <stop offset="100%" stop-color="#6ab848"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#68b844"/>
+      <stop offset="100%" stop-color="#4a9030"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="softer"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <rect width="1920" height="1080" fill="url(#sunG)"/>
+  <!-- Clouds -->
+  <g fill="#fff" opacity=".7" filter="url(#softer)">
+    <ellipse cx="300" cy="180" rx="120" ry="40"/>
+    <ellipse cx="360" cy="170" rx="80" ry="35"/>
+    <ellipse cx="240" cy="175" rx="70" ry="30"/>
+    <ellipse cx="900" cy="120" rx="140" ry="45"/>
+    <ellipse cx="980" cy="110" rx="90" ry="38"/>
+    <ellipse cx="830" cy="125" rx="80" ry="32"/>
+    <ellipse cx="1500" cy="200" rx="100" ry="35"/>
+    <ellipse cx="1560" cy="190" rx="70" ry="30"/>
+  </g>
+  <!-- Distant hills -->
+  <ellipse cx="400" cy="520" rx="500" ry="140" fill="#78c058" opacity=".5" filter="url(#soft)"/>
+  <ellipse cx="1400" cy="500" rx="600" ry="160" fill="#6ab848" opacity=".4" filter="url(#soft)"/>
+  <!-- Rolling grass base -->
+  <path d="M0 500 Q240 440 480 480 Q720 520 960 470 Q1200 420 1440 460 Q1680 500 1920 450 L1920 1080 L0 1080Z" fill="url(#grass)"/>
+  <!-- Grass patches - lighter -->
+  <ellipse cx="200" cy="650" rx="180" ry="80" fill="url(#patch1)" opacity=".6"/>
+  <ellipse cx="600" cy="720" rx="220" ry="90" fill="url(#patch2)" opacity=".5"/>
+  <ellipse cx="1100" cy="600" rx="250" ry="100" fill="url(#patch1)" opacity=".55"/>
+  <ellipse cx="1600" cy="680" rx="200" ry="85" fill="url(#patch2)" opacity=".5"/>
+  <ellipse cx="400" cy="850" rx="280" ry="100" fill="url(#patch2)" opacity=".4"/>
+  <ellipse cx="1300" cy="900" rx="300" ry="110" fill="url(#patch1)" opacity=".45"/>
+  <!-- Darker patches -->
+  <ellipse cx="350" cy="580" rx="120" ry="50" fill="#3a7828" opacity=".4"/>
+  <ellipse cx="900" cy="750" rx="150" ry="60" fill="#3a7828" opacity=".35"/>
+  <ellipse cx="1500" cy="550" rx="130" ry="55" fill="#3a7828" opacity=".3"/>
+  <!-- Wild flowers -->
+  <g opacity=".8">
+    <!-- Yellow flowers -->
+    <circle cx="180" cy="620" r="4" fill="#f5d54a"/>
+    <circle cx="210" cy="640" r="3.5" fill="#f5d54a"/>
+    <circle cx="160" cy="650" r="3" fill="#edc83a"/>
+    <circle cx="520" cy="700" r="4" fill="#f5d54a"/>
+    <circle cx="550" cy="680" r="3" fill="#edc83a"/>
+    <!-- Purple flowers -->
+    <circle cx="800" cy="620" r="4" fill="#a87dd4"/>
+    <circle cx="830" cy="640" r="3.5" fill="#9068c0"/>
+    <circle cx="780" cy="650" r="3" fill="#a87dd4"/>
+    <circle cx="1200" cy="570" r="4" fill="#a87dd4"/>
+    <circle cx="1230" cy="590" r="3" fill="#9068c0"/>
+    <!-- White daisies -->
+    <circle cx="400" cy="560" r="3.5" fill="#fff"/>
+    <circle cx="420" cy="575" r="3" fill="#f8f8f0"/>
+    <circle cx="1050" cy="640" r="4" fill="#fff"/>
+    <circle cx="1080" cy="660" r="3" fill="#f8f8f0"/>
+    <!-- Pink flowers -->
+    <circle cx="1450" cy="630" r="4" fill="#e87da0"/>
+    <circle cx="1480" cy="650" r="3.5" fill="#d86890"/>
+    <circle cx="1420" cy="660" r="3" fill="#e87da0"/>
+    <!-- Red poppies -->
+    <circle cx="640" cy="730" r="5" fill="#d44040"/>
+    <circle cx="670" cy="750" r="4" fill="#c83030"/>
+    <circle cx="1350" cy="680" r="5" fill="#d44040"/>
+    <circle cx="1320" cy="700" r="4" fill="#c83030"/>
+  </g>
+  <!-- Easter eggs scattered -->
+  <g opacity=".7">
+    <ellipse cx="300" cy="780" rx="8" ry="11" fill="#f0a8c8" stroke="#d88aaa" stroke-width=".8"/>
+    <line x1="294" y1="778" x2="306" y2="778" stroke="#d88aaa" stroke-width=".6"/>
+    <line x1="294" y1="782" x2="306" y2="782" stroke="#d88aaa" stroke-width=".6"/>
+    <ellipse cx="750" cy="820" rx="8" ry="11" fill="#a8d8f0" stroke="#88b8d0" stroke-width=".8"/>
+    <line x1="744" y1="818" x2="756" y2="818" stroke="#88b8d0" stroke-width=".6"/>
+    <line x1="744" y1="822" x2="756" y2="822" stroke="#88b8d0" stroke-width=".6"/>
+    <ellipse cx="1100" cy="760" rx="8" ry="11" fill="#c8e8a8" stroke="#a8c888" stroke-width=".8"/>
+    <line x1="1094" y1="758" x2="1106" y2="758" stroke="#a8c888" stroke-width=".6"/>
+    <line x1="1094" y1="762" x2="1106" y2="762" stroke="#a8c888" stroke-width=".6"/>
+    <ellipse cx="1600" cy="800" rx="8" ry="11" fill="#f0d8a8" stroke="#d0b888" stroke-width=".8"/>
+    <line x1="1594" y1="798" x2="1606" y2="798" stroke="#d0b888" stroke-width=".6"/>
+    <line x1="1594" y1="802" x2="1606" y2="802" stroke="#d0b888" stroke-width=".6"/>
+  </g>
+  <!-- Foreground grass blades -->
+  <g stroke="#3a7828" stroke-width="1.5" fill="none" opacity=".5">
+    <path d="M50 1080 Q55 1020 40 980"/>
+    <path d="M60 1080 Q65 1030 70 990"/>
+    <path d="M150 1080 Q145 1010 160 970"/>
+    <path d="M1800 1080 Q1795 1020 1810 980"/>
+    <path d="M1850 1080 Q1855 1030 1840 990"/>
+    <path d="M1870 1080 Q1875 1015 1860 975"/>
+  </g>
+  <!-- Sunlight on grass highlight -->
+  <ellipse cx="960" cy="550" rx="500" ry="200" fill="#fff" opacity=".04" filter="url(#softer)"/>
+</svg>
