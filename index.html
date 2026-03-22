@@ -4392,17 +4392,17 @@ body.calm-mode .panel:hover {
 }
 .cdd-wrap.open .cdd-chevron { transform: rotate(180deg); }
 .cdd-menu {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  position: fixed; left: 0; top: 0;
   background: var(--bg3); border: 1px solid var(--ln2);
   border-radius: var(--r-md); padding: 4px;
   box-shadow: var(--shadow-md);
-  z-index: 99999;
+  z-index: 1000001;
   max-height: 240px; overflow-y: auto;
   opacity: 0; transform: translateY(-4px) scale(.98);
   pointer-events: none;
   transition: opacity .15s cubic-bezier(.16,1,.3,1), transform .15s cubic-bezier(.16,1,.3,1);
 }
-.cdd-wrap.open .cdd-menu { opacity: 1; transform: none; pointer-events: auto; }
+.cdd-menu.open { opacity: 1; transform: none; pointer-events: auto; }
 .cdd-menu::-webkit-scrollbar { width: 4px; }
 .cdd-menu::-webkit-scrollbar-thumb { background: var(--bg5); border-radius: 2px; }
 .cdd-opt {
@@ -17554,20 +17554,26 @@ function _fireConfetti() {
 
     function _close() {
       wrap.classList.remove('open');
+      menu.classList.remove('open');
       document.removeEventListener('click', _outsideClick, true);
     }
     function _outsideClick(e) {
-      if (!wrap.contains(e.target)) _close();
+      if (!wrap.contains(e.target) && !menu.contains(e.target)) _close();
     }
 
     trigger.addEventListener('click', (e) => {
       e.stopPropagation();
       const wasOpen = wrap.classList.contains('open');
       // Close all other open dropdowns
-      document.querySelectorAll('.cdd-wrap.open').forEach(w => w.classList.remove('open'));
+      document.querySelectorAll('.cdd-wrap.open').forEach(w => { w.classList.remove('open'); if (w._cddMenu) w._cddMenu.classList.remove('open'); });
       if (!wasOpen) {
         _buildOpts();
+        const r = trigger.getBoundingClientRect();
+        menu.style.left = r.left + 'px';
+        menu.style.width = r.width + 'px';
+        menu.style.top = (r.bottom + 4) + 'px';
         wrap.classList.add('open');
+        menu.classList.add('open');
         setTimeout(() => document.addEventListener('click', _outsideClick, true), 0);
       } else {
         _close();
@@ -17575,9 +17581,10 @@ function _fireConfetti() {
     });
 
     wrap.appendChild(trigger);
-    wrap.appendChild(menu);
+    wrap._cddMenu = menu;
     sel.parentNode.insertBefore(wrap, sel);
     wrap.appendChild(sel);
+    document.body.appendChild(menu);
     _syncLabel();
 
     // Observe external value changes (settings sync)
