@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-Soon.
-=======
+
 **Lander Browser**
 
 A privacy-first desktop browser built on Electron. Zero telemetry, zero data collection — just a fast, clean browser built entirely for you.
