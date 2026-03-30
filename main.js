@@ -2754,15 +2754,13 @@ function createTab(url, activate = true) {
         if (new URL(tab.url || '').origin !== new URL(newUrl || '').origin) tab.favicon = null;
       } catch { tab.favicon = null; }
     }
-    tab.url     = newUrl;
+   tab.url     = newUrl;
     tab.blocked = 0;
     send('tab:update', tabData(tab));
     if (id === activeId) {
       // Reset panel clip immediately so the page loads at full BV width
       if (panelClipX > 0) { panelClipX = 0; try { setBounds(tab.bv); } catch {} }
       send('nav:state', navData(tab));
-      // Close any open panel/overlay so the user can interact with the new page
-      send('panels:closeAll');
       // Also close uBlock Origin popup if open
       if (uboPopupWin && !uboPopupWin.isDestroyed()) {
         uboPopupWin.close();
