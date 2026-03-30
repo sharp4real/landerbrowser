@@ -5,7 +5,7 @@ A privacy-first desktop browser built on Electron. Zero telemetry, zero data col
 
 ---
 
-## Core Features
+## Lander Browser's Core Features
 
 ### Privacy & Security
 | Feature | Description |
